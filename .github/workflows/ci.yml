@@ -103,12 +103,12 @@ jobs:
         working-directory: src/client
         run: |
           mkdir build
-          go build -o client
+          go build -o build
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
           name: client-${{ matrix.os }}
-          path: src/client/client/*
+          path: src/client/build/*
       
   deploy:
     if: startsWith(github.ref, 'refs/tags/')
