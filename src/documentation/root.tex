@@ -1,0 +1,44 @@
+\documentclass[auto-generate=false]{udhbwvst}
+
+\newcommand{\authorA}{Simon Eßlinger}
+\newcommand{\authorB}{Jonas Huber}
+\newcommand{\authorC}{Max Sauer}
+\newcommand{\authorD}{Marco Schreiner}
+
+\dhbwSetup{%
+    faculty			= {Wirtschaft},
+    field of study	= {Wirtschaftsinformatik},
+    academic year	= {2017},
+    course			= {B},
+    title			= {Implementierung einer verteilten Applikation nach dem Aktorenmodell},
+    text type		= {Seminararbeit},
+    lecturer        = {Prof. Dr. Wolfgang Funk}
+}
+
+\begin{document}
+
+\dhbwSetFrontMatter
+
+\input{title.tex}
+
+\dhbwPrintTableOfContents
+
+\dhbwSetListMatter
+
+\dhbwPrintListOfAcronyms
+\dhbwPrintListOfFigures
+\dhbwPrintListOfTables
+\dhbwPrintListOfListings
+
+\dhbwSetMainMatter
+
+\input{text/index.tex}
+
+% \begin{dhbwappendices}
+% \end{dhbwappendices}
+
+\dhbwPrintBibliography
+
+\input{independence-notice.tex}
+
+\end{document}
