@@ -4,10 +4,9 @@ on:
   push:
     paths:
       - 'src/documentation/**'
-    paths-ignore:
-      - 'src/documentation/.devcontainer/**'
-      - 'src/documentation/.vscode/**'
-      - 'src/documentation/.gitignore'
+      - '!src/documentation/.devcontainer/**'
+      - '!src/documentation/.vscode/**'
+      - '!src/documentation/.gitignore'
   pull_request:
 
 jobs:
