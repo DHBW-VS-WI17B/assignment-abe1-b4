@@ -7,6 +7,10 @@ on:
       - '!src/documentation/.devcontainer/**'
       - '!src/documentation/.vscode/**'
       - '!src/documentation/.gitignore'
+      - 'src/server/**'
+      - '!src/server/.devcontainer/**'
+      - '!src/server/.vscode/**'
+      - '!src/server/.gitignore'
   pull_request:
 
 jobs:
@@ -41,10 +45,41 @@ jobs:
           name: documentation
           path: src/documentation/root.pdf
 
+  build-server:
+    name: Build server on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup dotnet v3.1.x
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+      - name: Install dependencies
+        working-directory: src/server
+        run: dotnet restore
+      - name: Build
+        working-directory: src/server
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        working-directory: src/server
+        run: dotnet test --no-restore
+      - name: Publish
+        working-directory: src/server
+        run: dotnet publish TicketStore.Server.sln  --no-restore --self-contained -o server
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: server-${{ matrix.os }}
+          path: src/server/server/*
+      
   deploy:
     if: startsWith(github.ref, 'refs/tags/')
     name: Deploy to GitHub Releases
-    needs: [ build ]
+    needs: [ build-documentation, build-server ]
     runs-on: ubuntu-18.04
     steps:
       - name: Download
@@ -55,6 +90,7 @@ jobs:
         run: |
           mkdir staging
           mv artifacts/documentation/root.pdf "staging/WWI17B_Seminararbeit_ABE1_Gruppe_B4-${GITHUB_REF##*/}.pdf"
+          mv artifacts/server** staging
       - name: Deploy
         uses: softprops/action-gh-release@v1
         with:
