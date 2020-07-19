@@ -11,6 +11,10 @@ on:
       - '!src/server/.devcontainer/**'
       - '!src/server/.vscode/**'
       - '!src/server/.gitignore'
+      - 'src/client/**'
+      - '!src/client/.devcontainer/**'
+      - '!src/client/.vscode/**'
+      - '!src/client/.gitignore'
   pull_request:
 
 jobs:
