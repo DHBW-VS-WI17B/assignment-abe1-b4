@@ -59,5 +59,11 @@
         "src/root.synctex.gz": true,
         "src/__latexindent_temp.tex": true
     },
-    "files.insertFinalNewline": true
+    "files.insertFinalNewline": true,
+    "workbench.editorAssociations": [
+        {
+            "viewType": "hediet.vscode-drawio-text",
+            "filenamePattern": "*.svg"
+        }
+    ]
 }
