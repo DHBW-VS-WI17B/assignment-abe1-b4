@@ -40,7 +40,7 @@ jobs:
         run: dotnet test --no-restore
       - name: Publish
         working-directory: src/server
-        run: dotnet publish TicketStore.Server.sln  --no-restore --self-contained -o server
+        run: dotnet publish TicketStore.Server.sln  --no-restore -o server
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
