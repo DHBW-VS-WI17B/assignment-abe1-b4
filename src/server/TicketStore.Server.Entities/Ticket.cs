@@ -14,6 +14,9 @@ namespace TicketStore.Server.Entities
         /// </summary>
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// When the ticket was purchased
+        /// </summary>
         public DateTimeOffset PurchaseDate { get; set; }
     }
 }
