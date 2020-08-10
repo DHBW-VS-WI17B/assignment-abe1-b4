@@ -1,24 +1,11 @@
-name: CI
+name: release
 
 on:
   push:
-    paths:
-      - 'src/documentation/**'
-      - '!src/documentation/.devcontainer/**'
-      - '!src/documentation/.vscode/**'
-      - '!src/documentation/.gitignore'
-      - 'src/server/**'
-      - '!src/server/.devcontainer/**'
-      - '!src/server/.vscode/**'
-      - '!src/server/.gitignore'
-      - 'src/client/**'
-      - '!src/client/.devcontainer/**'
-      - '!src/client/.vscode/**'
-      - '!src/client/.gitignore'
-  pull_request:
+    tags:
+      - 'v*'
 
 jobs:
-
   build-documentation:
     name: Build documentation pdf file
     runs-on: ubuntu-18.04
@@ -48,7 +35,6 @@ jobs:
         with:
           name: documentation
           path: src/documentation/root.pdf
-
   build-server:
     name: Build server on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -79,7 +65,6 @@ jobs:
         with:
           name: server-${{ matrix.os }}
           path: src/server/server/*
-
   build-client:
     name: Build client on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -109,9 +94,7 @@ jobs:
         with:
           name: client-${{ matrix.os }}
           path: src/client/build/*
-      
   deploy:
-    if: startsWith(github.ref, 'refs/tags/')
     name: Deploy to GitHub Releases
     needs: [ build-documentation, build-server, build-client ]
     runs-on: ubuntu-18.04

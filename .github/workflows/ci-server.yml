@@ -1,0 +1,47 @@
+name: ci-server
+
+on:
+  push:
+    paths:
+      - 'src/server/**'
+      - '!src/server/.devcontainer/**'
+      - '!src/server/.vscode/**'
+      - '!src/server/.gitignore'
+  pull_request:
+    paths:
+      - 'src/server/**'
+      - '!src/server/.devcontainer/**'
+      - '!src/server/.vscode/**'
+      - '!src/server/.gitignore'
+
+jobs:
+  build:
+    name: Build server on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup dotnet v3.1.x
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+      - name: Install dependencies
+        working-directory: src/server
+        run: dotnet restore
+      - name: Build
+        working-directory: src/server
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        working-directory: src/server
+        run: dotnet test --no-restore
+      - name: Publish
+        working-directory: src/server
+        run: dotnet publish TicketStore.Server.sln  --no-restore --self-contained -o server
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: server-${{ matrix.os }}
+          path: src/server/server/*
