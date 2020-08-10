@@ -1,0 +1,46 @@
+name: ci-documentation
+
+on:
+  push:
+    paths:
+      - 'src/documentation/**'
+      - '!src/documentation/.devcontainer/**'
+      - '!src/documentation/.vscode/**'
+      - '!src/documentation/.gitignore'
+  pull_request:
+    paths:
+      - 'src/client/**'
+      - '!src/client/.devcontainer/**'
+      - '!src/client/.vscode/**'
+      - '!src/client/.gitignore'
+
+jobs:
+  build:
+    name: Build documentation pdf file
+    runs-on: ubuntu-18.04
+    container:
+      image: skyfrk/udhbwvst:5.3.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Display versions of build tools
+        run: |
+          latexmk -v
+          lualatex --version
+          java -jar $PLANTUML_JAR -version
+      - name: Build
+        run: |
+          latexmk \
+          -pdf \
+          -file-line-error \
+          -interaction=nonstopmode \
+          -cd \
+          -pdflatex=lualatex \
+          -synctex=1 \
+          -shell-escape \
+          src/documentation/root.tex
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: documentation
+          path: src/documentation/root.pdf
