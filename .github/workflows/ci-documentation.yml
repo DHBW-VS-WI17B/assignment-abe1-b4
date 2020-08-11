@@ -7,6 +7,8 @@ on:
       - '!src/documentation/.devcontainer/**'
       - '!src/documentation/.vscode/**'
       - '!src/documentation/.gitignore'
+    branches:
+      - master
   pull_request:
     paths:
       - 'src/client/**'
