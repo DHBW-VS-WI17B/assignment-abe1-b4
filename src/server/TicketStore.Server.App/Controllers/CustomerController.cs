@@ -19,7 +19,7 @@ namespace TicketStore.Server.App.Controllers
         /// <param name="order">Order ascending ("asc") oder descending ("desc").</param>
         /// <returns>Returns a list of tickets.</returns>
         [HttpGet]
-        [Route("/{customerId}/tickets")]
+        [Route("{customerId}/tickets")]
         public async Task<IActionResult> GetTickets(Guid customerId, [FromQuery] string sort, [FromQuery] string order)
         {
             throw new NotImplementedException();
@@ -33,7 +33,7 @@ namespace TicketStore.Server.App.Controllers
         /// <param name="customerId">Customer id.</param>
         /// <returns>Budget of a customer</returns>
         [HttpGet]
-        [Route("/{customerId}/budget")]
+        [Route("{customerId}/budget")]
         public async Task<IActionResult> GetBudget(Guid customerId)
         {
             throw new NotImplementedException();
