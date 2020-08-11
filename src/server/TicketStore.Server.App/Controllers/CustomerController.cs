@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TicketStore.Server.App.Controllers
 {
+    /// <summary>
+    /// Customer controller.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase

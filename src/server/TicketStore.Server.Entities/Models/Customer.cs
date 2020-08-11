@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TicketStore.Server.Entities
+namespace TicketStore.Server.Entities.Models
 {
     /// <summary>
     /// A customer who attends events.
     /// </summary>
     public class Customer
     {
+        /// <summary>
+        /// Unique id.
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Total amount of money a customer can spend on tickets per year.
         /// </summary>

@@ -8,11 +8,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using TicketStore.Server.Contracts;
+using TicketStore.Server.DataAccess;
+using TicketStore.Server.Entities;
 
 namespace TicketStore.Server.App
 {
@@ -39,6 +43,8 @@ namespace TicketStore.Server.App
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+            services.AddDbContext<RepositoryContext>(o => o.UseSqlite("Filename=./data.sqlite"));
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

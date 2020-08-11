@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TicketStore.Server.Entities
+namespace TicketStore.Server.Entities.Models
 {
     /// <summary>
     /// Ticket for an <see cref="TicketStore.Server.Entities.Event"/>.
