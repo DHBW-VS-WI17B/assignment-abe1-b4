@@ -28,7 +28,7 @@ namespace TicketStore.Server.App.Controllers
         /// <param name="eventId">Event id.</param>
         /// <returns>Event with all details.</returns>
         [HttpGet]
-        [Route("/{eventId}")]
+        [Route("{eventId}")]
         public async Task<IActionResult> GetEventById(Guid eventId)
         {
             throw new NotImplementedException();
@@ -41,7 +41,7 @@ namespace TicketStore.Server.App.Controllers
         /// <param name="eventId">Event id.</param>
         /// <returns>Number of sold tickets for this event.</returns>
         [HttpGet]
-        [Route("/{eventId}/sales")]
+        [Route("{eventId}/sales")]
         public async Task<IActionResult> GetNumberOfSales(Guid eventId)
         {
             throw new NotImplementedException();
@@ -66,7 +66,7 @@ namespace TicketStore.Server.App.Controllers
         /// <param name="count">Count of tickets.</param>
         /// <returns>Ticket id.</returns>
         [HttpPost]
-        [Route("/{eventId}/purchase")]
+        [Route("{eventId}/purchase")]
         public async Task<IActionResult> PurchaseTicket(Guid eventId, [FromQuery] int count)
         {
             throw new NotImplementedException();
