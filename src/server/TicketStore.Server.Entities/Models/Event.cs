@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace TicketStore.Server.Entities
+namespace TicketStore.Server.Entities.Models
 {
     /// <summary>
     /// Represents an event.

@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TicketStore.Server.Entities
+namespace TicketStore.Server.Entities.Models
 {
     /// <summary>
     /// Postal address.
     /// </summary>
     public class PostalAddress
     {
+        /// <summary>
+        /// Postal address id.
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// ZIP code of the address.
         /// </summary>

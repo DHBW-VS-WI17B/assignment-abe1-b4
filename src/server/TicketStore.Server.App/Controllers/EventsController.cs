@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicketStore.Server.Entities;
+using TicketStore.Server.Entities.Models;
 
 namespace TicketStore.Server.App.Controllers
 {
