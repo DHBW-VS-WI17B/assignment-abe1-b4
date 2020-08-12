@@ -6,7 +6,7 @@ namespace TicketStore.Server.Contracts
 {
     public interface IRepositoryWrapper
     {
-        ICustomerRepository Customer { get; }
+        IUserRepository User { get; }
         IEventRepository Event { get;  }
         IPostalAddressRepository PostalAddress { get; }
         ITicketRepository Ticket { get;  }

@@ -63,7 +63,7 @@ namespace TicketStore.Server.App.Controllers
         }
 
         /// <summary>
-        /// Only available for customers.
+        /// Only available for users.
         /// </summary>
         /// <param name="eventId">Event id.</param>
         /// <param name="count">Count of tickets.</param>

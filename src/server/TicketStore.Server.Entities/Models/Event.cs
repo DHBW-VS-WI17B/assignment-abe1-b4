@@ -22,7 +22,7 @@ namespace TicketStore.Server.Entities.Models
         /// <summary>
         /// When the event takes place.
         /// </summary>
-        public DateTimeOffset Date { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// Where the event takes place.
@@ -40,24 +40,19 @@ namespace TicketStore.Server.Entities.Models
         public int MaxTicketCount { get; set; }
 
         /// <summary>
-        /// Maximum count of tickets a customer can buy.
+        /// Maximum count of tickets a user can buy.
         /// </summary>
-        public int MaxTicketsPerCustomer { get; set; }
+        public int MaxTicketsPerUser { get; set; }
 
         /// <summary>
         /// Sales start date.
         /// </summary>
-        public DateTimeOffset SalesStartDate { get; set; }
+        public DateTime SalesStartDate { get; set; }
 
         /// <summary>
         /// Duration of a sale.
         /// </summary>
         public TimeSpan SaleDuration { get; set; }
-
-        /// <summary>
-        /// List of tickets sold to customers.
-        /// </summary>
-        public IEnumerable<Dictionary<Customer, Ticket>> SoldTickets { get; set; }
     }
 }
     

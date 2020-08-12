@@ -9,9 +9,9 @@ using TicketStore.Server.Entities.Models;
 
 namespace TicketStore.Server.DataAccess
 {
-    public class CustomerRepository : RepositoryBase<Customer>, ICustomerRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public CustomerRepository(RepositoryContext repositoryContext) : base(repositoryContext)
+        public UserRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
     }

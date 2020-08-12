@@ -5,9 +5,9 @@ using System.Text;
 namespace TicketStore.Server.Entities.Models
 {
     /// <summary>
-    /// A customer who attends events.
+    /// A user who purchases tickets for events.
     /// </summary>
-    public class Customer
+    public class User
     {
         /// <summary>
         /// Unique id.
@@ -15,29 +15,29 @@ namespace TicketStore.Server.Entities.Models
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Total amount of money a customer can spend on tickets per year.
+        /// Total amount of money a user can spend on tickets per year.
         /// </summary>
         public float YearlyBudget { get; set; }
 
         /// <summary>
-        /// Name of the customer.
+        /// Role of the user.
         /// </summary>
-        public string Name { get; set; }
+        public UserRole Role { get; set; }
 
         /// <summary>
-        /// Address of the customer.
+        /// Name of the user.
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// Unencrypted password.
+        /// We are aware that this is a bad practice.
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Address of the user.
         /// </summary>
         public PostalAddress Address { get; set; }
-
-        /// <summary>
-        /// List of purchased tickets and purchase date.
-        /// </summary>
-        public IEnumerable<Ticket> PurchasedTickets { get; set; }
-
-        /// <summary>
-        /// The purchase price of the ticket.
-        /// </summary>
-        public float Price { get; set; }
-
     }
 }

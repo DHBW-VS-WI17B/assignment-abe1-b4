@@ -10,7 +10,7 @@ namespace TicketStore.Server.Entities
     {
         public RepositoryContext(DbContextOptions options) : base (options) {}
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public DbSet<Event> Events { get; set; }
 

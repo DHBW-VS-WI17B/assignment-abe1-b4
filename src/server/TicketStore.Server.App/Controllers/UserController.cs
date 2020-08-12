@@ -8,36 +8,36 @@ using Microsoft.AspNetCore.Mvc;
 namespace TicketStore.Server.App.Controllers
 {
     /// <summary>
-    /// Customer controller.
+    /// User controller.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class UserController : ControllerBase
     {
         /// <summary>
         /// Gets a list of purchased tickets.
         /// </summary>
-        /// <param name="customerId">Customer id.</param>
+        /// <param name="userId">User id.</param>
         /// <param name="sort">Sort by either "orderDate" or "eventDate".</param>
         /// <param name="order">Order ascending ("asc") oder descending ("desc").</param>
         /// <returns>Returns a list of tickets.</returns>
         [HttpGet]
-        [Route("{customerId}/tickets")]
-        public async Task<IActionResult> GetTickets(Guid customerId, [FromQuery] string sort, [FromQuery] string order)
+        [Route("{userId}/tickets")]
+        public async Task<IActionResult> GetTickets(Guid userId, [FromQuery] string sort, [FromQuery] string order)
         {
             throw new NotImplementedException();
         }
 
 
         /// <summary>
-        /// Gets the budget of a customer.
-        /// Only available for customers.
+        /// Gets the budget of a user.
+        /// Only available for users.
         /// </summary>
-        /// <param name="customerId">Customer id.</param>
-        /// <returns>Budget of a customer</returns>
+        /// <param name="userId">User id.</param>
+        /// <returns>Budget of a user</returns>
         [HttpGet]
-        [Route("{customerId}/budget")]
-        public async Task<IActionResult> GetBudget(Guid customerId)
+        [Route("{userId}/budget")]
+        public async Task<IActionResult> GetBudget(Guid userId)
         {
             throw new NotImplementedException();
         }

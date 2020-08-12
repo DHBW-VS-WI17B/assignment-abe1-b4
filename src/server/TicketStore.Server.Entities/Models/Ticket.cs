@@ -17,6 +17,11 @@ namespace TicketStore.Server.Entities.Models
         /// <summary>
         /// When the ticket was purchased
         /// </summary>
-        public DateTimeOffset PurchaseDate { get; set; }
+        public DateTime PurchaseDate { get; set; }
+
+        /// <summary>
+        /// Price of the ticket.
+        /// </summary>
+        public float Price { get; set; }
     }
 }
