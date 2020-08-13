@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicketStore.Server.App.Interfaces;
-using TicketStore.Server.App.Models;
+using TicketStore.Server.App.Models.Requests;
+using TicketStore.Server.App.Models.Responses;
 
 namespace TicketStore.Server.App.Controllers
 {
