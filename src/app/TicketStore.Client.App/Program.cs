@@ -12,8 +12,8 @@ namespace TicketStore.Client.App
             [Option('g', "get", Required = false, HelpText = "Get the specified action from the API.")]
             public string Get { get; set; }
 
-            [Option('s', "set", Required = false, HelpText = "Set the specified action from the API.")]
-            public string Set { get; set; }
+            [Option('p', "post", Required = false, HelpText = "Post the specified action from the API.")]
+            public string Post { get; set; }
         }
 
         static void Main(string[] args)
@@ -21,9 +21,11 @@ namespace TicketStore.Client.App
             Parser.Default.ParseArguments<Options>(args)
                    .WithParsed<Options>(o =>
                    {
-                       if (o.Get == "events")
-                       {
+                       #region GetFunctions
 
+                       //Details of an event.
+                       if (o.Get == "event_details")
+                       {
                            // get from rest api instead of creating the events here
                            var events = new Dictionary<string, string>()
                            {
@@ -37,13 +39,53 @@ namespace TicketStore.Client.App
 
                        }
 
-                       else if (o.Set == "")
+                       //Number of sold tickets for an event.
+                       else if (o.Get == "ticket_sales")
+                       {
+
+
+                       }
+
+                       //Ticket of a specific user
+                       else if (o.Get == "user_tickets")
                        {
 
                        }
+
+                       //Budget of a specific user
+                       else if (o.Get == "user_budget")
+                       {
+
+                       }
+
+                       #endregion
+
+
+                       #region Set Functions
+
+                       //Create event
+                       if (o.Post == "create_event")
+                       {
+
+                       }
+
+                       //Purchase Ticket
+                       else if (o.Post == "purchase_ticket")
+                       {
+
+                       }
+
+                       #endregion
                    });
+
         }
 
-       //Method JSON TO CONSOLE
+        //Auslagern -> Method JSON TO CONSOLE
+        public string GetJasonString()
+        {
+
+            return string.Empty;
+        }
+
     }
 }
