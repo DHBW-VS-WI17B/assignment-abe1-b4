@@ -41,7 +41,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, windows-2019, macos-10.15]
+        os: [ubuntu-18.04, windows-2019]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -71,7 +71,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, windows-2019, macos-10.15]
+        os: [ubuntu-18.04, windows-2019]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -130,9 +130,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: server-windows-2019
+          path: package
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with:
           app-name: ticketstore-wa
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
-          package: server-windows-2019
+          package: package
