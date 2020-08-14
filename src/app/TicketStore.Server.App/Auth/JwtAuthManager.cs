@@ -19,10 +19,20 @@ namespace TicketStore.Server.App.Auth
     {
         private readonly string _key;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="jwtConfig">Json web token config containing the secret key.</param>
         public JwtAuthManager(IOptions<JwtConfig> jwtConfig)
         {
-               _key = jwtConfig.Value.Secret; 
+            if (jwtConfig == null)
+            {
+                throw new ArgumentNullException(nameof(jwtConfig));
+            }
+            _key = jwtConfig.Value.Secret; 
         }
+
+        ///<inheritdoc/>
         public string Authenticate(string username, string password)
         {
             // TODO: perform a real check
