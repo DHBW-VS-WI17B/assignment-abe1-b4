@@ -9,21 +9,21 @@ namespace TicketStore.Server.DataAccess
     public class RepositoryWrapper : IRepositoryWrapper
     {
         private readonly RepositoryContext _repositoryContext;
-        private ICustomerRepository _customer;
+        private IUserRepository _user;
         private IEventRepository _event;
         private IPostalAddressRepository _postalAddress;
         private ITicketRepository _ticket;
 
-        public ICustomerRepository Customer
+        public IUserRepository User
         {
             get
             {
-                if(_customer == null)
+                if(_user == null)
                 {
-                    _customer = new CustomerRepository(_repositoryContext);
+                    _user = new UserRepository(_repositoryContext);
                 }
 
-                return _customer;
+                return _user;
             }
         }
 

@@ -5,7 +5,7 @@ using TicketStore.Server.Entities.Models;
 
 namespace TicketStore.Server.Contracts
 {
-    public interface ICustomerRepository : IRepositoryBase<Customer>
+    public interface IUserRepository : IRepositoryBase<User>
     {
     }
 }

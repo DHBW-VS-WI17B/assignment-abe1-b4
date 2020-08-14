@@ -18,6 +18,7 @@ namespace TicketStore.Server.App.Controllers
         /// </summary>
         /// <returns>List of available events as eventId and eventName.</returns>
         [HttpGet]
+        [Route("")]
         public async Task<IActionResult> GetEvents()
         {
             throw new NotImplementedException();
@@ -55,13 +56,14 @@ namespace TicketStore.Server.App.Controllers
         /// <param name="eventBody">Details of the event to be created.</param>
         /// <returns>Id of the created event.</returns>
         [HttpPost]
+        [Route("")]
         public async Task<IActionResult> CreateEvent([FromBody] Event eventBody)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Only available for customers.
+        /// Only available for users.
         /// </summary>
         /// <param name="eventId">Event id.</param>
         /// <param name="count">Count of tickets.</param>
