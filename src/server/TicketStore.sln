@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Server.Entities
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Server.App", "TicketStore.Server.App\TicketStore.Server.App.csproj", "{A5B7EA44-CD89-4C83-80A3-A29831EAC639}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Server.Contracts", "TicketStore.Server.Contracts\TicketStore.Server.Contracts.csproj", "{2DEFCEA4-3865-4497-A3C2-3C83D0338D0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Server.Contracts", "TicketStore.Server.Contracts\TicketStore.Server.Contracts.csproj", "{2DEFCEA4-3865-4497-A3C2-3C83D0338D0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Server.DataAccess", "TicketStore.Server.DataAccess\TicketStore.Server.DataAccess.csproj", "{73BAD7A6-FD20-4EE0-94D2-50809389CBEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Server.DataAccess", "TicketStore.Server.DataAccess\TicketStore.Server.DataAccess.csproj", "{73BAD7A6-FD20-4EE0-94D2-50809389CBEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Client.App", "TicketStore.Client.App\TicketStore.Client.App.csproj", "{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,18 @@ Global
 		{73BAD7A6-FD20-4EE0-94D2-50809389CBEE}.Release|x64.Build.0 = Release|Any CPU
 		{73BAD7A6-FD20-4EE0-94D2-50809389CBEE}.Release|x86.ActiveCfg = Release|Any CPU
 		{73BAD7A6-FD20-4EE0-94D2-50809389CBEE}.Release|x86.Build.0 = Release|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Release|x64.Build.0 = Release|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{CEEA324E-65DC-419A-9ADA-DEA4D07004EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
