@@ -1,9 +1,9 @@
-name: ci-app
+name: ci-client
 
 on:
   push:
     paths:
-      - 'src/app/**'
+      - 'src/app/TicketStore.Client*/**'
       - '!src/app/.devcontainer/**'
       - '!src/app/.vscode/**'
       - '!src/app/.gitignore'
@@ -11,7 +11,7 @@ on:
       - master
   pull_request:
     paths:
-      - 'src/app/**'
+      - 'src/app/TicketStore.Client*/**'
       - '!src/app/.devcontainer/**'
       - '!src/app/.vscode/**'
       - '!src/app/.gitignore'
@@ -19,7 +19,7 @@ on:
 
 jobs:
   build:
-    name: Build app on ${{ matrix.os }}
+    name: Build client on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -32,19 +32,19 @@ jobs:
         with:
           dotnet-version: '3.1.x'
       - name: Install dependencies
-        working-directory: src/app
+        working-directory: src/app/TicketStore.Client.App
         run: dotnet restore
       - name: Build
-        working-directory: src/app
-        run: dotnet build --configuration Release --no-restore
+        working-directory: src/app/TicketStore.Client.App
+        run: dotnet build --no-restore --configuration Release 
       - name: Test
-        working-directory: src/app
+        working-directory: src/app/TicketStore.Client.App
         run: dotnet test --no-restore
       - name: Publish
-        working-directory: src/app
-        run: dotnet publish TicketStore.sln  --no-restore -o build
+        working-directory: src/app/TicketStore.Client.App
+        run: dotnet publish --no-restore -o build
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: app-${{ matrix.os }}
-          path: src/app/build/*
+          name: client-${{ matrix.os }}
+          path: src/app/TicketStore.Client.App/build/*

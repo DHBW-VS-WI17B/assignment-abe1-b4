@@ -11,10 +11,10 @@ on:
       - master
   pull_request:
     paths:
-      - 'src/client/**'
-      - '!src/client/.devcontainer/**'
-      - '!src/client/.vscode/**'
-      - '!src/client/.gitignore'
+      - 'src/documentation/**'
+      - '!src/documentation/.devcontainer/**'
+      - '!src/documentation/.vscode/**'
+      - '!src/documentation/.gitignore'
   workflow_dispatch:
 
 jobs:
