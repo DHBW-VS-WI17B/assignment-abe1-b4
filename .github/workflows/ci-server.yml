@@ -3,6 +3,7 @@ name: ci-server
 on:
   push:
     paths:
+      - '.github/workflows/**'
       - 'src/app/TicketStore.Server*/**'
       - '!src/app/.devcontainer/**'
       - '!src/app/.vscode/**'
@@ -11,6 +12,7 @@ on:
       - master
   pull_request:
     paths:
+      - '.github/workflows/**'
       - 'src/app/TicketStore.Server*/**'
       - '!src/app/.devcontainer/**'
       - '!src/app/.vscode/**'
