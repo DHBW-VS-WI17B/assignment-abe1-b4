@@ -8,10 +8,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TicketStore.Server.App.Interfaces;
-using TicketStore.Server.App.Models.Configs;
+using TicketStore.Server.App.Configs;
 
 namespace TicketStore.Server.App.Auth
 {
+    /// <summary>
+    /// Handles json web token authentication.
+    /// </summary>
     public class JwtAuthManager : IJwtAuthManager
     {
         private readonly string _key;

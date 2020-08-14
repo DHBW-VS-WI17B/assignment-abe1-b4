@@ -20,10 +20,12 @@ using Serilog;
 using TicketStore.Server.App.Auth;
 using TicketStore.Server.App.Interfaces;
 using TicketStore.Server.App.Misc;
-using TicketStore.Server.App.Models.Configs;
+using TicketStore.Server.App.Configs;
 using TicketStore.Server.Contracts;
 using TicketStore.Server.DataAccess;
 using TicketStore.Server.Entities;
+using AutoMapper;
+using TicketStore.Server.App.Mapping;
 
 namespace TicketStore.Server.App
 {
@@ -54,6 +56,13 @@ namespace TicketStore.Server.App
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            services.AddAutoMapper(config =>
+            {
+                config.AddProfile(new ModelToResourceProfile());
+                config.AddProfile(new ResourceToModelProfile());
+            });
+
             services.AddDbContext<RepositoryContext>(o => o.UseSqlite("Filename=./data.sqlite"));
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TicketStore.Server.Entities;
-using TicketStore.Server.Entities.Models;
+using TicketStore.Server.App.Extensions;
+using TicketStore.Server.App.Resources;
 
 namespace TicketStore.Server.App.Controllers
 {
@@ -19,8 +18,28 @@ namespace TicketStore.Server.App.Controllers
         /// <returns>List of available events as eventId and eventName.</returns>
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetEvents()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<EventResource>>> GetAllEventsAsync()
         {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Creates an event.
+        /// Only available for admins.
+        /// </summary>
+        /// <param name="createEventResource">Details of the event to be created.</param>
+        /// <returns>Id of the created event.</returns>
+        [HttpPost]
+        [Route("")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<EventResource>> CreateEventAsync([FromBody] CreateEventResource createEventResource)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
             throw new NotImplementedException();
         }
 
@@ -31,33 +50,43 @@ namespace TicketStore.Server.App.Controllers
         /// <returns>Event with all details.</returns>
         [HttpGet]
         [Route("{eventId}")]
-        public async Task<IActionResult> GetEventById(Guid eventId)
+        [Authorize]
+        public async Task<ActionResult<EventResource>> GetEventAsync([FromRoute] Guid eventId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPut]
+        [Route("{eventId}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<EventResource>> UpdateEventAsync([FromRoute] Guid eventId, [FromBody] UpdateEventResource updateEventResource)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
+            throw new NotImplementedException();
+        }
+
+        [HttpDelete]
+        [Route("{eventId}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<EventResource>> DeleteEventAsync([FromRoute] Guid eventId)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Gets the number of sold tickets for given event.
+        /// Gets the sold tickets for given event.
         /// Only available for admins.
         /// </summary>
         /// <param name="eventId">Event id.</param>
         /// <returns>Number of sold tickets for this event.</returns>
         [HttpGet]
         [Route("{eventId}/sales")]
-        public async Task<IActionResult> GetNumberOfSales(Guid eventId)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates an event.
-        /// Only available for admins.
-        /// </summary>
-        /// <param name="eventBody">Details of the event to be created.</param>
-        /// <returns>Id of the created event.</returns>
-        [HttpPost]
-        [Route("")]
-        public async Task<IActionResult> CreateEvent([FromBody] Event eventBody)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<IEnumerable<TicketResource>>> GetSoldTicketsAsync([FromRoute] Guid eventId)
         {
             throw new NotImplementedException();
         }
@@ -70,7 +99,8 @@ namespace TicketStore.Server.App.Controllers
         /// <returns>Ticket id.</returns>
         [HttpPost]
         [Route("{eventId}/purchase")]
-        public async Task<IActionResult> PurchaseTicket(Guid eventId, [FromQuery] int count)
+        [Authorize]
+        public async Task<ActionResult<TicketResource>> PurchaseTicketAsync([FromRoute] Guid eventId, [FromQuery] int count)
         {
             throw new NotImplementedException();
         }

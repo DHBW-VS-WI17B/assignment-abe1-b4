@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TicketStore.Server.Entities.Models
+namespace TicketStore.Server.App.Resources
 {
-    /// <summary>
-    /// A user who purchases tickets for events.
-    /// </summary>
-    public class User
+    public class CreateUserResource
     {
-        /// <summary>
-        /// Unique id.
-        /// </summary>
-        [Key]
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Total amount of money a user can spend on tickets per year.
         /// </summary>
@@ -23,14 +15,16 @@ namespace TicketStore.Server.Entities.Models
         public float YearlyBudget { get; set; }
 
         /// <summary>
-        /// If the user is admin or not.
+        /// Role of the user.
         /// </summary>
+        [Required]
         public bool IsAdmin { get; set; }
 
         /// <summary>
         /// Name of the user.
         /// </summary>
         [Required]
+        [MaxLength(128)]
         public string UserName { get; set; }
 
         /// <summary>
@@ -38,18 +32,13 @@ namespace TicketStore.Server.Entities.Models
         /// We are aware that this is a bad practice.
         /// </summary>
         [Required]
+        [MaxLength(256)]
         public string Password { get; set; }
 
         /// <summary>
         /// Address of the user.
         /// </summary>
         [Required]
-        public PostalAddress PostalAddress { get; set; }
-
-        /// <summary>
-        /// List of tickets that the user has purchased.
-        /// </summary>
-        [Required]
-        public List<Ticket> PurchasedTickets { get; set; } = new List<Ticket>();
+        public PostalAddressResource PostalAddress { get; set; }
     }
 }

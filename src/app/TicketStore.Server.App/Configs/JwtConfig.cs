@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TicketStore.Server.App.Models.Configs
+namespace TicketStore.Server.App.Configs
 {
     public class JwtConfig
     {

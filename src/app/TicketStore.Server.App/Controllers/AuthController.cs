@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TicketStore.Server.App.Resources;
 using TicketStore.Server.App.Interfaces;
-using TicketStore.Server.App.Models.Requests;
-using TicketStore.Server.App.Models.Responses;
+using TicketStore.Server.App.Extensions;
 
 namespace TicketStore.Server.App.Controllers
 {
@@ -23,36 +23,28 @@ namespace TicketStore.Server.App.Controllers
         }
 
         /// <summary>
-        /// Users can register an account.
-        /// </summary>
-        /// <param name="registerRequest">Body of the register request.</param>
-        /// <returns>User id.</returns>
-        [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return Ok(userId);
-        }
-
-        /// <summary>
         /// Authenticates a user.
         /// </summary>
-        /// <param name="authenticateRequest">Username and password.</param>
+        /// <param name="authRequest">Username and password.</param>
         /// <returns>Json web token.</returns>
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult> Authenticate([FromBody] AuthenticateRequest authenticateRequest)
+        public async Task<ActionResult<AuthResponseResource>> AuthenticateAsync([FromBody] AuthRequestResource authRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
             string jwt;
             try
             {
-                jwt = _jwtAuthManager.Authenticate(authenticateRequest.UserName, authenticateRequest.Password);
+                jwt = _jwtAuthManager.Authenticate(authRequest.UserName, authRequest.Password);
                 if (jwt == null)
                 {
                     return Unauthorized();
                 }
-                return Ok(new AuthenticateResponse
+                return Ok(new AuthResponseResource
                 { 
                     Jwt = jwt
                 });
