@@ -19,6 +19,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using TicketStore.Server.App.Auth;
 using TicketStore.Server.App.Interfaces;
+using TicketStore.Server.App.Misc;
 using TicketStore.Server.App.Models.Configs;
 using TicketStore.Server.Contracts;
 using TicketStore.Server.DataAccess;
@@ -39,7 +40,10 @@ namespace TicketStore.Server.App
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TicketStore API", Version = "v1" });
