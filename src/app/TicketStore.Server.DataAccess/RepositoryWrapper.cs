@@ -6,6 +6,9 @@ using TicketStore.Server.Entities;
 
 namespace TicketStore.Server.DataAccess
 {
+    /// <summary>
+    /// Repository wrapper implementation.
+    /// </summary>
     public class RepositoryWrapper : IRepositoryWrapper
     {
         private readonly RepositoryContext _repositoryContext;
@@ -14,6 +17,7 @@ namespace TicketStore.Server.DataAccess
         private IPostalAddressRepository _postalAddress;
         private ITicketRepository _ticket;
 
+        /// <inheritdoc/>
         public IUserRepository User
         {
             get
@@ -27,6 +31,7 @@ namespace TicketStore.Server.DataAccess
             }
         }
 
+        /// <inheritdoc/>
         public IEventRepository Event
         {
             get
@@ -40,6 +45,7 @@ namespace TicketStore.Server.DataAccess
             }
         }
 
+        /// <inheritdoc/>
         public IPostalAddressRepository PostalAddress
         {
             get
@@ -53,6 +59,7 @@ namespace TicketStore.Server.DataAccess
             }
         }
 
+        /// <inheritdoc/>
         public ITicketRepository Ticket
         {
             get
@@ -66,11 +73,13 @@ namespace TicketStore.Server.DataAccess
             }
         }
 
+        /// <inheritdoc/>
         public RepositoryWrapper(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
         }
 
+        /// <inheritdoc/>
         public void Save()
         {
             _repositoryContext.SaveChanges();

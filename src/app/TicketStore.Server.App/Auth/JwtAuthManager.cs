@@ -8,18 +8,31 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TicketStore.Server.App.Interfaces;
-using TicketStore.Server.App.Models.Configs;
+using TicketStore.Server.App.Configs;
 
 namespace TicketStore.Server.App.Auth
 {
+    /// <summary>
+    /// Handles json web token authentication.
+    /// </summary>
     public class JwtAuthManager : IJwtAuthManager
     {
         private readonly string _key;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="jwtConfig">Json web token config containing the secret key.</param>
         public JwtAuthManager(IOptions<JwtConfig> jwtConfig)
         {
-               _key = jwtConfig.Value.Secret; 
+            if (jwtConfig == null)
+            {
+                throw new ArgumentNullException(nameof(jwtConfig));
+            }
+            _key = jwtConfig.Value.Secret; 
         }
+
+        ///<inheritdoc/>
         public string Authenticate(string username, string password)
         {
             // TODO: perform a real check

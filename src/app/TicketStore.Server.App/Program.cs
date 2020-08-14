@@ -12,8 +12,15 @@ using Serilog.Events;
 
 namespace TicketStore.Server.App
 {
+    /// <summary>
+    /// Main program.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Main method.
+        /// </summary>
+        /// <param name="args">Arguments.</param>
         public static void Main(string[] args)
         {
             var config = new ConfigurationBuilder()
@@ -41,6 +48,11 @@ namespace TicketStore.Server.App
 
         }
 
+        /// <summary>
+        /// Creates a host builder.
+        /// </summary>
+        /// <param name="args">Arguments.</param>
+        /// <returns>Host builder.</returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()

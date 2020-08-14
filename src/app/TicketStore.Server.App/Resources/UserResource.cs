@@ -1,55 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TicketStore.Server.Entities.Models
+namespace TicketStore.Server.App.Resources
 {
     /// <summary>
-    /// A user who purchases tickets for events.
+    /// User resource.
     /// </summary>
-    public class User
+    public class UserResource
     {
         /// <summary>
         /// Unique id.
         /// </summary>
-        [Key]
         public Guid Id { get; set; }
 
         /// <summary>
         /// Total amount of money a user can spend on tickets per year.
         /// </summary>
-        [Required]
         public float YearlyBudget { get; set; }
 
         /// <summary>
-        /// If the user is admin or not.
+        /// Role of the user.
         /// </summary>
         public bool IsAdmin { get; set; }
 
         /// <summary>
         /// Name of the user.
         /// </summary>
-        [Required]
         public string UserName { get; set; }
 
         /// <summary>
         /// Unencrypted password.
         /// We are aware that this is a bad practice.
         /// </summary>
-        [Required]
         public string Password { get; set; }
 
         /// <summary>
         /// Address of the user.
         /// </summary>
-        [Required]
-        public PostalAddress PostalAddress { get; set; }
-
-        /// <summary>
-        /// List of tickets that the user has purchased.
-        /// </summary>
-        [Required]
-        public List<Ticket> PurchasedTickets { get; set; } = new List<Ticket>();
+        public PostalAddressResource PostalAddress { get; set; }
     }
 }

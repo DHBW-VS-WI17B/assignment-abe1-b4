@@ -7,8 +7,15 @@ using TicketStore.Server.Entities.Models;
 
 namespace TicketStore.Server.DataAccess
 {
+    /// <summary>
+    /// Postal address repository.
+    /// </summary>
     public class PostalAddressRepository : RepositoryBase<PostalAddress>, IPostalAddressRepository
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="repositoryContext">Repository context.</param>
         public PostalAddressRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
