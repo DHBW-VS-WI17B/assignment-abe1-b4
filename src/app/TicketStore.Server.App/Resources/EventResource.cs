@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace TicketStore.Server.App.Resources
 {
+    /// <summary>
+    /// Event resource.
+    /// </summary>
     public class EventResource
     {
         /// <summary>

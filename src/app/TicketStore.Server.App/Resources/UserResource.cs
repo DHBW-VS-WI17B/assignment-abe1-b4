@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace TicketStore.Server.App.Resources
 {
+    /// <summary>
+    /// User resource.
+    /// </summary>
     public class UserResource
     {
         /// <summary>

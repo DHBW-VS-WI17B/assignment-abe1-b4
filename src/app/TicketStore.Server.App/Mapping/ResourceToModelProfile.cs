@@ -8,8 +8,14 @@ using TicketStore.Server.Entities.Models;
 
 namespace TicketStore.Server.App.Mapping
 {
+    /// <summary>
+    /// Resource to model mapping profile.
+    /// </summary>
     public class ResourceToModelProfile : Profile
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ResourceToModelProfile()
         {
             CreateMap<EventResource, Event>();

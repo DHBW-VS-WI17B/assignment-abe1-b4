@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TicketStore.Server.App.Resources
 {
+    /// <summary>
+    /// Postal address resource.
+    /// </summary>
     public class PostalAddressResource
     {
         /// <summary>

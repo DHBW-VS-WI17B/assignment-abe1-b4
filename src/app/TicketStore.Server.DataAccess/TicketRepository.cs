@@ -7,8 +7,15 @@ using TicketStore.Server.Entities.Models;
 
 namespace TicketStore.Server.DataAccess
 {
+    /// <summary>
+    /// Ticket repository.
+    /// </summary>
     public class TicketRepository : RepositoryBase<Ticket>, ITicketRepository
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="repositoryContext">Repository context.</param>
         public TicketRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
