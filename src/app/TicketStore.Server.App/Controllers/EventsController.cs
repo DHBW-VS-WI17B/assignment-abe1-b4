@@ -10,6 +10,9 @@ using TicketStore.Server.App.Resources;
 
 namespace TicketStore.Server.App.Controllers
 {
+    /// <summary>
+    /// Events controller.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [SwaggerTag("Create, read, update and delete events and more.")]
