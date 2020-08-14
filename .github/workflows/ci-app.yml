@@ -1,25 +1,25 @@
-name: ci-server
+name: ci-app
 
 on:
   push:
     paths:
-      - 'src/server/**'
-      - '!src/server/.devcontainer/**'
-      - '!src/server/.vscode/**'
-      - '!src/server/.gitignore'
+      - 'src/app/**'
+      - '!src/app/.devcontainer/**'
+      - '!src/app/.vscode/**'
+      - '!src/app/.gitignore'
     branches:
       - master
   pull_request:
     paths:
-      - 'src/server/**'
-      - '!src/server/.devcontainer/**'
-      - '!src/server/.vscode/**'
-      - '!src/server/.gitignore'
+      - 'src/app/**'
+      - '!src/app/.devcontainer/**'
+      - '!src/app/.vscode/**'
+      - '!src/app/.gitignore'
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build server on ${{ matrix.os }}
+    name: Build app on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -32,19 +32,19 @@ jobs:
         with:
           dotnet-version: '3.1.x'
       - name: Install dependencies
-        working-directory: src/server
+        working-directory: src/app
         run: dotnet restore
       - name: Build
-        working-directory: src/server
+        working-directory: src/app
         run: dotnet build --configuration Release --no-restore
       - name: Test
-        working-directory: src/server
+        working-directory: src/app
         run: dotnet test --no-restore
       - name: Publish
-        working-directory: src/server
-        run: dotnet publish TicketStore.Server.sln  --no-restore -o server
+        working-directory: src/app
+        run: dotnet publish TicketStore.sln  --no-restore -o build
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: server-${{ matrix.os }}
-          path: src/server/server/*
+          name: app-${{ matrix.os }}
+          path: src/app/build/*
