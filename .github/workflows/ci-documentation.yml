@@ -3,6 +3,7 @@ name: ci-documentation
 on:
   push:
     paths:
+      - '.github/workflows/**'
       - 'src/documentation/**'
       - '!src/documentation/.devcontainer/**'
       - '!src/documentation/.vscode/**'
@@ -11,6 +12,7 @@ on:
       - master
   pull_request:
     paths:
+      - '.github/workflows/**'
       - 'src/documentation/**'
       - '!src/documentation/.devcontainer/**'
       - '!src/documentation/.vscode/**'
