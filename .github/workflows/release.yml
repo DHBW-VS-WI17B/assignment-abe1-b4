@@ -1,14 +1,12 @@
 name: release
 
 on:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build-documentation:
-    name: Build documentation pdf file
+    name: build documentation
     runs-on: ubuntu-18.04
     container:
       image: skyfrk/udhbwvst:5.3.2
@@ -36,104 +34,97 @@ jobs:
         with:
           name: documentation
           path: src/documentation/root.pdf
-  build-server:
-    name: Build server on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-18.04, windows-2019]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup dotnet v3.1.x
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-      - name: Install dependencies
-        working-directory: src/app/TicketStore.Server.App
-        run: dotnet restore
-      - name: Build
-        working-directory: src/app/TicketStore.Server.App
-        run: dotnet build --no-restore --configuration Release 
-      - name: Test
-        working-directory: src/app/TicketStore.Server.App
-        run: dotnet test --no-restore
-      - name: Publish
-        working-directory: src/app/TicketStore.Server.App
-        run: dotnet publish --no-restore -o build
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: server-${{ matrix.os }}
-          path: src/app/TicketStore.Server.App/build/*
   build-client:
-    name: Build client on ${{ matrix.os }}
+    name: build client ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, windows-2019]
+        kind: ['linux', 'windows', 'macOS']
+        include:
+          - kind: linux
+            os: ubuntu-18.04
+            target: linux-x64
+          - kind: windows
+            os: windows-2019
+            target: win-x64
+          - kind: macOS
+            os: macos-10.15
+            target: osx-x64
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v2
-      - name: Setup dotnet v3.1.x
+      - name: setup dotnet v3.1.x
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
-      - name: Install dependencies
+      - name: dotnet publish
         working-directory: src/app/TicketStore.Client.App
-        run: dotnet restore
-      - name: Build
-        working-directory: src/app/TicketStore.Client.App
-        run: dotnet build --no-restore --configuration Release 
-      - name: Test
-        working-directory: src/app/TicketStore.Client.App
-        run: dotnet test --no-restore
-      - name: Publish
-        working-directory: src/app/TicketStore.Client.App
-        run: dotnet publish --no-restore -o build
-      - name: Upload
+        run: dotnet publish -c Release -r "${{ matrix.target }}" -p:PublishSingleFile=true -p:DebugType=None -o build
+      - name: upload
         uses: actions/upload-artifact@v2
         with:
-          name: client-${{ matrix.os }}
+          name: TicketStore.Client-${{ matrix.target }}
           path: src/app/TicketStore.Client.App/build/*
+  build-server:
+    name: build server ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        kind: ['linux', 'windows', 'macOS']
+        include:
+          - kind: linux
+            os: ubuntu-18.04
+            target: linux-x64
+          - kind: windows
+            os: windows-2019
+            target: win-x64
+          - kind: macOS
+            os: macos-10.15
+            target: osx-x64
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup dotnet v3.1.x
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+      - name: dotnet publish
+        working-directory: src/app/TicketStore.Server.App
+        run: dotnet publish -c Release -r "${{ matrix.target }}" -p:PublishSingleFile=true -p:DebugType=None -o build
+      - name: upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: TicketStore.Server-${{ matrix.target }}
+          path: src/app/TicketStore.Server.App/build/*
   deploy-github:
-    name: Deploy to GitHub Releases
+    name: deploy to github releases
     if: startsWith(github.ref, 'refs/tags/')
     needs: [ build-documentation, build-server, build-client ]
     runs-on: ubuntu-18.04
     steps:
-      - name: Download
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: download
         uses: actions/download-artifact@v2
         with:
           path: artifacts
-      - name: Prepare
+      - name: prepare
+        shell: bash
         run: |
+          tag=$(git describe --tags --abbrev=0)
           mkdir staging
-          mv artifacts/documentation/root.pdf "staging/WWI17B_Seminararbeit_ABE1_Gruppe_B4-${GITHUB_REF##*/}.pdf"
-          mv artifacts/client** staging
-          mv artifacts/server** staging
-      - name: Deploy
+          mv artifacts/documentation/root.pdf "staging/WWI17B_Seminararbeit_ABE1_Gruppe_B4-$tag.pdf"
+          mv artifacts/TicketStore.Client-linux-x64/TicketStore.Client.App "staging/TicketStore.Client-$tag-linux-x64"
+          mv artifacts/TicketStore.Server-linux-x64/TicketStore.Server.App "staging/TicketStore.Server-$tag-linux-x64"
+          mv artifacts/TicketStore.Client-osx-x64/TicketStore.Client.App "staging/TicketStore.Client-$tag-osx-x64"
+          mv artifacts/TicketStore.Server-osx-x64/TicketStore.Server.App "staging/TicketStore.Server-$tag-osx-x64"
+          mv artifacts/TicketStore.Client-win-x64/TicketStore.Client.App.exe "staging/TicketStore.Client-$tag-win-x64.exe"
+          mv artifacts/TicketStore.Server-win-x64/TicketStore.Server.App.exe "staging/TicketStore.Server-$tag-win-x64.exe"
+      - name: deploy
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            staging/WWI17B_Seminararbeit_ABE1_Gruppe_B4-*.pdf
-            staging/client-*/*
-            staging/server-*/*
+          files: staging/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  deploy-azure:
-    name: Deploy server to Azure
-    needs: [ build-server ]
-    runs-on: windows-2019
-    steps:
-      - name: Download
-        uses: actions/download-artifact@v2
-        with:
-          name: server-windows-2019
-          path: package
-      - name: Deploy
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ticketstore-wa
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }}
-          package: package

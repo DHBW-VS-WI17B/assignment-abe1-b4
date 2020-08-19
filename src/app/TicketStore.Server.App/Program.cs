@@ -1,64 +1,69 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using Akka.Actor;
+using Akka.Configuration;
+using Akka.Routing;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Serilog.Events;
+using System;
+using System.Linq;
+using TicketStore.Server.Logic;
+using TicketStore.Server.Logic.Actors;
+using TicketStore.Server.Logic.DataAccess;
+using TicketStore.Server.Logic.DataAccess.Contracts;
 
 namespace TicketStore.Server.App
 {
-    /// <summary>
-    /// Main program.
-    /// </summary>
-    public class Program
+    class Program
     {
-        /// <summary>
-        /// Main method.
-        /// </summary>
-        /// <param name="args">Arguments.</param>
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(config)
+            var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .MinimumLevel.Information()
                 .CreateLogger();
 
-            try
-            {
-                Log.Information("Starting web host");
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Host terminated unexpectedly");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+            Serilog.Log.Logger = logger;
 
+            var options = new DbContextOptionsBuilder().UseInMemoryDatabase("app").Options;
+            using var context = new RepositoryContext(options);
+            var repositoryWrapper = new RepositoryWrapper(context);
+
+            // TODO: use https://github.com/akkadotnet/HOCON
+            var config = ConfigurationFactory.ParseString(@"
+            akka {  
+                actor {
+                    provider = remote
+                }
+                remote {
+                    dot-netty.tcp {
+                        port = 8081
+                        hostname = 0.0.0.0
+                        public-hostname = localhost
+                    }
+                }
+                loglevel=INFO,
+                loggers=[""Akka.Logger.Serilog.SerilogLogger, Akka.Logger.Serilog""]
+            }
+            ");
+
+            using var system = ActorSystem.Create("Server", config);
+
+            var writeToDbActorProps = Props.Create<WriteToDbActor>(() => new WriteToDbActor(repositoryWrapper));
+            var writeToDbActor = system.ActorOf(writeToDbActorProps, nameof(WriteToDbActor));
+            var writeToDbActorRef = system.ActorSelection(writeToDbActor.Path);
+
+            var eventActorProps = Props.Create<EventActor>(() => new EventActor(writeToDbActorRef))
+                .WithRouter(new RoundRobinPool(5));
+            var eventActor = system.ActorOf(eventActorProps, nameof(EventActor));
+
+            var userActorProps = Props.Create<UserActor>(() => new UserActor(writeToDbActorRef))
+                .WithRouter(new RoundRobinPool(5));
+            var userActor = system.ActorOf(eventActorProps, nameof(UserActor));
+
+            var ticketActorProps = Props.Create<TicketActor>(() => new TicketActor(writeToDbActorRef))
+                .WithRouter(new RoundRobinPool(5));
+            var ticketActor = system.ActorOf(eventActorProps, nameof(TicketActor));
+
+            Console.ReadLine();
         }
-
-        /// <summary>
-        /// Creates a host builder.
-        /// </summary>
-        /// <param name="args">Arguments.</param>
-        /// <returns>Host builder.</returns>
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }
