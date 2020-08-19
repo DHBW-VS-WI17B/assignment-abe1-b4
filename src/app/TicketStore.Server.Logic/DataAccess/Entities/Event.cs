@@ -1,57 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace TicketStore.Shared.Models
+namespace TicketStore.Server.Logic.DataAccess.Entities
 {
     /// <summary>
-    /// Represents a happening.
+    /// Represents an event.
     /// </summary>
-    public class Happening
+    public class Event
     {
         /// <summary>
         /// Unique id.
         /// </summary>
-        public Guid Id { get; } = Guid.NewGuid();
+        [Key]
+        public Guid Id { get; set; }
 
         /// <summary>
-        /// Name of the happening.
+        /// Name of the event.
         /// </summary>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
-        /// When the happening takes place.
+        /// When the event takes place.
         /// </summary>
-        public DateTimeOffset Date { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
 
         /// <summary>
-        /// Where the happening takes place.
+        /// Where the event takes place.
         /// </summary>
+        [Required]
         public string Location { get; set; }
 
         /// <summary>
-        /// Price of one ticket for the happening.
+        /// Price of one ticket for the event.
         /// </summary>
-        public double PricePerTicket { get; set; }
+        [Required]
+        public float PricePerTicket { get; set; }
 
         /// <summary>
         /// Maximum count of tickets available.
         /// </summary>
+        [Required]
         public int MaxTicketCount { get; set; }
 
         /// <summary>
         /// Maximum count of tickets a user can buy.
         /// </summary>
+        [Required]
         public int MaxTicketsPerUser { get; set; }
 
         /// <summary>
         /// Sales start date.
         /// </summary>
-        public DateTimeOffset SalesStartDate { get; set; }
+        [Required]
+        public DateTime SalesStartDate { get; set; }
 
         /// <summary>
         /// Duration of a sale.
         /// </summary>
+        [Required]
         public TimeSpan SaleDuration { get; set; }
+
+        /// <summary>
+        /// Sold tickets.
+        /// </summary>
+        [Required]
+        public List<Ticket> SoldTickets { get; set; } = new List<Ticket>();
     }
 }
