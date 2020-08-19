@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
+using Akka.Routing;
 using Serilog;
 using System;
 using System.Linq;
@@ -43,10 +44,12 @@ namespace TicketStore.Server.App
             var writeToDbActor = system.ActorOf(writeToDbActorProps, nameof(WriteToDbActor));
             var writeToDbActorRef = system.ActorSelection(writeToDbActor.Path);
 
-            var eventActorProps = Props.Create<EventActor>(() => new EventActor(writeToDbActorRef));
+            var eventActorProps = Props.Create<EventActor>(() => new EventActor(writeToDbActorRef))
+                .WithRouter(new RoundRobinPool(5));
             var eventActor = system.ActorOf(eventActorProps, nameof(EventActor));
 
-            var userActorProps = Props.Create<UserActor>(() => new UserActor(writeToDbActorRef));
+            var userActorProps = Props.Create<UserActor>(() => new UserActor(writeToDbActorRef))
+                .WithRouter(new RoundRobinPool(5));
             var userActor = system.ActorOf(eventActorProps, nameof(UserActor));
 
             Console.ReadLine();

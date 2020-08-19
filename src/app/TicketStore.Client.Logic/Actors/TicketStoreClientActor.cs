@@ -12,7 +12,7 @@ namespace TicketStore.Client.Logic.Actors
         private readonly ActorSelection _remoteUserActorRef;
         private readonly ILoggingAdapter _logger = Context.GetLogger();
 
-        // TODO this client has some state (yearly budget, username)
+        // TODO this client has some state (yearly budget, username) - transmitted via messages
 
         public TicketStoreClientActor(ActorSelection remoteEventActorRef, ActorSelection remoteUserActorRef)
         {

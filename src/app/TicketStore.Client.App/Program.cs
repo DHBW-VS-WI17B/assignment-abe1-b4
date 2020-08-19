@@ -44,6 +44,9 @@ namespace TicketStore.Client.App
 
             var ticketStoreClientActor = system.ActorOf(ticketStoreClientActorProps, nameof(TicketStoreClientActor));
 
+            // test
+            ticketStoreClientActor.Tell("test");
+
             Console.ReadLine();
         }
     }
