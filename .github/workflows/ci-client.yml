@@ -21,32 +21,42 @@ on:
 
 jobs:
   build:
-    name: Build client on ${{ matrix.os }}
+    name: build ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, windows-2019]
+        kind: ['linux', 'windows', 'macOS']
+        include:
+          - kind: linux
+            os: ubuntu-18.04
+            target: linux-x64
+          - kind: windows
+            os: windows-2019
+            target: win-x64
+          - kind: macOS
+            os: macos-10.15
+            target: osx-x64
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v2
-      - name: Setup dotnet v3.1.x
+      - name: setup dotnet v3.1.x
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
-      - name: Install dependencies
+      - name: dotnet restore
         working-directory: src/app/TicketStore.Client.App
         run: dotnet restore
-      - name: Build
+      - name: dotnet build
         working-directory: src/app/TicketStore.Client.App
-        run: dotnet build --no-restore --configuration Release 
-      - name: Test
+        run: dotnet build --no-restore -c Release 
+      - name: dotnet test
         working-directory: src/app/TicketStore.Client.App
         run: dotnet test --no-restore
-      - name: Publish
+      - name: dotnet publish
         working-directory: src/app/TicketStore.Client.App
-        run: dotnet publish --no-restore -o build
-      - name: Upload
+        run: dotnet publish --no-restore -c Release -r "${{ matrix.target }}" -p:PublishSingleFile=true -p:DebugType=None -p:PublishTrimmed=true -o build
+      - name: upload
         uses: actions/upload-artifact@v2
         with:
-          name: client-${{ matrix.os }}
+          name: TicketStore.Client-${{ matrix.target }}
           path: src/app/TicketStore.Client.App/build/*
