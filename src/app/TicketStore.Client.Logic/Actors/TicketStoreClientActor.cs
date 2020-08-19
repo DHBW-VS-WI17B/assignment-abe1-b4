@@ -8,21 +8,21 @@ namespace TicketStore.Client.Logic.Actors
 {
     public class TicketStoreClientActor : ReceiveActor
     {
-        private readonly ActorSelection _eventActor;
-        private readonly ActorSelection _userActor;
+        private readonly ActorSelection _remoteEventActorRef;
+        private readonly ActorSelection _remoteUserActorRef;
         private readonly ILoggingAdapter _logger = Context.GetLogger();
 
         // TODO this client has some state (yearly budget, username)
 
-        public TicketStoreClientActor(ActorSelection eventActor, ActorSelection userActor)
+        public TicketStoreClientActor(ActorSelection remoteEventActorRef, ActorSelection remoteUserActorRef)
         {
-            _eventActor = eventActor;
-            _userActor = userActor;
+            _remoteEventActorRef = remoteEventActorRef;
+            _remoteUserActorRef = remoteUserActorRef;
 
             Receive<string>(message =>
             {
                 _logger.Info("Received: {message}", message);
-                _eventActor.Tell(message);
+                _remoteEventActorRef.Tell(message);
             });
         }
     }

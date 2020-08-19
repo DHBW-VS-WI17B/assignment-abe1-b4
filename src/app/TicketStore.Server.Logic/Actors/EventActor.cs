@@ -9,9 +9,12 @@ namespace TicketStore.Server.Logic.Actors
     public class EventActor : ReceiveActor
     {
         private readonly ILoggingAdapter _logger = Context.GetLogger();
+        private readonly ActorSelection _writeToDbActorRef;
 
-        public EventActor()
+        public EventActor(ActorSelection writeToDbActorRef)
         {
+            _writeToDbActorRef = writeToDbActorRef;
+            
             Receive<string>(message =>
             {
                 _logger.Info("Received: {0}", message);

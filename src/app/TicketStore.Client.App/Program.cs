@@ -35,17 +35,14 @@ namespace TicketStore.Client.App
 
             using var system = ActorSystem.Create("Client", config);
 
-            var eventActor = system.ActorSelection("akka.tcp://Server@localhost:8081/user/EventActor");
-            var userActor = system.ActorSelection("akka.tcp://Server@localhost:8081/user/UserActor");
+            var remoteEventActorRef = system.ActorSelection("akka.tcp://Server@localhost:8081/user/EventActor");
+            var remoteUserActorRef = system.ActorSelection("akka.tcp://Server@localhost:8081/user/UserActor");
 
             // TODO: check if event and user actor are available.
 
-            var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(eventActor, userActor));
+            var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(remoteEventActorRef, remoteUserActorRef));
 
             var ticketStoreClientActor = system.ActorOf(ticketStoreClientActorProps, nameof(TicketStoreClientActor));
-
-            // test
-            ticketStoreClientActor.Tell("This is a test");
 
             Console.ReadLine();
         }
