@@ -31,11 +31,10 @@ namespace TicketStore.Server.Logic.DataAccess
         /// </summary>
         public DbSet<Ticket> Tickets { get; set; }
 
-        /// <inheritdoc/>
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // to be replaced in production :)
-            optionsBuilder.UseInMemoryDatabase("app");
-        }
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="options">Options to be passed to the base constructor.</param>
+        public RepositoryContext(DbContextOptions options) : base (options) { }
     }
 }

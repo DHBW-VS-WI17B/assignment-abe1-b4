@@ -1,12 +1,14 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
 using Akka.Routing;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
 using System.Linq;
 using TicketStore.Server.Logic;
 using TicketStore.Server.Logic.Actors;
 using TicketStore.Server.Logic.DataAccess;
+using TicketStore.Server.Logic.DataAccess.Contracts;
 
 namespace TicketStore.Server.App
 {
@@ -20,6 +22,10 @@ namespace TicketStore.Server.App
                 .CreateLogger();
 
             Serilog.Log.Logger = logger;
+
+            var options = new DbContextOptionsBuilder().UseInMemoryDatabase("app").Options;
+            using var context = new RepositoryContext(options);
+            var repositoryWrapper = new RepositoryWrapper(context);
 
             // TODO: use https://github.com/akkadotnet/HOCON
             var config = ConfigurationFactory.ParseString(@"
@@ -41,7 +47,7 @@ namespace TicketStore.Server.App
 
             using var system = ActorSystem.Create("Server", config);
 
-            var writeToDbActorProps = Props.Create<WriteToDbActor>(() => new WriteToDbActor());
+            var writeToDbActorProps = Props.Create<WriteToDbActor>(() => new WriteToDbActor(repositoryWrapper));
             var writeToDbActor = system.ActorOf(writeToDbActorProps, nameof(WriteToDbActor));
             var writeToDbActorRef = system.ActorSelection(writeToDbActor.Path);
 
