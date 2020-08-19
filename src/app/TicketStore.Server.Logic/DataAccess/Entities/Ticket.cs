@@ -22,7 +22,6 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         [Required]
         public DateTime PurchaseDate { get; set; }
 
-
         /// <summary>
         /// Event id foreign key.
         /// </summary>
@@ -30,19 +29,8 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         public Guid EventId { get; set; }
 
         /// <summary>
-        /// Event this ticket was purchased for.
-        /// </summary>
-        [Required]
-        public Event Event { get; set; }
-
-        /// <summary>
         /// User id foreign key.
         /// </summary>
         public Guid UserId { get; set; }
-
-        /// <summary>
-        /// User who bought this ticket.
-        /// </summary>
-        public User User { get; set; }
     }
 }

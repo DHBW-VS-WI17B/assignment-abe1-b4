@@ -36,7 +36,7 @@ namespace TicketStore.Server.Logic.Test.DataAccess
             repoWrapper.Events.Create(newEvent);
             await repoWrapper.SaveAsync();
 
-            var savedEvent = repoWrapper.Events.FindByCondition(e => e.Name.Equals("Stuttgart")).FirstOrDefault();
+            var savedEvent = repoWrapper.Events.FindByCondition(e => e.Location.Equals("Stuttgart")).FirstOrDefault();
 
             savedEvent?.Name.Should().Be(newEvent.Name);
             savedEvent?.Location.Should().Be(newEvent.Location);
@@ -86,6 +86,58 @@ namespace TicketStore.Server.Logic.Test.DataAccess
             allAdresses.FirstOrDefault()?.HouseNumber.Should().Be(newUser.Address.HouseNumber);
             allAdresses.FirstOrDefault()?.Street.Should().Be(newUser.Address.Street);
             allAdresses.FirstOrDefault()?.ZipCode.Should().Be(newUser.Address.ZipCode);
+        }
+
+        [Test]
+        public async Task CreateTicket_CreatesTicket()
+        {
+            var optionBuilder = new DbContextOptionsBuilder().UseInMemoryDatabase("CreateTicket_CreatesTicket");
+            var repositoryContext = new RepositoryContext(optionBuilder.Options);
+            var repoWrapper = new RepositoryWrapper(repositoryContext);
+
+            var newUser = new User
+            {
+                IsAdmin = true,
+                UserName = "Simon",
+                Address = new Address
+                {
+                    City = "San Francisco",
+                    HouseNumber = "42a",
+                    Street = "Some Street",
+                    ZipCode = 12345
+                }
+            };
+            repoWrapper.Users.Create(newUser);
+
+            var newEvent = new Event
+            {
+                Date = DateTime.Parse("01.01.2021"),
+                Location = "Suttgart",
+                MaxTicketCount = 1000,
+                MaxTicketsPerUser = 5,
+                Name = "Hamilton",
+                PricePerTicket = 50.0,
+                SaleDuration = TimeSpan.FromDays(14),
+                SalesStartDate = DateTime.Parse("01.12.2020"),
+            };
+            repoWrapper.Events.Create(newEvent);
+            await repoWrapper.SaveAsync();
+
+            var createdUserId = repoWrapper.Users.FindByCondition(u => u.UserName.Equals("Simon")).FirstOrDefault().Id;
+            var createdEventId = repoWrapper.Events.FindByCondition(e => e.Name.Equals("Hamilton")).FirstOrDefault().Id;
+
+            var newTicket = new Ticket()
+            {
+                EventId = createdEventId,
+                UserId = createdUserId,
+                PurchaseDate = DateTime.UtcNow
+            };
+            repoWrapper.Tickets.Create(newTicket);
+            await repoWrapper.SaveAsync();
+
+            var ticket = repoWrapper.Tickets.FindByCondition(t => t.EventId.Equals(createdEventId) && t.UserId.Equals(createdUserId)).FirstOrDefault();
+
+            ticket?.PurchaseDate.Should().Be(newTicket.PurchaseDate);
         }
     }
 }
