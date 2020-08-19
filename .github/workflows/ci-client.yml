@@ -43,18 +43,15 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
-      - name: dotnet restore
-        working-directory: src/app/TicketStore.Client.App
-        run: dotnet restore
       - name: dotnet build
         working-directory: src/app/TicketStore.Client.App
-        run: dotnet build --no-restore -c Release 
+        run: dotnet build -c Release 
       - name: dotnet test
         working-directory: src/app/TicketStore.Client.App
-        run: dotnet test --no-restore
+        run: dotnet test
       - name: dotnet publish
         working-directory: src/app/TicketStore.Client.App
-        run: dotnet publish --no-restore -c Release -r "${{ matrix.target }}" -p:PublishSingleFile=true -p:DebugType=None -p:PublishTrimmed=true -o build
+        run: dotnet publish -c Release -r "${{ matrix.target }}" -p:PublishSingleFile=true -p:DebugType=None -p:PublishTrimmed=true -o build
       - name: upload
         uses: actions/upload-artifact@v2
         with:
