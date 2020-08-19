@@ -38,7 +38,7 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         /// Price of one ticket for the event.
         /// </summary>
         [Required]
-        public float PricePerTicket { get; set; }
+        public double PricePerTicket { get; set; }
 
         /// <summary>
         /// Maximum count of tickets available.
