@@ -6,20 +6,26 @@ using TicketStore.Shared.Messages;
 
 namespace TicketStore.Server.Logic
 {
-    public class RegisterUserActor : UntypedActor
+    public class RegisterUserActor : ReceiveActor
     {
-        protected override void OnReceive(object message)
+        private readonly IActorRef _userActorRef;
+
+        public RegisterUserActor(IActorRef userActorRef)
         {
-            switch (message)
+            _userActorRef = userActorRef;
+
+            ReceiveAsync<RegisterUserRequest>(async msg =>
             {
-                case RegisterUserRequest msg:
-                    // check if already registered
-                    // register
-                    // send back response
-                    break;
-                default:
-                    throw new InvalidOperationException();
-            }
+                var getUserByUserNameResponse = await _userActorRef.Ask<GetUserByUserNameResponse>(new GetUserByUserNameRequest(msg?.UserName)).ConfigureAwait(false);
+
+                if (!getUserByUserNameResponse.IsSuccess)
+                {
+                    Sender.Tell(new RegisterUserResponse(getUserByUserNameResponse?.ErrorMessage));
+                    return;
+                }
+
+
+            });
         }
     } 
 }

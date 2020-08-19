@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
 using System;
+using TicketStore.Server.Logic;
 
 namespace TicketStore.Server.App
 {
@@ -23,9 +24,11 @@ namespace TicketStore.Server.App
             }
             ");
 
-            using (var system = ActorSystem.Create("Server", config));
-
-
+            using (var system = ActorSystem.Create("Server", config))
+            {
+                var userActor = system.ActorOf(Props.Create<UserActor>(), "user");
+                var registerUserActor = system.ActorOf(Props.Create<RegisterUserActor>(() => new RegisterUserActor(userActor)));
+            }
 
             Console.ReadLine();
         }

@@ -40,7 +40,7 @@ namespace TicketStore.Shared.Messages
         /// <summary>
         /// Register user request.
         /// </summary>
-        /// <param name="userName">Name of ther user.</param>
+        /// <param name="userName">Name </param>
         /// <param name="isAdmin">Is admin.</param>
         /// <param name="zipCode">ZIP code.</param>
         /// <param name="city">Name of the city.</param>
