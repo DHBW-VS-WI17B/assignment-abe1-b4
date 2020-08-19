@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TicketStore.Shared.Messages;
 
 namespace TicketStore.Server.Logic
 {
@@ -11,7 +12,10 @@ namespace TicketStore.Server.Logic
         {
             switch (message)
             {
-                case RegisterUserMessage msg:
+                case RegisterUserRequest msg:
+                    // check if already registered
+                    // register
+                    // send back response
                     break;
                 default:
                     throw new InvalidOperationException();

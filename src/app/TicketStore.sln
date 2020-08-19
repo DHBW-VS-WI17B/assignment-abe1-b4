@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Client.App", "TicketStore.Client.App\TicketStore.Client.App.csproj", "{D3A89F48-ABEB-4849-B969-80AD196B8160}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Client.App", "TicketStore.Client.App\TicketStore.Client.App.csproj", "{D3A89F48-ABEB-4849-B969-80AD196B8160}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Client.Logic", "TicketStore.Client.Logic\TicketStore.Client.Logic.csproj", "{45AC25F8-D0DB-4A8B-A8BB-93AA90A5C2B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Client.Logic", "TicketStore.Client.Logic\TicketStore.Client.Logic.csproj", "{45AC25F8-D0DB-4A8B-A8BB-93AA90A5C2B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Server.App", "TicketStore.Server.App\TicketStore.Server.App.csproj", "{31465C1E-090C-476F-A0F3-9D863FFE693D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Server.App", "TicketStore.Server.App\TicketStore.Server.App.csproj", "{31465C1E-090C-476F-A0F3-9D863FFE693D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Server.Logic", "TicketStore.Server.Logic\TicketStore.Server.Logic.csproj", "{49906A84-9136-43F4-8510-A16D27E9F139}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Server.Logic", "TicketStore.Server.Logic\TicketStore.Server.Logic.csproj", "{49906A84-9136-43F4-8510-A16D27E9F139}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Shared", "TicketStore.Shared\TicketStore.Shared.csproj", "{86213FED-639D-47CA-B1AD-7D29E7669365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketStore.Shared", "TicketStore.Shared\TicketStore.Shared.csproj", "{86213FED-639D-47CA-B1AD-7D29E7669365}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Server.Logic.Test", "TicketStore.Server.Logic.Test\TicketStore.Server.Logic.Test.csproj", "{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D3A89F48-ABEB-4849-B969-80AD196B8160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -86,5 +85,23 @@ Global
 		{86213FED-639D-47CA-B1AD-7D29E7669365}.Release|x64.Build.0 = Release|Any CPU
 		{86213FED-639D-47CA-B1AD-7D29E7669365}.Release|x86.ActiveCfg = Release|Any CPU
 		{86213FED-639D-47CA-B1AD-7D29E7669365}.Release|x86.Build.0 = Release|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Debug|x64.Build.0 = Debug|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Debug|x86.Build.0 = Debug|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Release|x64.ActiveCfg = Release|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Release|x64.Build.0 = Release|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Release|x86.ActiveCfg = Release|Any CPU
+		{481E8E37-DEF0-4B0B-8897-EBEAE3E653A5}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C9EFC63-2FD1-4B07-94AF-1DD34972B768}
 	EndGlobalSection
 EndGlobal
