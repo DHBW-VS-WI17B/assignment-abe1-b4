@@ -59,6 +59,10 @@ namespace TicketStore.Server.App
                 .WithRouter(new RoundRobinPool(5));
             var userActor = system.ActorOf(eventActorProps, nameof(UserActor));
 
+            var ticketActorProps = Props.Create<TicketActor>(() => new TicketActor(writeToDbActorRef))
+                .WithRouter(new RoundRobinPool(5));
+            var ticketActor = system.ActorOf(eventActorProps, nameof(TicketActor));
+
             Console.ReadLine();
         }
     }

@@ -32,11 +32,5 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         /// </summary>
         [Required]
         public Address Address { get; set; }
-
-        /// <summary>
-        /// List of tickets that the user has purchased.
-        /// </summary>
-        [Required]
-        public List<Ticket> PurchasedTickets { get; set; } = new List<Ticket>();
     }
 }

@@ -63,11 +63,5 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         /// </summary>
         [Required]
         public TimeSpan SaleDuration { get; set; }
-
-        /// <summary>
-        /// Sold tickets.
-        /// </summary>
-        [Required]
-        public List<Ticket> SoldTickets { get; set; } = new List<Ticket>();
     }
 }
