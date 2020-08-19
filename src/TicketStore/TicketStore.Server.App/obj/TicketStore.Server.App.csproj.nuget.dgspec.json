@@ -1,0 +1,116 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.App\\TicketStore.Server.App.csproj": {}
+  },
+  "projects": {
+    "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.App\\TicketStore.Server.App.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.App\\TicketStore.Server.App.csproj",
+        "projectName": "TicketStore.Server.App",
+        "projectPath": "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.App\\TicketStore.Server.App.csproj",
+        "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.App\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.Logic\\TicketStore.Server.Logic.csproj": {
+                "projectPath": "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.Logic\\TicketStore.Server.Logic.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.Logic\\TicketStore.Server.Logic.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.Logic\\TicketStore.Server.Logic.csproj",
+        "projectName": "TicketStore.Server.Logic",
+        "projectPath": "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.Logic\\TicketStore.Server.Logic.csproj",
+        "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\dhbw-vs-wi17b\\assignment-abe1-b4\\src\\TicketStore\\TicketStore.Server.Logic\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
