@@ -121,8 +121,6 @@ jobs:
       - name: Deploy
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            staging/WWI17B_Seminararbeit_ABE1_Gruppe_B4-*.pdf
-            staging/TicketStore-*
+          files: staging/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
