@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TicketStore.Server.Logic.Messages
 {
-    public sealed class WriteEventToDb
+    public sealed class AddEventToDb
     {
         // TODO wip
     }

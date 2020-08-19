@@ -17,6 +17,7 @@ namespace TicketStore.Client.App
 
             Serilog.Log.Logger = logger;
 
+            // TODO: use https://github.com/akkadotnet/HOCON
             var config = ConfigurationFactory.ParseString(@"
             akka {  
                 actor {

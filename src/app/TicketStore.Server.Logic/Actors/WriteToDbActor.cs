@@ -15,7 +15,7 @@ namespace TicketStore.Server.Logic.Actors
 
         public WriteToDbActor()
         {
-            ReceiveAsync<WriteEventToDb>(async message =>
+            ReceiveAsync<AddEventToDb>(async message =>
             {
                 using var ctx = new RepositoryContext();
 
