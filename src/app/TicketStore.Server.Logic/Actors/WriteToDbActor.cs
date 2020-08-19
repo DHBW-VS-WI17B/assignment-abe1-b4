@@ -6,6 +6,7 @@ using System.Text;
 using TicketStore.Server.Logic.DataAccess;
 using TicketStore.Server.Logic.DataAccess.Entities;
 using TicketStore.Server.Logic.Messages;
+using TicketStore.Server.Logic.Messages.Requests;
 
 namespace TicketStore.Server.Logic.Actors
 {
@@ -15,7 +16,7 @@ namespace TicketStore.Server.Logic.Actors
 
         public WriteToDbActor()
         {
-            ReceiveAsync<AddEventToDb>(async message =>
+            ReceiveAsync<AddEventToDbRequest>(async message =>
             {
                 using var ctx = new RepositoryContext();
 
