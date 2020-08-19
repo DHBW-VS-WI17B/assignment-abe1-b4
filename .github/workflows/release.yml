@@ -113,11 +113,11 @@ jobs:
           mkdir staging
           mv artifacts/documentation/root.pdf "staging/WWI17B_Seminararbeit_ABE1_Gruppe_B4-$tag.pdf"
           mv artifacts/TicketStore.Client-linux-x64/TicketStore.Client.App "staging/TicketStore.Client-$tag_linux-x64"
-          mv artifacts/TicketStore.Server-linux-x64/TicketStore.Client.App "staging/TicketStore.Server-$tag_linux-x64"
+          mv artifacts/TicketStore.Server-linux-x64/TicketStore.Server.App "staging/TicketStore.Server-$tag_linux-x64"
           mv artifacts/TicketStore.Client-osx-x64/TicketStore.Client.App "staging/TicketStore.Client-$tag_osx-x64"
-          mv artifacts/TicketStore.Server-osx-x64/TicketStore.Client.App "staging/TicketStore.Server-$tag_osx-x64"
+          mv artifacts/TicketStore.Server-osx-x64/TicketStore.Server.App "staging/TicketStore.Server-$tag_osx-x64"
           mv artifacts/TicketStore.Client-win-x64/TicketStore.Client.App.exe "staging/TicketStore.Client-$tag_win-x64.exe"
-          mv artifacts/TicketStore.Server-win-x64/TicketStore.Client.App.exe "staging/TicketStore.Server-$tag_win-x64.exe"
+          mv artifacts/TicketStore.Server-win-x64/TicketStore.Server.App.exe "staging/TicketStore.Server-$tag_win-x64.exe"
       - name: Deploy
         uses: softprops/action-gh-release@v1
         with:
