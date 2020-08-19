@@ -73,7 +73,7 @@ jobs:
         working-directory: src/app/TicketStore.Client.App
         run: dotnet test
   publish:
-    name: test ${{ matrix.target }}
+    name: publish ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
