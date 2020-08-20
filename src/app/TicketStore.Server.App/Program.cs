@@ -79,7 +79,9 @@ namespace TicketStore.Server.App
             using var context = new RepositoryContext(dbContextOptionsBuilder.Options);
             if (opts.Reset)
             {
+                Log.Logger.Information("Wiping database.");
                 context.Database.EnsureDeleted();
+                Log.Logger.Information("Database was wiped.");
             }
             context.Database.EnsureCreated();
             var repositoryWrapper = new RepositoryWrapper(context);
