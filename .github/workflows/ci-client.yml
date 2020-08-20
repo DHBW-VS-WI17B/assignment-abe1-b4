@@ -98,8 +98,8 @@ jobs:
       - name: dotnet publish
         working-directory: src/app/TicketStore.Client.App
         run: dotnet publish -c Release -r "${{ matrix.target }}" -p:PublishSingleFile=true -p:DebugType=None -o build
-      - name: upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: TicketStore.Client-${{ matrix.target }}
-          path: src/app/TicketStore.Client.App/build/*
+      # - name: upload
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: TicketStore.Client-${{ matrix.target }}
+      #     path: src/app/TicketStore.Client.App/build/*
