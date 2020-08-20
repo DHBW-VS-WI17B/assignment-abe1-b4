@@ -1,7 +1,6 @@
 name: remove old artifacts
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
