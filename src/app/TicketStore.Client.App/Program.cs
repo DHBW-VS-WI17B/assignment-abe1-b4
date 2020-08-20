@@ -13,12 +13,12 @@ namespace TicketStore.Client.App
     {
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed<Options>(RunWithOptions)
+            Parser.Default.ParseArguments<CommandLineOptions>(args)
+                .WithParsed<CommandLineOptions>(RunWithOptions)
                 .WithNotParsed(HandleParseErrors);
         }
 
-        static void RunWithOptions(Options opts)
+        static void RunWithOptions(CommandLineOptions opts)
         {
             var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.DoNotVerify), "TicketStore", "Client");
 

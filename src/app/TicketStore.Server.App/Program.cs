@@ -19,12 +19,12 @@ namespace TicketStore.Server.App
     {
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed<Options>(RunWithOptions)
+            Parser.Default.ParseArguments<CommandLineOptions>(args)
+                .WithParsed<CommandLineOptions>(RunWithOptions)
                 .WithNotParsed(HandleParseErrors);
         }
         
-        static void RunWithOptions(Options opts)
+        static void RunWithOptions(CommandLineOptions opts)
         {
             var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.DoNotVerify), "TicketStore", "Server");
 
@@ -75,8 +75,13 @@ namespace TicketStore.Server.App
 
             Serilog.Log.Logger = loggerBuilder.CreateLogger();
 
-            var options = new DbContextOptionsBuilder().UseInMemoryDatabase("app").Options;
-            using var context = new RepositoryContext(options);
+            var dbContextOptionsBuilder = new DbContextOptionsBuilder().UseSqlite($"Data Source={Path.Combine(appDataDir, "database.db")}");
+            using var context = new RepositoryContext(dbContextOptionsBuilder.Options);
+            if (opts.Reset)
+            {
+                context.Database.EnsureDeleted();
+            }
+            context.Database.EnsureCreated();
             var repositoryWrapper = new RepositoryWrapper(context);
 
             using var system = ActorSystem.Create("server", ConfigurationFactory.ParseString(akkaConfig));
