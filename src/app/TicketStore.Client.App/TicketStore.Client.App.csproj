@@ -3,6 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Company>DHBW-VS WI17B Group B4</Company>
+    <AssemblyTitle>Ticket Store Client</AssemblyTitle>
   </PropertyGroup>
 
   <ItemGroup>

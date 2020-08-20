@@ -1,9 +1,11 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
 using Akka.Routing;
+using CommandLine;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TicketStore.Server.Logic;
 using TicketStore.Server.Logic.Actors;
@@ -16,54 +18,83 @@ namespace TicketStore.Server.App
     {
         static void Main(string[] args)
         {
-            var logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .MinimumLevel.Information()
-                .CreateLogger();
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed<Options>(RunWithOptions)
+                .WithNotParsed(HandleParseErrors);
+        }
+        
+        static void RunWithOptions(Options opts)
+        {
+            var akkaConfig = @"
+                akka {  
+                    actor {
+                        provider = remote
+                    }
+                    remote {
+                        dot-netty.tcp {
+                            port = 8081
+                            hostname = 0.0.0.0
+                            public-hostname = localhost
+                        }
+                    }
+                    loglevel=INFO,
+                    loggers=[""Akka.Logger.Serilog.SerilogLogger, Akka.Logger.Serilog""]
+                }
+            ";
 
-            Serilog.Log.Logger = logger;
+            akkaConfig = akkaConfig.Replace("port = 8081", $"port = {opts.Port}", StringComparison.Ordinal);
+
+            var loggerBuilder = new LoggerConfiguration()
+                .WriteTo.Console();
+
+            if (opts.Verbose)
+            {
+                loggerBuilder = loggerBuilder
+                    .MinimumLevel.Verbose();
+                akkaConfig = akkaConfig.Replace("loglevel=INFO", "loglevel=VERBOSE", StringComparison.Ordinal);
+            }
+            else
+            {
+                loggerBuilder = loggerBuilder
+                    .MinimumLevel.Information();
+            }
+
+            Serilog.Log.Logger = loggerBuilder.CreateLogger();
 
             var options = new DbContextOptionsBuilder().UseInMemoryDatabase("app").Options;
             using var context = new RepositoryContext(options);
             var repositoryWrapper = new RepositoryWrapper(context);
 
-            // TODO: use https://github.com/akkadotnet/HOCON
-            var config = ConfigurationFactory.ParseString(@"
-            akka {  
-                actor {
-                    provider = remote
-                }
-                remote {
-                    dot-netty.tcp {
-                        port = 8081
-                        hostname = 0.0.0.0
-                        public-hostname = localhost
-                    }
-                }
-                loglevel=INFO,
-                loggers=[""Akka.Logger.Serilog.SerilogLogger, Akka.Logger.Serilog""]
-            }
-            ");
-
-            using var system = ActorSystem.Create("server", config);
+            using var system = ActorSystem.Create("server", ConfigurationFactory.ParseString(akkaConfig));
 
             var writeToDbActorProps = Props.Create<WriteToDbActor>(() => new WriteToDbActor(repositoryWrapper));
             var writeToDbActor = system.ActorOf(writeToDbActorProps, nameof(WriteToDbActor));
             var writeToDbActorRef = system.ActorSelection(writeToDbActor.Path);
 
             var eventActorProps = Props.Create<EventActor>(() => new EventActor(writeToDbActorRef))
-                .WithRouter(new RoundRobinPool(5));
+                .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
             var eventActor = system.ActorOf(eventActorProps, nameof(EventActor));
 
             var userActorProps = Props.Create<UserActor>(() => new UserActor(writeToDbActorRef))
-                .WithRouter(new RoundRobinPool(5));
+                .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
             var userActor = system.ActorOf(eventActorProps, nameof(UserActor));
 
             var ticketActorProps = Props.Create<TicketActor>(() => new TicketActor(writeToDbActorRef))
-                .WithRouter(new RoundRobinPool(5));
+                .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
             var ticketActor = system.ActorOf(eventActorProps, nameof(TicketActor));
 
             Console.ReadLine();
+        }
+
+        static void HandleParseErrors(IEnumerable<Error> errors)
+        {
+            foreach (var error in errors)
+            {
+                if (error.StopsProcessing)
+                {
+                    Serilog.Log.Logger.Error("Parsing error occured: {tag}", error?.Tag);
+                }
+            }
         }
     }
 }

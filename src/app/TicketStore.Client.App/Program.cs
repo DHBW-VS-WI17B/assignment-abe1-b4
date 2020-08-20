@@ -1,12 +1,10 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
-using Akka.Configuration.Hocon;
 using CommandLine;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using TicketStore.Client.Logic.Actors;
-using Parser = CommandLine.Parser;
 
 namespace TicketStore.Client.App
 {
