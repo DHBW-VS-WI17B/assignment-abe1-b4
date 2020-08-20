@@ -16,7 +16,7 @@ namespace TicketStore.Server.App
         [Option('i', "instances", Default = 5, Required = false, HelpText = "The number of instances of stateless actors.")]
         public int ActorInstanceCount { get; }
 
-        [Option('r',"reset", Default = false, Required = false, HelpText = "Resets the database.")]
+        [Option('r',"reset", Default = false, Required = false, HelpText = "Wipes the database.")]
         public bool Reset { get;  }
 
         public CommandLineOptions(bool verbose, string port, int actorInstanceCount, bool reset)
