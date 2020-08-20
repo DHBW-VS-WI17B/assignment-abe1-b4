@@ -21,6 +21,22 @@ namespace TicketStore.Client.App
 
         static void RunWithOptions(Options opts)
         {
+            var akkaConfig = @"
+                akka {  
+                    actor {
+                        provider = remote
+                    }
+                    remote {
+                        dot-netty.tcp {
+		                    port = 0
+		                    hostname = localhost
+                        }
+                    }
+                    loglevel=INFO,
+                    loggers=[""Akka.Logger.Serilog.SerilogLogger, Akka.Logger.Serilog""]
+                }
+            ";
+
             var loggerBuilder = new LoggerConfiguration()
                 .WriteTo.Console();
 
@@ -28,6 +44,7 @@ namespace TicketStore.Client.App
             {
                 loggerBuilder = loggerBuilder
                     .MinimumLevel.Verbose();
+                akkaConfig = akkaConfig.Replace("loglevel=INFO", "loglevel=VERBOSE", StringComparison.Ordinal);
             } else
             {
                 loggerBuilder = loggerBuilder
@@ -36,24 +53,7 @@ namespace TicketStore.Client.App
 
             Serilog.Log.Logger = loggerBuilder.CreateLogger();
 
-            // TODO: use https://github.com/akkadotnet/HOCON | also change log level
-            var config = ConfigurationFactory.ParseString(@"
-            akka {  
-                actor {
-                    provider = remote
-                }
-                remote {
-                    dot-netty.tcp {
-		                port = 0
-		                hostname = localhost
-                    }
-                }
-                loglevel=INFO,
-                loggers=[""Akka.Logger.Serilog.SerilogLogger, Akka.Logger.Serilog""]
-            }
-            ");
-
-            using var system = ActorSystem.Create("client", config);
+            using var system = ActorSystem.Create("client", ConfigurationFactory.ParseString(akkaConfig));
 
             var remoteEventActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/EventActor");
             var remoteUserActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/UserActor");
