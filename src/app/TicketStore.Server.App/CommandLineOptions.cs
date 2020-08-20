@@ -13,7 +13,7 @@ namespace TicketStore.Server.App
         [Option('p', "port", Default = "8081", Required = false, HelpText = "The port this server instance exposes.")]
         public string Port { get; }
 
-        [Option('i', "instances", Default = 5, Required = false, HelpText = "The number of instances of stateless actors.")]
+        [Option('a', "actor-instance-count", Default = 5, Required = false, HelpText = "The number of instances for each stateless actor.")]
         public int ActorInstanceCount { get; }
 
         [Option('r',"reset", Default = false, Required = false, HelpText = "Wipes the database.")]
