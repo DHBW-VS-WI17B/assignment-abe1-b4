@@ -45,7 +45,7 @@ namespace TicketStore.Server.App
             }
             ");
 
-            using var system = ActorSystem.Create("Server", config);
+            using var system = ActorSystem.Create("server", config);
 
             var writeToDbActorProps = Props.Create<WriteToDbActor>(() => new WriteToDbActor(repositoryWrapper));
             var writeToDbActor = system.ActorOf(writeToDbActorProps, nameof(WriteToDbActor));
