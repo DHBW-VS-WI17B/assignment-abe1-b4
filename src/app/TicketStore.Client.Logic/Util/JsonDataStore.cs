@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 
-namespace TicketStore.Client.App.Util
+namespace TicketStore.Client.Logic.Util
 {
     public class JsonDataStore : IJsonDataStore
     {

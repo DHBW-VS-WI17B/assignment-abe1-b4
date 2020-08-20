@@ -20,7 +20,7 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         /// ZIP code of the address.
         /// </summary>
         [Required]
-        public int ZipCode { get; set; }
+        public string ZipCode { get; set; }
 
         /// <summary>
         /// Name of the city.

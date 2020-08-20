@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TicketStore.Client.App.Util
+namespace TicketStore.Client.Logic.Util
 {
     public interface IJsonDataStore
     {
