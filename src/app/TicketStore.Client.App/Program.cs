@@ -4,6 +4,7 @@ using CommandLine;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using TicketStore.Client.Logic.Actors;
 
 namespace TicketStore.Client.App
@@ -19,6 +20,18 @@ namespace TicketStore.Client.App
 
         static void RunWithOptions(Options opts)
         {
+            var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.DoNotVerify), "TicketStore", "Client");
+
+            try
+            {
+                Directory.CreateDirectory(appDataDir);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine($"FATAL Error: Can not create config directory: {appDataDir}");
+                Environment.Exit(-1);
+            }
+
             var akkaConfig = @"
                 akka {  
                     actor {
@@ -36,7 +49,8 @@ namespace TicketStore.Client.App
             ";
 
             var loggerBuilder = new LoggerConfiguration()
-                .WriteTo.Console();
+                .WriteTo.Console()
+                .WriteTo.File(Path.Combine(appDataDir, "log.txt"));
 
             if (opts.Verbose)
             {

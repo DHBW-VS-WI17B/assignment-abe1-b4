@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TicketStore.Server.Logic;
 using TicketStore.Server.Logic.Actors;
@@ -25,6 +26,18 @@ namespace TicketStore.Server.App
         
         static void RunWithOptions(Options opts)
         {
+            var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.DoNotVerify), "TicketStore", "Server");
+
+            try
+            {
+                Directory.CreateDirectory(appDataDir);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine($"FATAL Error: Can not create config directory: {appDataDir}");
+                Environment.Exit(-1);
+            }
+
             var akkaConfig = @"
                 akka {  
                     actor {
@@ -45,7 +58,8 @@ namespace TicketStore.Server.App
             akkaConfig = akkaConfig.Replace("port = 8081", $"port = {opts.Port}", StringComparison.Ordinal);
 
             var loggerBuilder = new LoggerConfiguration()
-                .WriteTo.Console();
+                .WriteTo.Console()
+                .WriteTo.File(Path.Combine(appDataDir, "log.txt"));
 
             if (opts.Verbose)
             {
