@@ -23,6 +23,11 @@ namespace TicketStore.Client.Logic.Util
             return new EventDto(name, date, location, pricePerTicket, maxTicketCount, maxTicketsPerUser, saleStartDate, saleEndDate);
         }
 
+        public static double ForYearlyBudget()
+        {
+            return Prompt.Input<double>("What is your yearly budget for tickets (format: '1,23' for 1,23€)?", 0.0, new[] { Validators.Required() });
+        }
+
         public static UserDto ForUserDto()
         {
             var userName = Prompt.Input<string>("What is your name?", null, new[] { Validators.Required(), Validators.MaxLength(64), Validators.MinLength(1) });

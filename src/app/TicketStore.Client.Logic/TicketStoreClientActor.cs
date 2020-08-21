@@ -57,14 +57,12 @@ namespace TicketStore.Client.Logic
             {
                 _logger.Info("Received message: {msg}", msg);
 
-                var userDto = Ask.ForUserDto();
-
-                var createUserResponse = await _remoteUserActorRef.Ask<CreateUserResponse>(new CreateUserRequest(userDto)).ConfigureAwait(false);
+                var createUserResponse = await _remoteUserActorRef.Ask<CreateUserResponse>(new CreateUserRequest(msg.UserDto)).ConfigureAwait(false);
 
                 if (createUserResponse.Successful)
                 {
                     _userId = createUserResponse.UserDto.Id;
-                    _yearlyBudget = Prompt.Input<double>("What is your yearly budget for tickets (format: '1,23' for 1,23€)?", 0.0, new[] { Validators.Required() });
+                    _yearlyBudget = msg.YearlyBudget;
 
                     Self.Tell(new PersistStateMessage());
 

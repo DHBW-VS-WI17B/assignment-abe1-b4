@@ -83,6 +83,8 @@ namespace TicketStore.Client.App
             var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(remoteEventActorRef, remoteUserActorRef, jsonDataStore));
             var ticketStoreClientActor = system.ActorOf(ticketStoreClientActorProps, nameof(TicketStoreClientActor));
 
+            Log.Logger.Information("Selected command: {command}", opts.Command);
+
             if (opts.Command != Command.InitState)
             {
                 ticketStoreClientActor.Tell(new RestoreStateMessage());
@@ -91,7 +93,10 @@ namespace TicketStore.Client.App
             switch (opts.Command)
             {
                 case Command.InitState:
-                    ticketStoreClientActor.Tell(new InitStateMessage());
+                    var userDto = Ask.ForUserDto();
+                    var yearlyBudget = Ask.ForYearlyBudget();
+
+                    ticketStoreClientActor.Tell(new InitStateMessage(userDto, yearlyBudget));
                     break;
 
                 default:
