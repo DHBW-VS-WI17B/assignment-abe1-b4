@@ -8,6 +8,7 @@ namespace TicketStore.Client.App
     {
         Init,
         List,
-        CreateEvent
+        CreateEvent,
+        GetSoldTicketCount
     }
 }

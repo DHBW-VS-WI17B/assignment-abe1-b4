@@ -3,6 +3,7 @@ using Akka.Event;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TicketStore.Server.Logic.DataAccess.Contracts;
 using TicketStore.Server.Logic.Messages.Requests;
 using TicketStore.Server.Logic.Messages.Responses;
 using TicketStore.Shared.Messages;
@@ -13,9 +14,11 @@ namespace TicketStore.Server.Logic.Actors
     {
         private readonly ILoggingAdapter _logger = Context.GetLogger();
         private readonly ActorSelection _writeToDbActorRef;
+        private readonly IRepositoryWrapper _repo;
 
-        public UserActor(ActorSelection writeToDbActorRef)
+        public UserActor(IRepositoryWrapper repoWrapper, ActorSelection writeToDbActorRef)
         {
+            _repo = repoWrapper;
             _writeToDbActorRef = writeToDbActorRef;
 
             ReceiveAsync<CreateUserRequest>(async msg =>

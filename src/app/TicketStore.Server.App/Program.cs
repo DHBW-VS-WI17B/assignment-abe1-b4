@@ -93,17 +93,13 @@ namespace TicketStore.Server.App
             var writeToDbActor = system.ActorOf(writeToDbActorProps, nameof(WriteToDbActor));
             var writeToDbActorRef = system.ActorSelection(writeToDbActor.Path);
 
-            var eventActorProps = Props.Create<EventActor>(() => new EventActor(writeToDbActorRef))
+            var eventActorProps = Props.Create<EventActor>(() => new EventActor(repositoryWrapper, writeToDbActorRef))
                 .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
             var eventActor = system.ActorOf(eventActorProps, nameof(EventActor));
 
-            var userActorProps = Props.Create<UserActor>(() => new UserActor(writeToDbActorRef))
+            var userActorProps = Props.Create<UserActor>(() => new UserActor(repositoryWrapper, writeToDbActorRef))
                 .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
             var userActor = system.ActorOf(userActorProps, nameof(UserActor));
-
-            var ticketActorProps = Props.Create<TicketActor>(() => new TicketActor(writeToDbActorRef))
-                .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
-            var ticketActor = system.ActorOf(ticketActorProps, nameof(TicketActor));
 
             Console.ReadLine();
         }

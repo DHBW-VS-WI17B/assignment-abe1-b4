@@ -98,6 +98,16 @@ namespace TicketStore.Client.Logic
                 _logger.Info("Created event with id {id}", msg.EventDto.Id);
                 Helper.GracefulExitSuccess();
             });
+
+            Receive<GetSoldTicketsMessage>(msg =>
+            {
+                _remoteEventActorRef.Tell(new GetSoldTicketsRequest(Guid.NewGuid(), msg.EventId));
+            });
+
+            Receive<GetSoldTicketsSuccess>(msg =>
+            {
+                _logger.Info("Event id {id} sold {count} ticket(s) so far.", msg.EventId, msg.SoldTicketCount);
+            });
         }
     }
 }

@@ -104,7 +104,7 @@ namespace TicketStore.Client.App
                 clientActor.Tell(new RestoreStateMessage());
             }
 
-            if (!opts.Admin && (opts.Command == Command.CreateEvent))
+            if (!opts.Admin && (opts.Command == Command.CreateEvent || opts.Command == Command.GetSoldTicketCount))
             {
                 Log.Logger.Error("This command is only available in admin mode!");
                 Helper.GracefulExitError();
@@ -121,6 +121,11 @@ namespace TicketStore.Client.App
                 case Command.CreateEvent:
                     var eventDto = Ask.ForEventDto();
                     clientActor.Tell(new CreateEventMessage(eventDto));
+                    break;
+
+                case Command.GetSoldTicketCount:
+                    var eventId = Ask.AskForEventId();
+                    clientActor.Tell(new GetSoldTicketsMessage(eventId));
                     break;
 
                 default:
