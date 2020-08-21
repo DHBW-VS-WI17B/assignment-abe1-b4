@@ -9,9 +9,7 @@ namespace TicketStore.Shared.Responses
     {
         public UserDto UserDto { get; set; }
 
-        public CreateUserResponse(Guid requestId, string errorMessage) : base (requestId, errorMessage){ }
-
-        public CreateUserResponse(Guid requestId, UserDto userDto) : base (requestId)
+        public CreateUserResponse(Guid requestId, UserDto userDto, string errorMessage = null) : base (requestId, errorMessage)
         {
             UserDto = userDto;
         }

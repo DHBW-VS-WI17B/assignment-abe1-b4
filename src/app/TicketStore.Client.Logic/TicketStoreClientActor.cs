@@ -38,7 +38,7 @@ namespace TicketStore.Client.Logic
                 }
                 catch (Exception ex)
                 {
-                    _logger.Info("No config found. Reason: {exMessage}", ex.Message);
+                    _logger.Info(ex, "No config found.");
                 }
 
                 if (config == null)
@@ -55,6 +55,8 @@ namespace TicketStore.Client.Logic
 
             ReceiveAsync<InitStateMessage>(async msg =>
             {
+                var self = Self;
+
                 _logger.Info("Received message: {msg}", msg);
 
                 var createUserResponse = await _remoteUserActorRef.Ask<CreateUserResponse>(new CreateUserRequest(msg.UserDto)).ConfigureAwait(false);
@@ -64,7 +66,7 @@ namespace TicketStore.Client.Logic
                     _userId = createUserResponse.UserDto.Id;
                     _yearlyBudget = msg.YearlyBudget;
 
-                    Self.Tell(new PersistStateMessage(), Self);
+                    self.Tell(new PersistStateMessage());
 
                     _logger.Info("User with id {userId} was created successfully!", createUserResponse.UserDto.Id);
                 }
@@ -81,10 +83,11 @@ namespace TicketStore.Client.Logic
                 try
                 {
                     _jsonDataStore.Write(new Config { UserId = _userId, YearlyBudget = _yearlyBudget });
+                    _logger.Info("Persisted config successfully.");
                 }
                 catch (Exception ex)
                 {
-                    _logger.Warning("Saving the config failed. Reason: {exMessage}", ex.Message);
+                    _logger.Warning(ex, "Saving the config failed.");
                 }
             });
         }

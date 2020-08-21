@@ -19,21 +19,24 @@ namespace TicketStore.Server.Logic.Actors
         {
             _writeToDbActorRef = writeToDbActorRef;
 
-            Receive<CreateUserRequest>(async msg =>
+            ReceiveAsync<CreateUserRequest>(async msg =>
             {
                 _logger.Info("Received message: {msg}", msg);
+
+                // akka is not able to remember the sender after an async operation.
+                var sender = Sender;
 
                 var addUserToDbResponse = await _writeToDbActorRef.Ask<AddUserToDbResponse>(new AddUserToDbRequest(msg.UserDto)).ConfigureAwait(false);
 
                 if (addUserToDbResponse.Successful)
                 {
                     _logger.Info("Adding user to db succeded. New user id: {userId}", addUserToDbResponse.UserDto.Id);
-                    Sender.Tell(new CreateUserResponse(msg.RequestId, addUserToDbResponse.UserDto), Self);
+                    sender.Tell(new CreateUserResponse(msg.RequestId, addUserToDbResponse.UserDto));
                 } 
                 else
                 {
                     _logger.Info("Adding user to db failed. Reason: {err}", addUserToDbResponse.ErrorMessage);
-                    Sender.Tell(new CreateUserResponse(msg.RequestId, addUserToDbResponse.ErrorMessage), Self);
+                    sender.Tell(new CreateUserResponse(msg.RequestId, null, addUserToDbResponse.ErrorMessage));
                 }
             });
         }

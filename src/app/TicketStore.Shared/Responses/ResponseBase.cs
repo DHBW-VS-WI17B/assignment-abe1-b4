@@ -12,16 +12,15 @@ namespace TicketStore.Shared.Responses
 
         public string ErrorMessage { get; } = string.Empty;
 
-        public ResponseBase(Guid requestId)
+        public ResponseBase(Guid requestId, string errorMessage = null)
         {
             RequestId = requestId;
-        }
-
-        public ResponseBase(Guid requestId, string errorMessage)
-        {
-            RequestId = requestId;
-            Successful = false;
             ErrorMessage = errorMessage;
+
+            if (errorMessage != null)
+            {
+                Successful = true;
+            }
         }
     }
 }

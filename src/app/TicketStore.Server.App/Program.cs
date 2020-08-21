@@ -98,11 +98,11 @@ namespace TicketStore.Server.App
 
             var userActorProps = Props.Create<UserActor>(() => new UserActor(writeToDbActorRef))
                 .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
-            var userActor = system.ActorOf(eventActorProps, nameof(UserActor));
+            var userActor = system.ActorOf(userActorProps, nameof(UserActor));
 
             var ticketActorProps = Props.Create<TicketActor>(() => new TicketActor(writeToDbActorRef))
                 .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
-            var ticketActor = system.ActorOf(eventActorProps, nameof(TicketActor));
+            var ticketActor = system.ActorOf(ticketActorProps, nameof(TicketActor));
 
             Console.ReadLine();
         }

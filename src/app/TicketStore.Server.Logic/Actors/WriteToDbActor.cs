@@ -22,7 +22,7 @@ namespace TicketStore.Server.Logic.Actors
         {
             _repoWrapper = repoWrapper;
 
-            Receive<AddUserToDbRequest>(async msg =>
+            ReceiveAsync<AddUserToDbRequest>(async msg =>
             {
                 _logger.Info("Received message: {msg}", msg);
 
@@ -33,13 +33,13 @@ namespace TicketStore.Server.Logic.Actors
                 try
                 {
                     await _repoWrapper.SaveAsync().ConfigureAwait(false);
-                    Sender.Tell(new AddUserToDbResponse(msg.RequestId, Mapper.UserToUserDto(newUser)), Self);
+                    Sender.Tell(new AddUserToDbResponse(msg.RequestId, Mapper.UserToUserDto(newUser)));
                     _logger.Info("User with id {id} created successfully.", newUser.Id);
                 }
                 catch (Exception ex)
                 {
-                    Sender.Tell(new AddUserToDbResponse(msg.RequestId, ex.Message), Self);
-                    _logger.Info("Creating new user failed. Reason: {reason}", ex.Message);
+                    Sender.Tell(new AddUserToDbResponse(msg.RequestId, null, ex.Message));
+                    _logger.Info(ex, "Creating new user failed.");
                 }
             });
         }

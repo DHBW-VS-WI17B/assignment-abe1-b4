@@ -10,9 +10,7 @@ namespace TicketStore.Server.Logic.Messages.Responses
     {
         public UserDto UserDto { get; }
 
-        public AddUserToDbResponse(Guid requestId, string errorMessage) : base(requestId, errorMessage) { }
-
-        public AddUserToDbResponse(Guid requestId, UserDto userDto) : base(requestId)
+        public AddUserToDbResponse(Guid requestId, UserDto userDto, string errorMessage = null) : base(requestId, errorMessage)
         {
             UserDto = userDto;
         }

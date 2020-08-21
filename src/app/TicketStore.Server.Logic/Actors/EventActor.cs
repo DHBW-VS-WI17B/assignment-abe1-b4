@@ -18,6 +18,7 @@ namespace TicketStore.Server.Logic.Actors
             Receive<string>(message =>
             {
                 _logger.Info("Received: {0}", message);
+                Sender.Tell("Hello");
             });
         }
     }
