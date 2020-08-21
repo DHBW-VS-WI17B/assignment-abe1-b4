@@ -44,7 +44,6 @@ namespace TicketStore.Client.Logic
                 if (config == null)
                 {
                     _logger.Error("Please initialize the client before running other commands!");
-                    Environment.Exit(-1);
                 }
                 else
                 {

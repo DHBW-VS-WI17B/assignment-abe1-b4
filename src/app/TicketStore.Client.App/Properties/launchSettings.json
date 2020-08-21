@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TicketStore.Client.App": {
+      "commandName": "Project",
+      "commandLineArgs": "-c InitState"
+    }
+  }
+}

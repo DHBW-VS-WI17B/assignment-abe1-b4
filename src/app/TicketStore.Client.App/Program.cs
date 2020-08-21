@@ -36,7 +36,6 @@ namespace TicketStore.Client.App
             catch (IOException)
             {
                 Console.WriteLine($"FATAL Error: Can not create config directory: {appDataDir}");
-                Environment.Exit(-1);
             }
 
             var akkaConfig = @"
@@ -84,22 +83,23 @@ namespace TicketStore.Client.App
             var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(remoteEventActorRef, remoteUserActorRef, jsonDataStore));
             var ticketStoreClientActor = system.ActorOf(ticketStoreClientActorProps, nameof(TicketStoreClientActor));
 
-            ticketStoreClientActor.Tell(new RestoreStateMessage());
+            if (opts.Command != Command.InitState)
+            {
+                ticketStoreClientActor.Tell(new RestoreStateMessage());
+            }
 
             switch (opts.Command)
             {
                 case Command.InitState:
                     ticketStoreClientActor.Tell(new InitStateMessage());
-                    Environment.Exit(1);
                     break;
 
                 default:
-                    Console.WriteLine("Invalid command!");
-                    Environment.Exit(-1);
+                    Log.Logger.Error("Invalid command.");
                     break;
             }
 
-            Environment.Exit(1);
+            Console.ReadLine();
         }
 
         static void HandleParseErrors(IEnumerable<Error> errors)

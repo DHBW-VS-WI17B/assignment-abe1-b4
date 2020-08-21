@@ -7,7 +7,7 @@ namespace TicketStore.Client.App
 {
     public class CommandLineOptions
     {
-        [Option('v', "verbose", Default = false, Required = false, HelpText = "Set output to verbose messages.")]
+        [Option('v', "verbose", Default = false, Required = false, HelpText = "Set log level to verbose.")]
         public bool Verbose { get; }
 
         [Option('h', "host", Default = "localhost:8081", Required = false, HelpText = "The host IP and port of the server.")]
