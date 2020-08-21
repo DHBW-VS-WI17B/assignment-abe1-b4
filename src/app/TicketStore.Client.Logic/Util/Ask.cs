@@ -20,7 +20,7 @@ namespace TicketStore.Client.Logic.Util
             var saleStartDate = Prompt.Input<DateTime>("When should the ticket sale begin?", null, new[] { Validators.Required(), LessThan(date) });
             var saleEndDate = Prompt.Input<DateTime>("When should the ticket sale end?", null, new[] { Validators.Required(), GreaterThan(saleStartDate), LessThanOrEqualTo(date) });
 
-            return new EventDto(name, date, location, pricePerTicket, maxTicketCount, maxTicketsPerUser, saleStartDate, saleEndDate);
+            return new EventDto(Guid.Empty, name, date, location, pricePerTicket, maxTicketCount, maxTicketsPerUser, saleStartDate, saleEndDate);
         }
 
         public static double ForYearlyBudget()
@@ -33,7 +33,7 @@ namespace TicketStore.Client.Logic.Util
             var userName = Prompt.Input<string>("What is your name?", null, new[] { Validators.Required(), Validators.MaxLength(64), Validators.MinLength(1) });
             var address = ForAddressDto();
 
-            return new UserDto(userName, address);
+            return new UserDto(Guid.Empty, userName, address);
         }
 
         private static AddressDto ForAddressDto()

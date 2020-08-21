@@ -73,26 +73,5 @@ namespace TicketStore.Shared.Models
             SaleStartDate = saleStartDate;
             SaleEndDate = saleEndDate;
         }
-
-        public EventDto(
-            string name,
-            DateTime date,
-            string location,
-            double pricePerTicket,
-            int maxTicketCount,
-            int maxTicketsPerUser,
-            DateTime saleStartDate,
-            DateTime saleEndDate
-            )
-        {
-            Name = name;
-            Date = date;
-            Location = location;
-            PricePerTicket = pricePerTicket;
-            MaxTicketCount = maxTicketCount;
-            MaxTicketsPerUser = maxTicketsPerUser;
-            SaleStartDate = saleStartDate;
-            SaleEndDate = saleEndDate;
-        }
     }
 }

@@ -53,7 +53,7 @@ namespace TicketStore.Client.Logic
                 }
             });
 
-            Receive<InitStateMessage>(async msg =>
+            ReceiveAsync<InitStateMessage>(async msg =>
             {
                 _logger.Info("Received message: {msg}", msg);
 

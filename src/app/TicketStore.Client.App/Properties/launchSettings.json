@@ -2,7 +2,7 @@
   "profiles": {
     "TicketStore.Client.App": {
       "commandName": "Project",
-      "commandLineArgs": "-c List"
+      "commandLineArgs": "-c Init"
     }
   }
 }

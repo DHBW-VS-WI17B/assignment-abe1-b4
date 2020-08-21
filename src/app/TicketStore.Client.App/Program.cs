@@ -97,14 +97,14 @@ namespace TicketStore.Client.App
 
             Log.Logger.Information("Selected command: {command}", opts.Command);
 
-            if (opts.Command != Command.InitState)
+            if (opts.Command != Command.Init)
             {
                 ticketStoreClientActor.Tell(new RestoreStateMessage());
             }
 
             switch (opts.Command)
             {
-                case Command.InitState:
+                case Command.Init:
                     var userDto = Ask.ForUserDto();
                     var yearlyBudget = Ask.ForYearlyBudget();
 

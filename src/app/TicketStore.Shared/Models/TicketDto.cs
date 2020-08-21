@@ -33,12 +33,5 @@ namespace TicketStore.Shared.Models
             EventId = eventId;
             UserId = userId;
         }
-
-        public TicketDto(DateTime purchaseDate, Guid eventId, Guid userId)
-        {
-            PurchaseDate = purchaseDate;
-            EventId = eventId;
-            UserId = userId;
-        }
     }
 }
