@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using TicketStore.Client.Logic.Messages;
 using TicketStore.Client.Logic.Util;
+using TicketStore.Shared;
 using TicketStore.Shared.Messages;
 
 namespace TicketStore.Client.Logic
@@ -30,6 +31,7 @@ namespace TicketStore.Client.Logic
             Receive<ErrorMessage>(msg =>
             {
                 _logger.Error(msg.Error);
+                Helper.GracefulExitError();
             });
 
             Receive<RestoreStateMessage>(msg =>
@@ -47,6 +49,7 @@ namespace TicketStore.Client.Logic
                 if (config == null)
                 {
                     _logger.Error("Please initialize the client before running other commands!");
+                    Helper.GracefulExitError();
                 }
                 else
                 {
@@ -75,10 +78,13 @@ namespace TicketStore.Client.Logic
                 {
                     _jsonDataStore.Write(new Config { UserId = _userId, YearlyBudget = _yearlyBudget });
                     _logger.Info("Persisted config successfully.");
+                    Helper.GracefulExitSuccess();
                 }
                 catch (Exception ex)
                 {
-                    _logger.Warning(ex, "Saving the config failed.");
+                    _logger.Error(ex, "Saving the config failed.");
+                    Helper.GracefulExitError();
+
                 }
             });
 
@@ -90,6 +96,7 @@ namespace TicketStore.Client.Logic
             Receive<CreateEventSuccess>(msg =>
             {
                 _logger.Info("Created event with id {id}", msg.EventDto.Id);
+                Helper.GracefulExitSuccess();
             });
         }
     }

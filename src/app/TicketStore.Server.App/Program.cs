@@ -12,6 +12,7 @@ using TicketStore.Server.Logic;
 using TicketStore.Server.Logic.Actors;
 using TicketStore.Server.Logic.DataAccess;
 using TicketStore.Server.Logic.DataAccess.Contracts;
+using TicketStore.Shared;
 
 namespace TicketStore.Server.App
 {
@@ -35,7 +36,7 @@ namespace TicketStore.Server.App
             catch (IOException)
             {
                 Console.WriteLine($"FATAL Error: Can not create config directory: {appDataDir}");
-                Environment.Exit(-1);
+                Helper.GracefulExitError();
             }
 
             var akkaConfig = @"

@@ -12,6 +12,7 @@ using System.Text;
 using TicketStore.Client.Logic;
 using TicketStore.Client.Logic.Messages;
 using TicketStore.Client.Logic.Util;
+using TicketStore.Shared;
 
 namespace TicketStore.Client.App
 {
@@ -36,7 +37,7 @@ namespace TicketStore.Client.App
                 {
                     Console.WriteLine(Enum.GetName(typeof(Command), command));
                 }
-                Environment.Exit(1);
+                Helper.GracefulExitSuccess();
             }
 
             var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.DoNotVerify), "TicketStore", "Client");
@@ -48,6 +49,7 @@ namespace TicketStore.Client.App
             catch (IOException)
             {
                 Console.WriteLine($"FATAL Error: Can not create config directory: {appDataDir}");
+                Helper.GracefulExitError();
             }
 
             var akkaConfig = @"
@@ -105,7 +107,7 @@ namespace TicketStore.Client.App
             if (!opts.Admin && (opts.Command == Command.CreateEvent))
             {
                 Log.Logger.Error("This command is only available in admin mode!");
-                Environment.Exit(-1);
+                Helper.GracefulExitError();
             }
 
             switch (opts.Command)
