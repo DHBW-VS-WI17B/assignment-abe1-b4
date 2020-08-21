@@ -13,10 +13,14 @@ namespace TicketStore.Client.App
         [Option('h', "host", Default = "localhost:8081", Required = false, HelpText = "The host IP and port of the server.")]
         public string Host { get; }
 
-        public CommandLineOptions(bool verbose, string host)
+        [Option('a', "admin", Default = false, Required = false, HelpText = "Starts the application in administrator mode.")]
+        public bool Admin { get; }
+
+        public CommandLineOptions(bool verbose, string host, bool admin)
         {
             Verbose = verbose;
             Host = host;
+            Admin = admin;
         }
     }
 }
