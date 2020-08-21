@@ -2,12 +2,15 @@
 using Akka.Configuration;
 using CommandLine;
 using Serilog;
+using Sharprompt;
+using Sharprompt.Validations;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using TicketStore.Client.App.UI;
-using TicketStore.Client.Logic.Actors;
+using TicketStore.Client.Logic;
+using TicketStore.Client.Logic.Messages;
+using TicketStore.Client.Logic.Util;
 
 namespace TicketStore.Client.App
 {
@@ -52,19 +55,23 @@ namespace TicketStore.Client.App
                 }
             ";
 
+            var jsonDataStore = new JsonDataStore(Path.Combine(appDataDir, "config.json"));
+
             var loggerBuilder = new LoggerConfiguration()
-                .WriteTo.Console()
                 .WriteTo.File(Path.Combine(appDataDir, "log.txt"));
+
+            if (!opts.Silent)
+            {
+                loggerBuilder = loggerBuilder.WriteTo.Console();
+            }
 
             if (opts.Verbose)
             {
-                loggerBuilder = loggerBuilder
-                    .MinimumLevel.Verbose();
+                loggerBuilder = loggerBuilder.MinimumLevel.Verbose();
                 akkaConfig = akkaConfig.Replace("loglevel=INFO", "loglevel=VERBOSE", StringComparison.Ordinal);
             } else
             {
-                loggerBuilder = loggerBuilder
-                    .MinimumLevel.Information();
+                loggerBuilder = loggerBuilder.MinimumLevel.Information();
             }
 
             Serilog.Log.Logger = loggerBuilder.CreateLogger();
@@ -74,19 +81,25 @@ namespace TicketStore.Client.App
             var remoteEventActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/EventActor");
             var remoteUserActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/UserActor");
 
-            // TODO: check if event and user actor are available.
-
-            var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(remoteEventActorRef, remoteUserActorRef));
-
+            var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(remoteEventActorRef, remoteUserActorRef, jsonDataStore));
             var ticketStoreClientActor = system.ActorOf(ticketStoreClientActorProps, nameof(TicketStoreClientActor));
 
-            // test
-            ticketStoreClientActor.Tell("test");
+            ticketStoreClientActor.Tell(new RestoreStateMessage());
 
-            var test1 = Ask.ForUserDto();
-            var test2 = Ask.ForEventDto();
+            switch (opts.Command)
+            {
+                case Command.InitState:
+                    ticketStoreClientActor.Tell(new InitStateMessage());
+                    Environment.Exit(1);
+                    break;
 
-            Console.ReadLine();
+                default:
+                    Console.WriteLine("Invalid command!");
+                    Environment.Exit(-1);
+                    break;
+            }
+
+            Environment.Exit(1);
         }
 
         static void HandleParseErrors(IEnumerable<Error> errors)

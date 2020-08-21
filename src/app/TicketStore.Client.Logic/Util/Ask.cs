@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using TicketStore.Shared.Models;
 
-namespace TicketStore.Client.App.UI
+namespace TicketStore.Client.Logic.Util
 {
     public static class Ask
     {

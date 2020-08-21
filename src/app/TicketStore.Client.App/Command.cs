@@ -4,10 +4,8 @@ using System.Text;
 
 namespace TicketStore.Client.App
 {
-    public class Config
+    public enum Command
     {
-        public Guid UserId { get; set; }
-
-        public double YearlyBudget { get; set; }
+        InitState
     }
 }

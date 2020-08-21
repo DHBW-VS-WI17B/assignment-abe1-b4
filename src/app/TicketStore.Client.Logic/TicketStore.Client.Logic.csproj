@@ -10,11 +10,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Sharprompt" Version="2.0.0" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Messages\" />
+    <ProjectReference Include="..\TicketStore.Shared\TicketStore.Shared.csproj" />
   </ItemGroup>
 
 </Project>

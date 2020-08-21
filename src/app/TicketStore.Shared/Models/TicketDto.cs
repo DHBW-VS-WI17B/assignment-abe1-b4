@@ -9,7 +9,7 @@ namespace TicketStore.Shared.Models
         /// <summary>
         /// Unique id.
         /// </summary>
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// When the ticket was purchased

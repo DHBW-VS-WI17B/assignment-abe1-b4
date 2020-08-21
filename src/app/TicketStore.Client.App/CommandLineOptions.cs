@@ -16,11 +16,19 @@ namespace TicketStore.Client.App
         [Option('a', "admin", Default = false, Required = false, HelpText = "Starts the application in administrator mode.")]
         public bool Admin { get; }
 
-        public CommandLineOptions(bool verbose, string host, bool admin)
+        [Option('c', "command", Required = true, HelpText = "Command to be executed.")]
+        public Command Command { get; }
+
+        [Option('s',"silent", Default = false, Required = false, HelpText = "Hides all log messages except data objects from console.")]
+        public bool Silent { get; }
+
+        public CommandLineOptions(bool verbose, string host, bool admin, Command command, bool silent)
         {
             Verbose = verbose;
             Host = host;
             Admin = admin;
+            Command = command;
+            Silent = silent;
         }
     }
 }

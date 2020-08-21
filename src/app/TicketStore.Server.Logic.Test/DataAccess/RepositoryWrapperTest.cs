@@ -29,7 +29,7 @@ namespace TicketStore.Server.Logic.Test.DataAccess
                 MaxTicketsPerUser = 5,
                 Name = "Hamilton Musical",
                 PricePerTicket = 50.0,
-                SaleEndDate = TimeSpan.FromDays(14),
+                SaleEndDate = DateTime.Parse("01.01.2021"),
                 SaleStartDate = DateTime.Parse("01.12.2020"),
             };
 
@@ -57,14 +57,13 @@ namespace TicketStore.Server.Logic.Test.DataAccess
 
             var newUser = new User
             {
-                IsAdmin = true,
                 UserName = "Simon",
                 Address = new Address
                 {
                     City = "San Francisco",
                     HouseNumber = "42a",
                     Street = "Some Street",
-                    ZipCode = 12345
+                    ZipCode = "12345"
                 }
             };
             repoWrapper.Users.Create(newUser);
@@ -75,7 +74,6 @@ namespace TicketStore.Server.Logic.Test.DataAccess
 
             createdUser?.Id.ToString().Should().NotBeEmpty();
             createdUser?.UserName.Should().Be(newUser.UserName);
-            createdUser?.IsAdmin.Should().Be(newUser.IsAdmin);
             createdUser?.Address?.City.Should().Be(newUser.Address.City);
             createdUser?.Address?.HouseNumber.Should().Be(newUser.Address.HouseNumber);
             createdUser?.Address?.Street.Should().Be(newUser.Address.Street);
@@ -97,14 +95,13 @@ namespace TicketStore.Server.Logic.Test.DataAccess
 
             var newUser = new User
             {
-                IsAdmin = true,
                 UserName = "Simon",
                 Address = new Address
                 {
                     City = "San Francisco",
                     HouseNumber = "42a",
                     Street = "Some Street",
-                    ZipCode = 12345
+                    ZipCode = "12345"
                 }
             };
             repoWrapper.Users.Create(newUser);
@@ -117,7 +114,7 @@ namespace TicketStore.Server.Logic.Test.DataAccess
                 MaxTicketsPerUser = 5,
                 Name = "Hamilton",
                 PricePerTicket = 50.0,
-                SaleEndDate = TimeSpan.FromDays(14),
+                SaleEndDate = DateTime.Parse("01.01.2021"),
                 SaleStartDate = DateTime.Parse("01.12.2020"),
             };
             repoWrapper.Events.Create(newEvent);
