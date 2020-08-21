@@ -57,7 +57,6 @@ namespace TicketStore.Server.Logic.Util
             return new User
             {
                 Address = AddressDtoToAddress(userDto.Address),
-                IsAdmin = userDto.IsAdmin,
                 UserName = userDto.UserName
             };
         }
@@ -97,7 +96,7 @@ namespace TicketStore.Server.Logic.Util
         {
             if (user == null) return null;
 
-            return new UserDto(user.Id, user.IsAdmin, user.UserName, AddressToAddressDto(user.Address));
+            return new UserDto(user.Id, user.UserName, AddressToAddressDto(user.Address));
         }
     }
 }

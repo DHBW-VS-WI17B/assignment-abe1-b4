@@ -26,17 +26,15 @@ namespace TicketStore.Shared.Models
         /// </summary>
         public AddressDto Address { get; }
 
-        public UserDto(Guid id, bool isAdmin, string userName, AddressDto address)
+        public UserDto(Guid id, string userName, AddressDto address)
         {
             Id = id;
-            IsAdmin = isAdmin;
             UserName = userName;
             Address = address;
         }
 
-        public UserDto(bool isAdmin, string userName, AddressDto address)
+        public UserDto(string userName, AddressDto address)
         {
-            IsAdmin = isAdmin;
             UserName = userName;
             Address = address;
         }
