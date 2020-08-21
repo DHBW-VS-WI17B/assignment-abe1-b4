@@ -16,7 +16,7 @@ namespace TicketStore.Client.App
         [Option('a', "admin", Default = false, Required = false, HelpText = "Starts the application in administrator mode.")]
         public bool Admin { get; }
 
-        [Option('c', "command", Required = true, HelpText = "Command to be executed.")]
+        [Option('c', "command", Required = true, HelpText = "Command to be executed. Run command 'List' for a list of all available commands.")]
         public Command Command { get; }
 
         [Option('s',"silent", Default = false, Required = false, HelpText = "Hides all log messages except data objects from console.")]

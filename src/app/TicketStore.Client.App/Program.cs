@@ -7,6 +7,7 @@ using Sharprompt.Validations;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using TicketStore.Client.Logic;
 using TicketStore.Client.Logic.Messages;
@@ -27,6 +28,17 @@ namespace TicketStore.Client.App
 
         static void RunWithOptions(CommandLineOptions opts)
         {
+            if(opts.Command == Command.List)
+            {
+                Console.WriteLine("Available commands:");
+                var commandTypes = Enum.GetValues(typeof(Command)).Cast<Command>();
+                foreach (var command in commandTypes)
+                {
+                    Console.WriteLine(Enum.GetName(typeof(Command), command));
+                }
+                Environment.Exit(1);
+            }
+
             var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.DoNotVerify), "TicketStore", "Client");
 
             try

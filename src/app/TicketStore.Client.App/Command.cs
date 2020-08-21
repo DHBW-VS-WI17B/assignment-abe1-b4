@@ -6,6 +6,7 @@ namespace TicketStore.Client.App
 {
     public enum Command
     {
-        InitState
+        InitState,
+        List
     }
 }
