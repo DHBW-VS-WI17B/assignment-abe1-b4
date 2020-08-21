@@ -33,12 +33,12 @@ namespace TicketStore.Server.Logic.Actors
                 {
                     await _repoWrapper.SaveAsync().ConfigureAwait(false);
                     Sender.Tell(new AddUserToDbResponse(msg.RequestId, Mapper.UserToUserDto(newUser)));
-                    _logger.Info("User with id {id} created successfully.", newUser.Id);
+                    _logger.Debug("User with id {id} created successfully.", newUser.Id);
                 }
                 catch (Exception ex)
                 {
                     Sender.Tell(new AddUserToDbResponse(msg.RequestId, null, ex.Message));
-                    _logger.Info(ex, "Creating new user failed.");
+                    _logger.Debug(ex, "Creating new user failed.");
                 }
             });
 
@@ -52,12 +52,12 @@ namespace TicketStore.Server.Logic.Actors
                 {
                     await _repoWrapper.SaveAsync().ConfigureAwait(false);
                     Sender.Tell(new AddEventToDbResponse(msg.RequestId, Mapper.EventToEventDto(newEvent)));
-                    _logger.Info("Event with id {id} created successfully.", newEvent.Id);
+                    _logger.Debug("Event with id {id} created successfully.", newEvent.Id);
                 }
                 catch (Exception ex)
                 {
                     Sender.Tell(new AddEventToDbResponse(msg.RequestId, null, "Creating new event failed."));
-                    _logger.Info(ex, "Creating new event failed.");
+                    _logger.Debug(ex, "Creating new event failed.");
                 }
             });
         }

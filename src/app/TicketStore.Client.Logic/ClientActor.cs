@@ -43,7 +43,7 @@ namespace TicketStore.Client.Logic
                 }
                 catch (Exception ex)
                 {
-                    _logger.Info(ex, "No config found.");
+                    _logger.Warning(ex, "No config found.");
                 }
 
                 if (config == null)
@@ -77,7 +77,7 @@ namespace TicketStore.Client.Logic
                 try
                 {
                     _jsonDataStore.Write(new Config { UserId = _userId, YearlyBudget = _yearlyBudget });
-                    _logger.Info("Persisted config successfully.");
+                    _logger.Debug("Persisted config successfully.");
                     Helper.GracefulExitSuccess();
                 }
                 catch (Exception ex)
