@@ -29,8 +29,8 @@ namespace TicketStore.Server.Logic.Test.DataAccess
                 MaxTicketsPerUser = 5,
                 Name = "Hamilton Musical",
                 PricePerTicket = 50.0,
-                SaleDuration = TimeSpan.FromDays(14),
-                SalesStartDate = DateTime.Parse("01.12.2020"),
+                SaleEndDate = TimeSpan.FromDays(14),
+                SaleStartDate = DateTime.Parse("01.12.2020"),
             };
 
             repoWrapper.Events.Create(newEvent);
@@ -43,8 +43,8 @@ namespace TicketStore.Server.Logic.Test.DataAccess
             savedEvent?.MaxTicketCount.Should().Be(newEvent.MaxTicketCount);
             savedEvent?.MaxTicketsPerUser.Should().Be(newEvent.MaxTicketsPerUser);
             savedEvent?.PricePerTicket.Should().Be(newEvent.PricePerTicket);
-            savedEvent?.SaleDuration.Should().Be(newEvent.SaleDuration);
-            savedEvent?.SalesStartDate.Should().Be(newEvent.SalesStartDate);
+            savedEvent?.SaleEndDate.Should().Be(newEvent.SaleEndDate);
+            savedEvent?.SaleStartDate.Should().Be(newEvent.SaleStartDate);
             savedEvent?.Id.ToString().Should().NotBeEmpty();
         }
 
@@ -117,8 +117,8 @@ namespace TicketStore.Server.Logic.Test.DataAccess
                 MaxTicketsPerUser = 5,
                 Name = "Hamilton",
                 PricePerTicket = 50.0,
-                SaleDuration = TimeSpan.FromDays(14),
-                SalesStartDate = DateTime.Parse("01.12.2020"),
+                SaleEndDate = TimeSpan.FromDays(14),
+                SaleStartDate = DateTime.Parse("01.12.2020"),
             };
             repoWrapper.Events.Create(newEvent);
             await repoWrapper.SaveAsync();

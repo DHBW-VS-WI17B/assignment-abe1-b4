@@ -33,8 +33,8 @@ namespace TicketStore.Server.Logic.Util
                 MaxTicketsPerUser = eventDto.MaxTicketsPerUser,
                 Name = eventDto.Name,
                 PricePerTicket = eventDto.PricePerTicket,
-                SaleDuration = eventDto.SaleDuration,
-                SalesStartDate = eventDto.SalesStartDate
+                SaleEndDate = eventDto.SaleEndDate,
+                SaleStartDate = eventDto.SaleStartDate
             };
         }
 
@@ -80,8 +80,8 @@ namespace TicketStore.Server.Logic.Util
                 @event.PricePerTicket,
                 @event.MaxTicketCount,
                 @event.MaxTicketsPerUser,
-                @event.SalesStartDate,
-                @event.SaleDuration
+                @event.SaleStartDate,
+                @event.SaleEndDate
             );
         }
 

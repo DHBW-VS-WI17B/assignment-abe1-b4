@@ -44,12 +44,12 @@ namespace TicketStore.Shared.Models
         /// <summary>
         /// Sales start date.
         /// </summary>
-        public DateTime SalesStartDate { get; }
+        public DateTime SaleStartDate { get; }
 
         /// <summary>
         /// Duration of a sale.
         /// </summary>
-        public TimeSpan SaleDuration { get; }
+        public DateTime SaleEndDate { get; }
 
         public EventDto(
             Guid id,
@@ -59,8 +59,8 @@ namespace TicketStore.Shared.Models
             double pricePerTicket,
             int maxTicketCount,
             int maxTicketsPerUser,
-            DateTime salesStartDate,
-            TimeSpan saleDuration
+            DateTime saleStartDate,
+            DateTime saleEndDate
             )
         {
             Id = id;
@@ -70,8 +70,8 @@ namespace TicketStore.Shared.Models
             PricePerTicket = pricePerTicket;
             MaxTicketCount = maxTicketCount;
             MaxTicketsPerUser = maxTicketsPerUser;
-            SalesStartDate = salesStartDate;
-            SaleDuration = saleDuration;
+            SaleStartDate = saleStartDate;
+            SaleEndDate = saleEndDate;
         }
 
         public EventDto(
@@ -81,8 +81,8 @@ namespace TicketStore.Shared.Models
             double pricePerTicket,
             int maxTicketCount,
             int maxTicketsPerUser,
-            DateTime salesStartDate,
-            TimeSpan saleDuration
+            DateTime saleStartDate,
+            DateTime saleEndDate
             )
         {
             Name = name;
@@ -91,8 +91,8 @@ namespace TicketStore.Shared.Models
             PricePerTicket = pricePerTicket;
             MaxTicketCount = maxTicketCount;
             MaxTicketsPerUser = maxTicketsPerUser;
-            SalesStartDate = salesStartDate;
-            SaleDuration = saleDuration;
+            SaleStartDate = saleStartDate;
+            SaleEndDate = saleEndDate;
         }
     }
 }

@@ -5,6 +5,8 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using TicketStore.Client.App.UI;
 using TicketStore.Client.Logic.Actors;
 
 namespace TicketStore.Client.App
@@ -13,6 +15,8 @@ namespace TicketStore.Client.App
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             Parser.Default.ParseArguments<CommandLineOptions>(args)
                 .WithParsed<CommandLineOptions>(RunWithOptions)
                 .WithNotParsed(HandleParseErrors);
@@ -65,19 +69,22 @@ namespace TicketStore.Client.App
 
             Serilog.Log.Logger = loggerBuilder.CreateLogger();
 
-            using var system = ActorSystem.Create("client", ConfigurationFactory.ParseString(akkaConfig));
+            //using var system = ActorSystem.Create("client", ConfigurationFactory.ParseString(akkaConfig));
 
-            var remoteEventActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/EventActor");
-            var remoteUserActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/UserActor");
+            //var remoteEventActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/EventActor");
+            //var remoteUserActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/UserActor");
 
-            // TODO: check if event and user actor are available.
+            //// TODO: check if event and user actor are available.
 
-            var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(remoteEventActorRef, remoteUserActorRef));
+            //var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(remoteEventActorRef, remoteUserActorRef));
 
-            var ticketStoreClientActor = system.ActorOf(ticketStoreClientActorProps, nameof(TicketStoreClientActor));
+            //var ticketStoreClientActor = system.ActorOf(ticketStoreClientActorProps, nameof(TicketStoreClientActor));
 
-            // test
-            ticketStoreClientActor.Tell("test");
+            //// test
+            //ticketStoreClientActor.Tell("test");
+
+            var test1 = Ask.ForUserDto();
+            var test2 = Ask.ForEventDto();
 
             Console.ReadLine();
         }
