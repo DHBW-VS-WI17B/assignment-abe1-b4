@@ -64,7 +64,7 @@ namespace TicketStore.Client.Logic
                     _userId = createUserResponse.UserDto.Id;
                     _yearlyBudget = msg.YearlyBudget;
 
-                    Self.Tell(new PersistStateMessage());
+                    Self.Tell(new PersistStateMessage(), Self);
 
                     _logger.Info("User with id {userId} was created successfully!", createUserResponse.UserDto.Id);
                 }

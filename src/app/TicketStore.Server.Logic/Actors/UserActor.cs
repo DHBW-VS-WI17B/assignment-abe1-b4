@@ -28,12 +28,12 @@ namespace TicketStore.Server.Logic.Actors
                 if (addUserToDbResponse.Successful)
                 {
                     _logger.Info("Adding user to db succeded. New user id: {userId}", addUserToDbResponse.UserDto.Id);
-                    Sender.Tell(new CreateUserResponse(msg.RequestId, addUserToDbResponse.UserDto));
+                    Sender.Tell(new CreateUserResponse(msg.RequestId, addUserToDbResponse.UserDto), Self);
                 } 
                 else
                 {
                     _logger.Info("Adding user to db failed. Reason: {err}", addUserToDbResponse.ErrorMessage);
-                    Sender.Tell(new CreateUserResponse(msg.RequestId, addUserToDbResponse.ErrorMessage));
+                    Sender.Tell(new CreateUserResponse(msg.RequestId, addUserToDbResponse.ErrorMessage), Self);
                 }
             });
         }
