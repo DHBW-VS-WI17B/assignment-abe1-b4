@@ -6,13 +6,13 @@ using TicketStore.Shared.Models;
 
 namespace TicketStore.Server.Logic.Messages.Requests
 {
-    public class AddUserToDbRequest : MessageBase
+    public class AddEventToDbRequest : MessageBase
     {
-        public UserDto UserDto { get; }
+        public EventDto EventDto { get; }
 
-        public AddUserToDbRequest(Guid requestId, UserDto userDto) : base(requestId)
+        public AddEventToDbRequest(Guid messageId, EventDto eventDto) : base(messageId)
         {
-            UserDto = userDto;
+            EventDto = eventDto;
         }
     }
 }

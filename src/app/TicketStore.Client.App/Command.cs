@@ -7,6 +7,7 @@ namespace TicketStore.Client.App
     public enum Command
     {
         Init,
-        List
+        List,
+        CreateEvent
     }
 }

@@ -13,11 +13,6 @@ namespace TicketStore.Shared.Models
         public Guid Id { get; }
 
         /// <summary>
-        /// If the user is admin or not.
-        /// </summary>
-        public bool IsAdmin { get; }
-
-        /// <summary>
         /// Name of the user.
         /// </summary>
         public string UserName { get; }

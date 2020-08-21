@@ -92,14 +92,20 @@ namespace TicketStore.Client.App
             var remoteEventActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/EventActor");
             var remoteUserActorRef = system.ActorSelection($"akka.tcp://server@{opts.Host}/user/UserActor");
 
-            var ticketStoreClientActorProps = Props.Create<TicketStoreClientActor>(() => new TicketStoreClientActor(remoteEventActorRef, remoteUserActorRef, jsonDataStore));
-            var ticketStoreClientActor = system.ActorOf(ticketStoreClientActorProps, nameof(TicketStoreClientActor));
+            var clientActorProps = Props.Create<ClientActor>(() => new ClientActor(remoteEventActorRef, remoteUserActorRef, jsonDataStore));
+            var clientActor = system.ActorOf(clientActorProps, nameof(ClientActor));
 
             Log.Logger.Information("Selected command: {command}", opts.Command);
 
             if (opts.Command != Command.Init)
             {
-                ticketStoreClientActor.Tell(new RestoreStateMessage());
+                clientActor.Tell(new RestoreStateMessage());
+            }
+
+            if (!opts.Admin && (opts.Command == Command.CreateEvent))
+            {
+                Log.Logger.Error("This command is only available in admin mode!");
+                Environment.Exit(-1);
             }
 
             switch (opts.Command)
@@ -107,8 +113,12 @@ namespace TicketStore.Client.App
                 case Command.Init:
                     var userDto = Ask.ForUserDto();
                     var yearlyBudget = Ask.ForYearlyBudget();
+                    clientActor.Tell(new InitStateMessage(userDto, yearlyBudget));
+                    break;
 
-                    ticketStoreClientActor.Tell(new InitStateMessage(userDto, yearlyBudget));
+                case Command.CreateEvent:
+                    var eventDto = Ask.ForEventDto();
+                    clientActor.Tell(new CreateEventMessage(eventDto));
                     break;
 
                 default:

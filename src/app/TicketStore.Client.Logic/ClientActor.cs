@@ -4,15 +4,15 @@ using Sharprompt;
 using Sharprompt.Validations;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using TicketStore.Client.Logic.Messages;
 using TicketStore.Client.Logic.Util;
-using TicketStore.Shared.Requests;
-using TicketStore.Shared.Responses;
+using TicketStore.Shared.Messages;
 
 namespace TicketStore.Client.Logic
 {
-    public class TicketStoreClientActor : ReceiveActor
+    public class ClientActor : ReceiveActor, ILogReceive
     {
         private readonly ActorSelection _remoteEventActorRef;
         private readonly ActorSelection _remoteUserActorRef;
@@ -21,16 +21,19 @@ namespace TicketStore.Client.Logic
         private Guid _userId;
         private double _yearlyBudget;
 
-        public TicketStoreClientActor(ActorSelection remoteEventActorRef, ActorSelection remoteUserActorRef, IJsonDataStore jsonDataStore)
+        public ClientActor(ActorSelection remoteEventActorRef, ActorSelection remoteUserActorRef, IJsonDataStore jsonDataStore)
         {
             _remoteEventActorRef = remoteEventActorRef;
             _remoteUserActorRef = remoteUserActorRef;
             _jsonDataStore = jsonDataStore;
 
+            Receive<ErrorMessage>(msg =>
+            {
+                _logger.Error(msg.Error);
+            });
+
             Receive<RestoreStateMessage>(msg =>
             {
-                _logger.Info("Received message: {msg}", msg);
-
                 Config config = null;
                 try
                 {
@@ -53,33 +56,21 @@ namespace TicketStore.Client.Logic
                 }
             });
 
-            ReceiveAsync<InitStateMessage>(async msg =>
+            Receive<InitStateMessage>(msg =>
             {
-                var self = Self;
+                _yearlyBudget = msg.YearlyBudget;
+                _remoteUserActorRef.Tell(new CreateUserRequest(Guid.NewGuid(), msg.UserDto));
+            });
 
-                _logger.Info("Received message: {msg}", msg);
-
-                var createUserResponse = await _remoteUserActorRef.Ask<CreateUserResponse>(new CreateUserRequest(msg.UserDto)).ConfigureAwait(false);
-
-                if (createUserResponse.Successful)
-                {
-                    _userId = createUserResponse.UserDto.Id;
-                    _yearlyBudget = msg.YearlyBudget;
-
-                    self.Tell(new PersistStateMessage());
-
-                    _logger.Info("User with id {userId} was created successfully!", createUserResponse.UserDto.Id);
-                }
-                else
-                {
-                    _logger.Error("User was not created, try again! Reason: {msg}", createUserResponse?.ErrorMessage);
-                }
+            Receive<CreateUserSuccess>(msg =>
+            {
+                _logger.Info("Created user with id {id}", msg.UserDto.Id);
+                _userId = msg.UserDto.Id;
+                Self.Tell(new PersistStateMessage());
             });
 
             Receive<PersistStateMessage>(msg =>
             {
-                _logger.Info("Received message: {msg}", msg);
-
                 try
                 {
                     _jsonDataStore.Write(new Config { UserId = _userId, YearlyBudget = _yearlyBudget });
@@ -89,6 +80,16 @@ namespace TicketStore.Client.Logic
                 {
                     _logger.Warning(ex, "Saving the config failed.");
                 }
+            });
+
+            Receive<CreateEventMessage>(msg =>
+            {
+                _remoteEventActorRef.Tell(new CreateEventRequest(Guid.NewGuid(), msg.EventDto));
+            });
+
+            Receive<CreateEventSuccess>(msg =>
+            {
+                _logger.Info("Created event with id {id}", msg.EventDto.Id);
             });
         }
     }

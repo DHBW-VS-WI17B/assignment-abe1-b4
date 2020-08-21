@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TicketStore.Server.Logic.Actors
 {
-    public class TicketActor : ReceiveActor
+    public class TicketActor : ReceiveActor, ILogReceive
     {
         private readonly ILoggingAdapter _logger = Context.GetLogger();
         private readonly ActorSelection _writeToDbActorRef;
