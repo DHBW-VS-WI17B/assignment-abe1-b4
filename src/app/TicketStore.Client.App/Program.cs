@@ -16,8 +16,15 @@ using TicketStore.Shared;
 
 namespace TicketStore.Client.App
 {
+    /// <summary>
+    /// The main program.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Entry point.
+        /// </summary>
+        /// <param name="args">Arguments from the command line.</param>
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -150,7 +157,7 @@ namespace TicketStore.Client.App
 
                 case Command.GetPurchasedTickets:
                     var sortBy = Ask.ForSortBy();
-                    var orderBy = Ask.ForOrderBy();
+                    var orderBy = Ask.ForOrder();
                     clientActor.Tell(new GetPurchasedTicketsMessage(sortBy, orderBy));
                     break;
 

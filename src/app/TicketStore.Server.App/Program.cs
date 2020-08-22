@@ -16,8 +16,15 @@ using TicketStore.Shared;
 
 namespace TicketStore.Server.App
 {
+    /// <summary>
+    /// The main program.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// The entry point.
+        /// </summary>
+        /// <param name="args">Command line arguments.</param>
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<CommandLineOptions>(args)

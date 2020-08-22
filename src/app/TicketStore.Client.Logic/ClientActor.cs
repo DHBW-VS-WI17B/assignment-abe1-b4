@@ -18,6 +18,9 @@ using TicketStore.Shared.Models;
 
 namespace TicketStore.Client.Logic
 {
+    /// <summary>
+    /// Client actor. The bridge between the remote actor system and the host of this application.
+    /// </summary>
     public class ClientActor : ReceiveActor, ILogReceive
     {
         private readonly ActorSelection _remoteEventActorRef;
@@ -27,6 +30,12 @@ namespace TicketStore.Client.Logic
         private Guid _userId;
         private double _remainingBudget;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="remoteEventActorRef">The ref to the remote event actor.</param>
+        /// <param name="remoteUserActorRef">The ref to the remote user actor.</param>
+        /// <param name="jsonDataStore">A json data store.</param>
         public ClientActor(ActorSelection remoteEventActorRef, ActorSelection remoteUserActorRef, IJsonDataStore jsonDataStore)
         {
             _remoteEventActorRef = remoteEventActorRef;
@@ -155,10 +164,10 @@ namespace TicketStore.Client.Logic
 
             Receive<PurchaseTicketMessage>(msg => 
             {
-                _remoteEventActorRef.Tell(new PurchaseTicketRequest(Guid.NewGuid(), msg.EventId, _userId, _remainingBudget, msg.TicketCount));
+                _remoteEventActorRef.Tell(new PurchaseTicketsRequest(Guid.NewGuid(), msg.EventId, _userId, _remainingBudget, msg.TicketCount));
             });
 
-            Receive<PurchaseTicketSuccess>(msg =>
+            Receive<PurchaseTicketsSuccess>(msg =>
             {
                 _remainingBudget -= msg.Costs;
                 _logger.Info("Successfully purchased ticket for event with id {eventId}", msg.TicketDto.EventId);
