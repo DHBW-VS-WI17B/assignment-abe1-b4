@@ -73,7 +73,7 @@ namespace TicketStore.Client.App
             var loggerBuilder = new LoggerConfiguration()
                 .WriteTo.File(Path.Combine(appDataDir, "log.txt"));
 
-            if (!opts.Silent)
+            if (opts.ShowLogs)
             {
                 loggerBuilder = loggerBuilder.WriteTo.Console();
             }
@@ -107,6 +107,7 @@ namespace TicketStore.Client.App
             if (!opts.Admin && (opts.Command == Command.CreateEvent || opts.Command == Command.GetSoldTicketCount))
             {
                 Log.Logger.Error("This command is only available in admin mode!");
+                Console.WriteLine("This command is only available in admin mode!");
                 Helper.GracefulExitError();
             }
 
@@ -155,6 +156,7 @@ namespace TicketStore.Client.App
 
                 default:
                     Log.Logger.Error("Invalid command.");
+                    Console.WriteLine("Invalid command.");
                     break;
             }
 

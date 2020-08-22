@@ -37,6 +37,7 @@ namespace TicketStore.Client.Logic
             {
                 // TODO sometimes the error string is dropped???
                 _logger.Error(msg.ErrMessage);
+                Console.WriteLine($"Error: {msg.ErrMessage}");
                 Helper.GracefulExitError();
             });
 
@@ -55,6 +56,7 @@ namespace TicketStore.Client.Logic
                 if (config == null)
                 {
                     _logger.Error("Please initialize the client before running other commands!");
+                    Console.Write("Please initialize the client before running other commands!");
                     Helper.GracefulExitError();
                 }
                 else
@@ -74,6 +76,7 @@ namespace TicketStore.Client.Logic
             Receive<CreateUserSuccess>(msg =>
             {
                 _logger.Info("Created user with id {id}", msg.UserDto.Id);
+                PrintPretty(msg.UserDto);
                 _userId = msg.UserDto.Id;
                 Self.Tell(new PersistStateMessage());
             });
@@ -102,6 +105,7 @@ namespace TicketStore.Client.Logic
             Receive<CreateEventSuccess>(msg =>
             {
                 _logger.Info("Created event with id {id}", msg.EventDto.Id);
+                PrintPretty(msg.EventDto);
                 Helper.GracefulExitSuccess();
             });
 
@@ -113,6 +117,7 @@ namespace TicketStore.Client.Logic
             Receive<GetSoldTicketsSuccess>(msg =>
             {
                 _logger.Info("Event id {id} sold {count} ticket(s) so far.", msg.EventId, msg.SoldTicketCount);
+                Console.WriteLine($"Tickets sold count for event with id {msg.EventId}: {msg.SoldTicketCount}");
                 Helper.GracefulExitSuccess();
             });
 
@@ -144,8 +149,7 @@ namespace TicketStore.Client.Logic
             {
                 _logger.Info("Received details for event with id {id}.", msg.EventDto.Id);
 
-                var eventStr = JsonSerializer.Serialize<EventDto>(msg.EventDto, new JsonSerializerOptions { WriteIndented = true });
-                Console.WriteLine(eventStr);
+                PrintPretty(msg.EventDto);
                 Helper.GracefulExitSuccess();
             });
 
@@ -158,12 +162,14 @@ namespace TicketStore.Client.Logic
             {
                 _remainingBudget -= msg.Costs;
                 _logger.Info("Successfully purchased ticket for event with id {eventId}", msg.TicketDto.EventId);
+                PrintPretty(msg.TicketDto);
                 Self.Tell(new PersistStateMessage());
             });
 
             Receive<GetRemainingBudgetMessage>(msg =>
             {
                 _logger.Info("Remaining budget: {budget} money units.", _remainingBudget);
+                Console.WriteLine($"Remaining budget: {_remainingBudget} money units.");
             });
 
             Receive<GetPurchasedTicketsMessage>(msg =>
@@ -184,6 +190,12 @@ namespace TicketStore.Client.Logic
                 Console.WriteLine(table.ToString());
                 Helper.GracefulExitSuccess();
             });
+        }
+
+        private static void PrintPretty<T>(T entity)
+        {
+            var str = JsonSerializer.Serialize<T>(entity, new JsonSerializerOptions { WriteIndented = true });
+            Console.WriteLine(str);
         }
     }
 }

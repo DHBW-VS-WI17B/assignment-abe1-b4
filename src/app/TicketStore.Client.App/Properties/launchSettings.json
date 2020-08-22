@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "TicketStore.Client.App": {
-      "commandName": "Project",
-      "commandLineArgs": "-c GetPurchasedTickets"
-    }
-  }
-}
