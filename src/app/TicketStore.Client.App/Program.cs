@@ -143,6 +143,10 @@ namespace TicketStore.Client.App
                     clientActor.Tell(new PurchaseTicketMessage(eId, ticketCount));
                     break;
 
+                case Command.GetRemainingBudget:
+                    clientActor.Tell(new GetRemainingBudget());
+                    break;
+
                 default:
                     Log.Logger.Error("Invalid command.");
                     break;

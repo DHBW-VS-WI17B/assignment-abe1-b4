@@ -33,7 +33,8 @@ namespace TicketStore.Client.Logic
 
             Receive<ErrorMessage>(msg =>
             {
-                _logger.Error(msg.Error);
+                // TODO sometimes the error string is dropped???
+                _logger.Error(msg.ErrMessage);
                 Helper.GracefulExitError();
             });
 
@@ -156,6 +157,11 @@ namespace TicketStore.Client.Logic
                 _remainingBudget -= msg.Costs;
                 _logger.Info("Successfully purchased ticket for event with id {eventId}", msg.TicketDto.EventId);
                 Self.Tell(new PersistStateMessage());
+            });
+
+            Receive<GetRemainingBudget>(msg =>
+            {
+                _logger.Info("Remaining budget: {budget} money units.", _remainingBudget);
             });
         }
     }
