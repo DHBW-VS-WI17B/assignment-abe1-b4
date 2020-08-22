@@ -21,14 +21,14 @@ namespace TicketStore.Server.Logic.Actors
     {
         private readonly ILoggingAdapter _logger = Context.GetLogger();
         private readonly ActorSelection _writeToDbActorRef;
-        private readonly IRepositoryWrapper _repo;
+        private readonly IReadonlyRepositoryWrapper _repo;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="repoWrapper">Wrapper around all data repositories.</param>
+        /// <param name="repoWrapper">Readonly wrapper around all data repositories.</param>
         /// <param name="writeToDbActorRef">Reference to an actor with write access to the database.</param>
-        public EventActor(IRepositoryWrapper repoWrapper, ActorSelection writeToDbActorRef)
+        public EventActor(IReadonlyRepositoryWrapper repoWrapper, ActorSelection writeToDbActorRef)
         {
             _repo = repoWrapper;
             _writeToDbActorRef = writeToDbActorRef;
