@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TicketStore.Shared.Requests;
+using TicketStore.Shared.Messages;
+using TicketStore.Shared.Models;
 
 namespace TicketStore.Server.Logic.Messages.Requests
 {
-    public sealed class AddEventToDbRequest : RequestBase
+    public class AddEventToDbRequest : MessageBase
     {
-        // TODO wip
+        public EventDto EventDto { get; }
+
+        public AddEventToDbRequest(Guid messageId, EventDto eventDto) : base(messageId)
+        {
+            EventDto = eventDto;
+        }
     }
 }

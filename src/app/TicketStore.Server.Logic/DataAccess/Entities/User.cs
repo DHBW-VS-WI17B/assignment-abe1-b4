@@ -17,11 +17,6 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         public Guid Id { get; set; }
 
         /// <summary>
-        /// If the user is admin or not.
-        /// </summary>
-        public bool IsAdmin { get; set; }
-
-        /// <summary>
         /// Name of the user.
         /// </summary>
         [Required]

@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TicketStore.Shared.Responses;
+using TicketStore.Shared.Models;
 
 namespace TicketStore.Server.Logic.Messages.Responses
 {
-    public sealed class AddEventToDbResponse : ResponseBase
+    public class AddEventToDbResponse : ResponseBase
     {
-        public Guid EventId { get; }
+        public EventDto EventDto { get; }
 
-        public AddEventToDbResponse(Guid requestId, Guid eventId) : base(requestId)
+        public AddEventToDbResponse(Guid requestId, EventDto eventDto, string errorMessage = null) : base(requestId, errorMessage)
         {
-            EventId = eventId;
-        }
-
-        public AddEventToDbResponse(Guid requestId, string errorMessage) : base(requestId, errorMessage)
-        {
-
+            EventDto = eventDto;
         }
     }
 }

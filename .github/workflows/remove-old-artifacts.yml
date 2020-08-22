@@ -1,0 +1,18 @@
+name: remove-old-artifacts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  remove:
+    name: remove old artifacts
+    runs-on: ubuntu-18.04
+    timeout-minutes: 15
+
+    steps:
+    - name: remove
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        age: '1 day'
+        skip-tags: true
+        skip-recent: 2
