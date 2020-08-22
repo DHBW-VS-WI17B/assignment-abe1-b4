@@ -110,6 +110,7 @@ namespace TicketStore.Client.Logic
             Receive<GetSoldTicketsSuccess>(msg =>
             {
                 _logger.Info("Event id {id} sold {count} ticket(s) so far.", msg.EventId, msg.SoldTicketCount);
+                Helper.GracefulExitSuccess();
             });
 
             Receive<GetAllEventsMessage>(msg =>
