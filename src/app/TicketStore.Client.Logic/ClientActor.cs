@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Akka.Event;
+using Akka.Util.Internal;
 using BetterConsoleTables;
 using Sharprompt;
 using Sharprompt.Validations;
@@ -11,6 +12,7 @@ using System.Text.Json;
 using TicketStore.Client.Logic.Messages;
 using TicketStore.Client.Logic.Util;
 using TicketStore.Shared;
+using TicketStore.Shared.Enums;
 using TicketStore.Shared.Messages;
 using TicketStore.Shared.Models;
 
@@ -166,8 +168,21 @@ namespace TicketStore.Client.Logic
 
             Receive<GetPurchasedTicketsMessage>(msg =>
             {
-                // order and sort
-                _remoteUserActorRef.Tell(new GetPurchasedTicketsRequest(Guid.NewGuid(), _userId));
+                _remoteUserActorRef.Tell(new GetPurchasedTicketsRequest(Guid.NewGuid(), _userId, Enum.Parse<Order>(msg.Order), Enum.Parse<Sort>(msg.SortBy)));
+            });
+
+            Receive<GetPurchasedTicketsSuccess>(msg =>
+            {
+                var table = new Table("TicketId", "PurchaseDate", "Price", "EventName", "EventDate");
+
+                msg.Tickets.ForEach(t =>
+                {
+                    table.AddRow(t.Id, t.PurchaseDate, t.EventDto.PricePerTicket, t.EventDto.Name, t.EventDto.Date);
+                });
+
+                table.Config = TableConfiguration.Markdown();
+                Console.WriteLine(table.ToString());
+                Helper.GracefulExitSuccess();
             });
         }
     }

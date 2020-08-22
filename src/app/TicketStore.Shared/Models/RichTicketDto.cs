@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TicketStore.Shared.Models
 {
-    public class TicketDto
+    public class RichTicketDto
     {
         /// <summary>
         /// Unique id.
@@ -17,21 +17,21 @@ namespace TicketStore.Shared.Models
         public DateTime PurchaseDate { get; }
 
         /// <summary>
-        /// Event id foreign key.
+        /// The event.
         /// </summary>
-        public Guid EventId { get; }
+        public EventDto EventDto { get; }
 
         /// <summary>
         /// User id foreign key.
         /// </summary>
         public Guid UserId { get; }
 
-        public TicketDto(Guid id, DateTime purchaseDate, Guid eventId, Guid userId)
+        public RichTicketDto(Guid id, DateTime purchaseDate, Guid userId, EventDto eventDto)
         {
             Id = id;
             PurchaseDate = purchaseDate;
-            EventId = eventId;
             UserId = userId;
+            EventDto = eventDto;
         }
     }
 }

@@ -2,11 +2,16 @@
 using Akka.Event;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Text;
 using TicketStore.Server.Logic.DataAccess.Contracts;
 using TicketStore.Server.Logic.Messages.Requests;
 using TicketStore.Server.Logic.Messages.Responses;
+using TicketStore.Server.Logic.Util;
+using TicketStore.Shared.Enums;
 using TicketStore.Shared.Messages;
+using TicketStore.Shared.Models;
 
 namespace TicketStore.Server.Logic.Actors
 {
@@ -38,6 +43,47 @@ namespace TicketStore.Server.Logic.Actors
                     _logger.Info("Adding user to db failed. Reason: {err}", addUserToDbResponse.ErrorMessage);
                     sender.Tell(new ErrorMessage(msg.RequestId, addUserToDbResponse.ErrorMessage));
                 }
+            });
+
+            Receive<GetPurchasedTicketsRequest>(msg =>
+            {
+                var purchasedTickets = _repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).ToImmutableList();
+
+                if (purchasedTickets.Count == 0)
+                {
+                    _logger.Info("There are no ticket purchases for user with id {userId}", msg.UserId);
+                    Sender.Tell(new ErrorMessage(msg.RequestId, $"There are no ticket purchases for user with id {msg.UserId}"));
+                    return;
+                }
+
+                var enrichedPurchasedTickets = purchasedTickets.Select(t => new RichTicketDto(t.Id, t.PurchaseDate, t.UserId, Mapper.EventToEventDto(_repo.Events.FindByCondition(e => e.Id == t.EventId).FirstOrDefault()))).ToImmutableList();
+
+                IImmutableList<RichTicketDto> sortedAndOrderedPurchasedTickets;
+                if (msg.Order == Order.Ascending)
+                {
+                    if (msg.SortBy == Sort.PurchaseDate)
+                    {
+                        sortedAndOrderedPurchasedTickets = enrichedPurchasedTickets.OrderBy(t => t.PurchaseDate).ToImmutableList();
+                    }
+                    else
+                    {
+                        sortedAndOrderedPurchasedTickets = enrichedPurchasedTickets.OrderBy(t => t.EventDto.Date).ToImmutableList();
+                    }
+                }
+                else
+                {
+                    if (msg.SortBy == Sort.PurchaseDate)
+                    {
+                        sortedAndOrderedPurchasedTickets = enrichedPurchasedTickets.OrderByDescending(t => t.PurchaseDate).ToImmutableList();
+                    }
+                    else
+                    {
+                        sortedAndOrderedPurchasedTickets = enrichedPurchasedTickets.OrderByDescending(t => t.EventDto.Date).ToImmutableList();
+                    }
+                }
+
+                _logger.Info("Found and ordered {count} tickets for user with id {userid}.", sortedAndOrderedPurchasedTickets.Count, msg.UserId);
+                Sender.Tell(new GetPurchasedTicketsSuccess(msg.RequestId, sortedAndOrderedPurchasedTickets));
             });
         }
     }

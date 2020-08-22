@@ -2,7 +2,7 @@
   "profiles": {
     "TicketStore.Client.App": {
       "commandName": "Project",
-      "commandLineArgs": "-c GetRemainingBudget -v"
+      "commandLineArgs": "-c GetPurchasedTickets"
     }
   }
 }
