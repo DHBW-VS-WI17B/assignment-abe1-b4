@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace TicketStore.Server.Logic.DataAccess.Contracts
 {
     /// <summary>
-    /// Wrapper around all repositories for easier access.
+    /// Readonly wrapper around all repositories for easier access.
     /// </summary>
-    public interface IRepositoryWrapper
+    public interface IReadonlyRepositoryWrapper
     {
         /// <summary>
         /// User entity repository.
@@ -29,10 +29,5 @@ namespace TicketStore.Server.Logic.DataAccess.Contracts
         /// Ticket entity repository.
         /// </summary>
         ITicketRepository Tickets { get; }
-
-        /// <summary>
-        /// Save changes in the repositories.
-        /// </summary>
-        Task SaveAsync();
     }
 }

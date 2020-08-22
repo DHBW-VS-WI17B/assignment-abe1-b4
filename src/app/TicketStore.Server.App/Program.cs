@@ -92,6 +92,7 @@ namespace TicketStore.Server.App
                 Log.Logger.Information("Database was wiped.");
             }
             context.Database.EnsureCreated();
+            var readonlyRepositoryWrapper = new ReadonlyRepositoryWrapper(context);
             var repositoryWrapper = new RepositoryWrapper(context);
 
             using var system = ActorSystem.Create("server", ConfigurationFactory.ParseString(akkaConfig));
@@ -100,11 +101,11 @@ namespace TicketStore.Server.App
             var writeToDbActor = system.ActorOf(writeToDbActorProps, nameof(WriteToDbActor));
             var writeToDbActorRef = system.ActorSelection(writeToDbActor.Path);
 
-            var eventActorProps = Props.Create<EventActor>(() => new EventActor(repositoryWrapper, writeToDbActorRef))
+            var eventActorProps = Props.Create<EventActor>(() => new EventActor(readonlyRepositoryWrapper, writeToDbActorRef))
                 .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
             var eventActor = system.ActorOf(eventActorProps, nameof(EventActor));
 
-            var userActorProps = Props.Create<UserActor>(() => new UserActor(repositoryWrapper, writeToDbActorRef))
+            var userActorProps = Props.Create<UserActor>(() => new UserActor(readonlyRepositoryWrapper, writeToDbActorRef))
                 .WithRouter(new RoundRobinPool(opts.ActorInstanceCount));
             var userActor = system.ActorOf(userActorProps, nameof(UserActor));
 
