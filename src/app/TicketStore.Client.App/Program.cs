@@ -144,7 +144,13 @@ namespace TicketStore.Client.App
                     break;
 
                 case Command.GetRemainingBudget:
-                    clientActor.Tell(new GetRemainingBudget());
+                    clientActor.Tell(new GetRemainingBudgetMessage());
+                    break;
+
+                case Command.GetPurchasedTickets:
+                    var sortBy = Ask.ForSortBy();
+                    var orderBy = Ask.ForOrderBy();
+                    clientActor.Tell(new GetPurchasedTicketsMessage(sortBy, orderBy));
                     break;
 
                 default:

@@ -159,9 +159,15 @@ namespace TicketStore.Client.Logic
                 Self.Tell(new PersistStateMessage());
             });
 
-            Receive<GetRemainingBudget>(msg =>
+            Receive<GetRemainingBudgetMessage>(msg =>
             {
                 _logger.Info("Remaining budget: {budget} money units.", _remainingBudget);
+            });
+
+            Receive<GetPurchasedTicketsMessage>(msg =>
+            {
+                // order and sort
+                _remoteUserActorRef.Tell(new GetPurchasedTicketsRequest(Guid.NewGuid(), _userId));
             });
         }
     }

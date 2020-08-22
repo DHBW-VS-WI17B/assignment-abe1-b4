@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TicketStore.Client.Logic.Messages
 {
-    public class GetRemainingBudget
+    public class GetRemainingBudgetMessage
     {
     }
 }

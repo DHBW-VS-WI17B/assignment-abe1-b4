@@ -23,6 +23,16 @@ namespace TicketStore.Client.Logic.Util
             return new EventDto(Guid.Empty, name, date.ToUniversalTime(), location, pricePerTicket, maxTicketCount, maxTicketsPerUser, saleStartDate.ToUniversalTime(), saleEndDate.ToUniversalTime());
         }
 
+        public static string ForSortBy()
+        {
+            return Prompt.Select("Sort by?", new[] { "EventDate", "PurchaseDate" });
+        }
+
+        public static string ForOrderBy()
+        {
+            return Prompt.Select("Order?", new[] { "Ascending", "Descending" });
+        }
+
         public static double ForYearlyBudget()
         {
             return Prompt.Input<double>("What is your yearly budget for tickets (format: '1,23' for 1,23€)?", 0.0, new[] { Validators.Required() });

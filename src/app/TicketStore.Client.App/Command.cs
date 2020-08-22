@@ -13,6 +13,7 @@ namespace TicketStore.Client.App
         GetAllEvents,
         GetEventById,
         PurchaseTicket,
-        GetRemainingBudget
+        GetRemainingBudget,
+        GetPurchasedTickets
     }
 }
