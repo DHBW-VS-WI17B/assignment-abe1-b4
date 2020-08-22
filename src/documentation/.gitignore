@@ -294,7 +294,7 @@ TSWLatexianTemp*
 
 # End of https://www.toptal.com/developers/gitignore/api/latex
 
-src/root.pdf
+root.pdf
 
 *-plantuml.latex
 *-plantuml.txt
