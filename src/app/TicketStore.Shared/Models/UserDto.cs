@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -22,7 +21,6 @@ namespace TicketStore.Shared.Models
         /// </summary>
         public AddressDto Address { get; }
 
-        [JsonConstructor]
         public UserDto(Guid id, string userName, AddressDto address)
         {
             Id = id;

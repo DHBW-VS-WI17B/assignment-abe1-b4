@@ -75,6 +75,22 @@ namespace TicketStore.Server.Logic.Actors
                     Sender.Tell(new GetAllEventsSuccess(msg.RequestId, eventDtos));
                 }
             });
+
+            Receive<GetEventByIdRequest>(msg =>
+            {
+                var eventWithId = _repo.Events.FindByCondition(e => e.Id == msg.EventId).FirstOrDefault();
+
+                if(eventWithId == null)
+                {
+                    _logger.Info("Event with id {eventId} does not exist!", msg.EventId);
+                    Sender.Tell(new ErrorMessage(msg.RequestId, $"Event with id {msg.EventId} does not exist!"));
+                }
+                else
+                {
+                    _logger.Info("Found event with id {id}", msg.EventId);
+                    Sender.Tell(new GetEventByIdSuccess(msg.RequestId, Mapper.EventToEventDto(eventWithId)));
+                }
+            });
         }
     }
 }

@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Text.Json;
 using TicketStore.Client.Logic.Messages;
 using TicketStore.Client.Logic.Util;
 using TicketStore.Shared;
 using TicketStore.Shared.Messages;
+using TicketStore.Shared.Models;
 
 namespace TicketStore.Client.Logic
 {
@@ -126,6 +128,20 @@ namespace TicketStore.Client.Logic
                 });
                 table.Config = TableConfiguration.Markdown();
                 Console.WriteLine(table.ToString());
+                Helper.GracefulExitSuccess();
+            });
+
+            Receive<GetEventByIdMessage>(msg =>
+            {
+                _remoteEventActorRef.Tell(new GetEventByIdRequest(Guid.NewGuid(), msg.EventId));
+            });
+
+            Receive<GetEventByIdSuccess>(msg =>
+            {
+                _logger.Info("Received details for event with id {id}.", msg.EventDto.Id);
+
+                var eventStr = JsonSerializer.Serialize<EventDto>(msg.EventDto, new JsonSerializerOptions { WriteIndented = true });
+                Console.WriteLine(eventStr);
                 Helper.GracefulExitSuccess();
             });
         }

@@ -124,12 +124,17 @@ namespace TicketStore.Client.App
                     break;
 
                 case Command.GetSoldTicketCount:
-                    var eventId = Ask.AskForEventId();
+                    var eventId = Ask.ForEventId();
                     clientActor.Tell(new GetSoldTicketsMessage(eventId));
                     break;
 
                 case Command.GetAllEvents:
                     clientActor.Tell(new GetAllEventsMessage());
+                    break;
+
+                case Command.GetEventById:
+                    var id = Ask.ForEventId();
+                    clientActor.Tell(new GetEventByIdMessage(id));
                     break;
 
                 default:

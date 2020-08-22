@@ -10,6 +10,7 @@ namespace TicketStore.Client.App
         List,
         CreateEvent,
         GetSoldTicketCount,
-        GetAllEvents
+        GetAllEvents,
+        GetEventById
     }
 }

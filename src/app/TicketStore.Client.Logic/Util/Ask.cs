@@ -28,7 +28,7 @@ namespace TicketStore.Client.Logic.Util
             return Prompt.Input<double>("What is your yearly budget for tickets (format: '1,23' for 1,23€)?", 0.0, new[] { Validators.Required() });
         }
 
-        public static Guid AskForEventId()
+        public static Guid ForEventId()
         {
             var guidStr =  Prompt.Input<string>("EventId?", null, new[] { Validators.Required(), Validators.RegularExpression(@"(?im)^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$") });
             return Guid.Parse(guidStr);
