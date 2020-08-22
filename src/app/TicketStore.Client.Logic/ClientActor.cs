@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Akka.Event;
+using BetterConsoleTables;
 using Sharprompt;
 using Sharprompt.Validations;
 using System;
@@ -107,6 +108,25 @@ namespace TicketStore.Client.Logic
             Receive<GetSoldTicketsSuccess>(msg =>
             {
                 _logger.Info("Event id {id} sold {count} ticket(s) so far.", msg.EventId, msg.SoldTicketCount);
+            });
+
+            Receive<GetAllEventsMessage>(msg =>
+            {
+                _remoteEventActorRef.Tell(new GetAllEventsRequest(Guid.NewGuid()));
+            });
+
+            Receive<GetAllEventsSuccess>(msg =>
+            {
+                _logger.Info("Received {count} events.", msg.EventDtos.Count);
+
+                var table = new Table("ID", "Event name");
+                msg.EventDtos.ForEach(e =>
+                {
+                    table.AddRow(e.Id, e.Name);
+                });
+                table.Config = TableConfiguration.Markdown();
+                Console.WriteLine(table.ToString());
+                Helper.GracefulExitSuccess();
             });
         }
     }

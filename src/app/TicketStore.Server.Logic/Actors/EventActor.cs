@@ -2,12 +2,14 @@
 using Akka.Event;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using TicketStore.Server.Logic.DataAccess.Contracts;
 using TicketStore.Server.Logic.Messages;
 using TicketStore.Server.Logic.Messages.Requests;
 using TicketStore.Server.Logic.Messages.Responses;
+using TicketStore.Server.Logic.Util;
 using TicketStore.Shared.Messages;
 
 namespace TicketStore.Server.Logic.Actors
@@ -52,6 +54,25 @@ namespace TicketStore.Server.Logic.Actors
                 {
                     _logger.Info("Event id {id} does not exist.", msg.EventId);
                     Sender.Tell(new ErrorMessage(msg.RequestId, $"Event id {msg.EventId} does not exist."));
+                }
+            });
+
+            Receive<GetAllEventsRequest>(msg =>
+            {
+                var eventDtos = _repo.Events
+                                    .FindAll()
+                                    .ToList()
+                                    .Select(x => Mapper.EventToEventDto(x))
+                                    .ToImmutableList();
+
+                if (eventDtos.Count == 0)
+                {
+                    _logger.Info("There are no events in the database.");
+                    Sender.Tell(new ErrorMessage(msg.RequestId, "There are no events in the datebase."));
+                } else
+                {
+                    _logger.Info("Found {count} events in the databse.", eventDtos.Count);
+                    Sender.Tell(new GetAllEventsSuccess(msg.RequestId, eventDtos));
                 }
             });
         }

@@ -128,6 +128,10 @@ namespace TicketStore.Client.App
                     clientActor.Tell(new GetSoldTicketsMessage(eventId));
                     break;
 
+                case Command.GetAllEvents:
+                    clientActor.Tell(new GetAllEventsMessage());
+                    break;
+
                 default:
                     Log.Logger.Error("Invalid command.");
                     break;
