@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TicketStore.Server.App": {
+      "commandName": "Project",
+      "commandLineArgs": "-v"
+    }
+  }
+}

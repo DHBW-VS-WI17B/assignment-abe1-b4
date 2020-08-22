@@ -11,6 +11,7 @@ namespace TicketStore.Client.App
         CreateEvent,
         GetSoldTicketCount,
         GetAllEvents,
-        GetEventById
+        GetEventById,
+        PurchaseTicket
     }
 }

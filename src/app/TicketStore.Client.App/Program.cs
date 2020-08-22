@@ -81,7 +81,7 @@ namespace TicketStore.Client.App
             if (opts.Verbose)
             {
                 loggerBuilder = loggerBuilder.MinimumLevel.Verbose();
-                akkaConfig = akkaConfig.Replace("loglevel=INFO", "loglevel=VERBOSE", StringComparison.Ordinal);
+                akkaConfig = akkaConfig.Replace("loglevel=INFO", "loglevel=DEBUG", StringComparison.Ordinal);
             } else
             {
                 loggerBuilder = loggerBuilder.MinimumLevel.Information();
@@ -135,6 +135,12 @@ namespace TicketStore.Client.App
                 case Command.GetEventById:
                     var id = Ask.ForEventId();
                     clientActor.Tell(new GetEventByIdMessage(id));
+                    break;
+
+                case Command.PurchaseTicket:
+                    var eId = Ask.ForEventId();
+                    var ticketCount = Ask.ForTicketCount();
+                    clientActor.Tell(new PurchaseTicketMessage(eId, ticketCount));
                     break;
 
                 default:

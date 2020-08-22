@@ -9,12 +9,12 @@ namespace TicketStore.Client.Logic.Messages
     {
         public UserDto UserDto{ get; }
 
-        public double YearlyBudget { get; }
+        public double Budget { get; }
 
         public InitStateMessage(UserDto userDto, double yearlyBudget)
         {
             UserDto = userDto;
-            YearlyBudget = yearlyBudget;
+            Budget = yearlyBudget;
         }
     }
 }

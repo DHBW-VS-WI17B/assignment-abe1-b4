@@ -82,13 +82,30 @@ namespace TicketStore.Server.Logic.Actors
 
                 if(eventWithId == null)
                 {
-                    _logger.Info("Event with id {eventId} does not exist!", msg.EventId);
+                    _logger.Warning("Event with id {eventId} does not exist!", msg.EventId);
                     Sender.Tell(new ErrorMessage(msg.RequestId, $"Event with id {msg.EventId} does not exist!"));
                 }
                 else
                 {
                     _logger.Info("Found event with id {id}", msg.EventId);
                     Sender.Tell(new GetEventByIdSuccess(msg.RequestId, Mapper.EventToEventDto(eventWithId)));
+                }
+            });
+
+            ReceiveAsync<PurchaseTicketRequest>(async msg =>
+            {
+                var sender = Sender;
+                var response = await _writeToDbActorRef.Ask<AddTicketToDbResponse>(new AddTicketToDbRequest(msg.RequestId, msg.EventId, msg.UserId, msg.RemainingBudget, msg.TicketCount)).ConfigureAwait(false);
+
+                if (response.Successful)
+                {
+                    _logger.Info("Purchased ticker for event with id {eventId} successfully.", msg.EventId);
+                    sender.Tell(new PurchaseTicketSuccess(msg.RequestId, response.TicketDto, response.Costs));
+                }
+                else
+                {
+                    _logger.Info("Purchase ticket request was not successfull. Reason: {reason}", response.ErrorMessage);
+                    sender.Tell(new ErrorMessage(msg.RequestId, response.ErrorMessage));
                 }
             });
         }

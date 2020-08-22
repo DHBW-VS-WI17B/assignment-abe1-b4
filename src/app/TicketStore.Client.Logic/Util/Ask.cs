@@ -20,12 +20,17 @@ namespace TicketStore.Client.Logic.Util
             var saleStartDate = Prompt.Input<DateTime>("When should the ticket sale begin?", null, new[] { Validators.Required(), LessThan(date) });
             var saleEndDate = Prompt.Input<DateTime>("When should the ticket sale end?", null, new[] { Validators.Required(), GreaterThan(saleStartDate), LessThanOrEqualTo(date) });
 
-            return new EventDto(Guid.Empty, name, date, location, pricePerTicket, maxTicketCount, maxTicketsPerUser, saleStartDate, saleEndDate);
+            return new EventDto(Guid.Empty, name, date.ToUniversalTime(), location, pricePerTicket, maxTicketCount, maxTicketsPerUser, saleStartDate.ToUniversalTime(), saleEndDate.ToUniversalTime());
         }
 
         public static double ForYearlyBudget()
         {
             return Prompt.Input<double>("What is your yearly budget for tickets (format: '1,23' for 1,23€)?", 0.0, new[] { Validators.Required() });
+        }
+
+        public static int ForTicketCount()
+        {
+            return Prompt.Input<int>("How many tickets do you want to purchase?", 1, new[] { Validators.Required(), GreaterThanOrEqualTo(1) });
         }
 
         public static Guid ForEventId()

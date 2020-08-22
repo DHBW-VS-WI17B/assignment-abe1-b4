@@ -8,6 +8,6 @@ namespace TicketStore.Client.Logic
     {
         public Guid UserId { get; set; }
 
-        public double YearlyBudget { get; set; }
+        public double RemainingBudget { get; set; }
     }
 }

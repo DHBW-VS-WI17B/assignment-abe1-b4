@@ -66,7 +66,7 @@ namespace TicketStore.Server.App
             {
                 loggerBuilder = loggerBuilder
                     .MinimumLevel.Verbose();
-                akkaConfig = akkaConfig.Replace("loglevel=INFO", "loglevel=VERBOSE", StringComparison.Ordinal);
+                akkaConfig = akkaConfig.Replace("loglevel=INFO", "loglevel=DEBUG", StringComparison.Ordinal);
             }
             else
             {

@@ -23,7 +23,7 @@ namespace TicketStore.Client.Logic
         private readonly IJsonDataStore _jsonDataStore;
         private readonly ILoggingAdapter _logger = Context.GetLogger();
         private Guid _userId;
-        private double _yearlyBudget;
+        private double _remainingBudget;
 
         public ClientActor(ActorSelection remoteEventActorRef, ActorSelection remoteUserActorRef, IJsonDataStore jsonDataStore)
         {
@@ -57,14 +57,14 @@ namespace TicketStore.Client.Logic
                 else
                 {
                     _userId = config.UserId;
-                    _yearlyBudget = config.YearlyBudget;
+                    _remainingBudget = config.RemainingBudget;
                     _logger.Info("Client initialized successfully!");
                 }
             });
 
             Receive<InitStateMessage>(msg =>
             {
-                _yearlyBudget = msg.YearlyBudget;
+                _remainingBudget = msg.Budget;
                 _remoteUserActorRef.Tell(new CreateUserRequest(Guid.NewGuid(), msg.UserDto));
             });
 
@@ -79,7 +79,7 @@ namespace TicketStore.Client.Logic
             {
                 try
                 {
-                    _jsonDataStore.Write(new Config { UserId = _userId, YearlyBudget = _yearlyBudget });
+                    _jsonDataStore.Write(new Config { UserId = _userId, RemainingBudget = _remainingBudget });
                     _logger.Debug("Persisted config successfully.");
                     Helper.GracefulExitSuccess();
                 }
@@ -144,6 +144,18 @@ namespace TicketStore.Client.Logic
                 var eventStr = JsonSerializer.Serialize<EventDto>(msg.EventDto, new JsonSerializerOptions { WriteIndented = true });
                 Console.WriteLine(eventStr);
                 Helper.GracefulExitSuccess();
+            });
+
+            Receive<PurchaseTicketMessage>(msg => 
+            {
+                _remoteEventActorRef.Tell(new PurchaseTicketRequest(Guid.NewGuid(), msg.EventId, _userId, _remainingBudget, msg.TicketCount));
+            });
+
+            Receive<PurchaseTicketSuccess>(msg =>
+            {
+                _remainingBudget -= msg.Costs;
+                _logger.Info("Successfully purchased ticket for event with id {eventId}", msg.TicketDto.EventId);
+                Self.Tell(new PersistStateMessage());
             });
         }
     }
