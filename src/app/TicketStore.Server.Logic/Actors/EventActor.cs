@@ -14,12 +14,20 @@ using TicketStore.Shared.Messages;
 
 namespace TicketStore.Server.Logic.Actors
 {
+    /// <summary>
+    /// Event actor. Handles all event related requests. Has no write access to the database. Can be instantiated multiple times.
+    /// </summary>
     public class EventActor : ReceiveActor, ILogReceive
     {
         private readonly ILoggingAdapter _logger = Context.GetLogger();
         private readonly ActorSelection _writeToDbActorRef;
         private readonly IRepositoryWrapper _repo;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="repoWrapper">Wrapper around all data repositories.</param>
+        /// <param name="writeToDbActorRef">Reference to an actor with write access to the database.</param>
         public EventActor(IRepositoryWrapper repoWrapper, ActorSelection writeToDbActorRef)
         {
             _repo = repoWrapper;
@@ -92,7 +100,7 @@ namespace TicketStore.Server.Logic.Actors
                 }
             });
 
-            ReceiveAsync<PurchaseTicketRequest>(async msg =>
+            ReceiveAsync<PurchaseTicketsRequest>(async msg =>
             {
                 var sender = Sender;
                 var response = await _writeToDbActorRef.Ask<AddTicketToDbResponse>(new AddTicketToDbRequest(msg.RequestId, msg.EventId, msg.UserId, msg.RemainingBudget, msg.TicketCount)).ConfigureAwait(false);
@@ -100,7 +108,7 @@ namespace TicketStore.Server.Logic.Actors
                 if (response.Successful)
                 {
                     _logger.Info("Purchased ticker for event with id {eventId} successfully.", msg.EventId);
-                    sender.Tell(new PurchaseTicketSuccess(msg.RequestId, response.TicketDto, response.Costs));
+                    sender.Tell(new PurchaseTicketsSuccess(msg.RequestId, response.TicketDto, response.Costs));
                 }
                 else
                 {

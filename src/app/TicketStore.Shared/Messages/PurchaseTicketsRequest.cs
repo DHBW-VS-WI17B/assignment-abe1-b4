@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TicketStore.Shared.Messages;
 
-namespace TicketStore.Server.Logic.Messages.Requests
+namespace TicketStore.Shared.Messages
 {
     /// <summary>
-    /// Immutable add ticket to db request message, including all data needed to verify if operation is valid.
+    /// Immutable purchase ticket request message.
     /// </summary>
-    public class AddTicketToDbRequest : MessageBase
+    public class PurchaseTicketsRequest : MessageBase
     {
         /// <summary>
         /// Event id.
@@ -26,9 +25,9 @@ namespace TicketStore.Server.Logic.Messages.Requests
         public double RemainingBudget { get; }
 
         /// <summary>
-        /// Ticket count.
+        /// Count of tickets to be purchased.
         /// </summary>
-        public int TicketCount { get; }
+        public int TicketCount { get;  }
 
         /// <summary>
         /// Constructor.
@@ -37,8 +36,8 @@ namespace TicketStore.Server.Logic.Messages.Requests
         /// <param name="eventId">Event id.</param>
         /// <param name="userId">User id.</param>
         /// <param name="remainingBudget">Remaining budget.</param>
-        /// <param name="ticketCount">Ticket count.</param>
-        public AddTicketToDbRequest(Guid requestId, Guid eventId, Guid userId, double remainingBudget, int ticketCount) : base(requestId)
+        /// <param name="ticketCount">Count of tickets to be purchased.</param>
+        public PurchaseTicketsRequest(Guid requestId, Guid eventId, Guid userId, double remainingBudget, int ticketCount) : base(requestId)
         {
             EventId = eventId;
             UserId = userId;
@@ -46,5 +45,4 @@ namespace TicketStore.Server.Logic.Messages.Requests
             TicketCount = ticketCount;
         }
     }
-
 }

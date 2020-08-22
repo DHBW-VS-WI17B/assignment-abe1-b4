@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TicketStore.Shared.Models
 {
+    /// <summary>
+    /// Event data transfer object.
+    /// </summary>
     public class EventDto
     {
         /// <summary>
@@ -47,10 +50,22 @@ namespace TicketStore.Shared.Models
         public DateTime SaleStartDate { get; }
 
         /// <summary>
-        /// Duration of a sale.
+        /// Sale end date.
         /// </summary>
         public DateTime SaleEndDate { get; }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="id">Event id.</param>
+        /// <param name="name">Name of the event.</param>
+        /// <param name="date">When the event takes place.</param>
+        /// <param name="location">Where the event takes place.</param>
+        /// <param name="pricePerTicket">Price of one ticket for the event.</param>
+        /// <param name="maxTicketCount">Maximum count of tickets available.</param>
+        /// <param name="maxTicketsPerUser">Maximum count of tickets a user can buy.</param>
+        /// <param name="saleStartDate">Sales start date.</param>
+        /// <param name="saleEndDate">Sale end date.</param>
         public EventDto(
             Guid id,
             string name,

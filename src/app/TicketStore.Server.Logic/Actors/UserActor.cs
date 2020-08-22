@@ -15,12 +15,20 @@ using TicketStore.Shared.Models;
 
 namespace TicketStore.Server.Logic.Actors
 {
+    /// <summary>
+    /// User actor. Handles all user related requests. Has no write access to the database. Can be instantiated multiple times.
+    /// </summary>
     public class UserActor : ReceiveActor, ILogReceive
     {
         private readonly ILoggingAdapter _logger = Context.GetLogger();
         private readonly ActorSelection _writeToDbActorRef;
         private readonly IRepositoryWrapper _repo;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="repoWrapper">Wrapper around all data repositories.</param>
+        /// <param name="writeToDbActorRef">Reference to an actor with write access to the database.</param>
         public UserActor(IRepositoryWrapper repoWrapper, ActorSelection writeToDbActorRef)
         {
             _repo = repoWrapper;

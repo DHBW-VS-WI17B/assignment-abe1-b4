@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TicketStore.Shared.Models
 {
+    /// <summary>
+    /// Ticket data transfer object.
+    /// </summary>
     public class TicketDto
     {
         /// <summary>
@@ -26,6 +29,13 @@ namespace TicketStore.Shared.Models
         /// </summary>
         public Guid UserId { get; }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="id">Ticket id.</param>
+        /// <param name="purchaseDate">Purchase date.</param>
+        /// <param name="eventId">Event id.</param>
+        /// <param name="userId">User id.</param>
         public TicketDto(Guid id, DateTime purchaseDate, Guid eventId, Guid userId)
         {
             Id = id;

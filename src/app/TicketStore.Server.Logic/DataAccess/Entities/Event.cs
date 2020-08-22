@@ -59,7 +59,7 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         public DateTime SaleStartDate { get; set; }
 
         /// <summary>
-        /// Duration of a sale.
+        /// Sale end date.
         /// </summary>
         [Required]
         public DateTime SaleEndDate { get; set; }

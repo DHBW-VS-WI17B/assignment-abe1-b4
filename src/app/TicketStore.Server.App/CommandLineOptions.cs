@@ -5,6 +5,9 @@ using System.Text;
 
 namespace TicketStore.Server.App
 {
+    /// <summary>
+    /// Command line options.
+    /// </summary>
     public class CommandLineOptions
     {
         [Option('v', "verbose", Default = false, Required = false, HelpText = "Set output to verbose messages.")]

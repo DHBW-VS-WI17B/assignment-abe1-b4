@@ -16,11 +16,18 @@ using TicketStore.Shared.Messages;
 
 namespace TicketStore.Server.Logic.Actors
 {
+    /// <summary>
+    /// Actor with write access to the database. Instantiated as singleton to avoid data consistency issues.
+    /// </summary>
     public class WriteToDbActor : ReceiveActor, ILogReceive
     {
         private readonly ILoggingAdapter _logger = Context.GetLogger();
         private readonly IRepositoryWrapper _repo;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="repoWrapper">Wrapper around all data repositories.</param>
         public WriteToDbActor(IRepositoryWrapper repoWrapper)
         {
             _repo = repoWrapper;

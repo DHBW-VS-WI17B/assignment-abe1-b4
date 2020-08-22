@@ -12,7 +12,7 @@ using TicketStore.Server.Logic.Messages.Responses;
 namespace TicketStore.Server.Logic.Test.Actors
 {
     [TestFixture]
-    public class WriteToDbActorTest : TestKit
+    public class WriteToDbActorTest : TestKit // TODO
     {
         [Test]
         public void Test1()

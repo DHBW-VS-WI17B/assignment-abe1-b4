@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TicketStore.Shared.Models
 {
+    /// <summary>
+    /// Address data transfer object.
+    /// </summary>
     public class AddressDto
     {
         /// <summary>
@@ -26,6 +29,13 @@ namespace TicketStore.Shared.Models
         /// </summary>
         public string HouseNumber { get; }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="zipCode">ZIP code of the address.</param>
+        /// <param name="city">Name of the city.</param>
+        /// <param name="street">Name of the street.</param>
+        /// <param name="houseNumber">House number.</param>
         public AddressDto(string zipCode, string city, string street, string houseNumber)
         {
             ZipCode = zipCode;
