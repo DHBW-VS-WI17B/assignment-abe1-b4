@@ -8,7 +8,7 @@ namespace TicketStore.Server.Logic.Messages.Requests
     /// <summary>
     /// Immutable add ticket to db request message, including all data needed to verify if operation is valid.
     /// </summary>
-    public class AddTicketToDbRequest : MessageBase
+    public class AddTicketsToDbRequest : MessageBase
     {
         /// <summary>
         /// Event id.
@@ -38,7 +38,7 @@ namespace TicketStore.Server.Logic.Messages.Requests
         /// <param name="userId">User id.</param>
         /// <param name="remainingBudget">Remaining budget.</param>
         /// <param name="ticketCount">Ticket count.</param>
-        public AddTicketToDbRequest(Guid requestId, Guid eventId, Guid userId, double remainingBudget, int ticketCount) : base(requestId)
+        public AddTicketsToDbRequest(Guid requestId, Guid eventId, Guid userId, double remainingBudget, int ticketCount) : base(requestId)
         {
             EventId = eventId;
             UserId = userId;

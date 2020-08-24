@@ -36,9 +36,9 @@ namespace TicketStore.Client.App
         /// </summary>
         GetEventById,
         /// <summary>
-        /// Purchase a ticket.
+        /// Purchase tickets.
         /// </summary>
-        PurchaseTicket,
+        PurchaseTickets,
         /// <summary>
         /// Get remaining budget.
         /// </summary>
