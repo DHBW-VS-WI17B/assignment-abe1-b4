@@ -7,7 +7,7 @@ namespace TicketStore.Shared.Messages
     /// <summary>
     /// Immutable message base class.
     /// </summary>
-    public class MessageBase
+    public abstract class MessageBase
     {
         /// <summary>
         /// Request id.
