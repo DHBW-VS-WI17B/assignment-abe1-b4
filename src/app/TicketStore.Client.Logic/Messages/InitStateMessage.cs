@@ -16,19 +16,12 @@ namespace TicketStore.Client.Logic.Messages
         public UserDto UserDto{ get; }
 
         /// <summary>
-        /// Yearly budget.
-        /// </summary>
-        public double Budget { get; }
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="userDto">User to be created.</param>
-        /// <param name="budget">Yearly budget.</param>
-        public InitStateMessage(UserDto userDto, double budget)
+        public InitStateMessage(UserDto userDto)
         {
             UserDto = userDto;
-            Budget = budget;
         }
     }
 }

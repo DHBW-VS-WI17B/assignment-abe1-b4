@@ -40,9 +40,9 @@ namespace TicketStore.Client.App
         /// </summary>
         PurchaseTickets,
         /// <summary>
-        /// Get remaining budget.
+        /// Get the remaining money units for ticket purchases for events in the current year.
         /// </summary>
-        GetRemainingBudget,
+        GetRemainingBudgetForCurrentYear,
         /// <summary>
         /// Get purchased tickets.
         /// </summary>

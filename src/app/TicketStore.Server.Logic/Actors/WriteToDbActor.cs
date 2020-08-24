@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Akka.Event;
+using Akka.Util.Internal;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -78,14 +79,14 @@ namespace TicketStore.Server.Logic.Actors
                 if (targetEvent == null)
                 {
                     _logger.Warning("Event with id {eventId} does not exist!", msg.EventId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"Event with id {msg.EventId} does not exist!"));
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Event with id {msg.EventId} does not exist!"));
                     return;
                 }
 
                 if (DateTime.UtcNow > targetEvent.SaleEndDate || DateTime.UtcNow < targetEvent.SaleStartDate)
                 {
                     _logger.Warning("There is no active sale for event with id {id}!", msg.EventId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"There is no active sale for event with id {msg.EventId}!"));
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"There is no active sale for event with id {msg.EventId}!"));
                     return;
                 }
 
@@ -94,14 +95,25 @@ namespace TicketStore.Server.Logic.Actors
                 if (soldTickets.Count + msg.TicketCount > targetEvent.MaxTicketCount)
                 {
                     _logger.Warning("Can not sell ticket for event with id {id}. Not enough tickets left!", msg.EventId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"Can not sell ticket for event with id {msg.EventId}. Not enough tickets left!"));
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket for event with id {msg.EventId}. Not enough tickets left!"));
                     return;
                 }
 
-                if (msg.TicketCount * targetEvent.PricePerTicket > msg.RemainingBudget)
+                double spentOnEvents = 0;
+
+                if (_repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).Any())
                 {
-                    _logger.Warning("Can not sell ticket(s) for event with id {id}. Budget is {missingMoney} money units to small.", msg.EventId, (msg.TicketCount * targetEvent.PricePerTicket) - msg.RemainingBudget);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"Can not sell ticket(s) for event with id {msg.EventId}. Budget is {(msg.TicketCount * targetEvent.PricePerTicket) - msg.RemainingBudget} money units to small."));
+                    var eventIds = _repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).Select(ticket => ticket.EventId).ToList();
+                    var events = eventIds.Select(eventId => _repo.Events.FindByCondition(e => e.Id == eventId).FirstOrDefault()).ToList();
+                    spentOnEvents = events.Where(e => e.Date.Year == targetEvent.Date.Year).Sum(x => x.PricePerTicket);
+                }
+                var budget = _repo.Users.FindByCondition(u => u.Id == msg.UserId).FirstOrDefault().YearlyBudget;
+                var remainingBudget = budget - spentOnEvents;
+
+                if (msg.TicketCount * targetEvent.PricePerTicket > remainingBudget)
+                {
+                    _logger.Warning("Can not sell ticket(s) for event with id {id}. Budget is {missingMoney} money units to small.", msg.EventId, (msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget);
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket(s) for event with id {msg.EventId}. Budget is {(msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget} money units to small."));
                     return;
                 }
 
@@ -110,10 +122,9 @@ namespace TicketStore.Server.Logic.Actors
                 if (ticketsSoldToUser.Count + msg.TicketCount > targetEvent.MaxTicketsPerUser)
                 {
                     _logger.Warning("Can not sell ticket(s) for event with id {id}. Not enough tickets for user with {id} left!", msg.EventId, msg.UserId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"Can not sell ticket(s) for event with id {msg.EventId}. Not enough tickets for user with {msg.UserId} left!"));
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket(s) for event with id {msg.EventId}. Not enough tickets for user with {msg.UserId} left!"));
                     return;
                 }
-
 
                 List<TicketDto> newTickets = new List<TicketDto>();
                 for (int i = 0; i < msg.TicketCount; i++)
@@ -126,12 +137,12 @@ namespace TicketStore.Server.Logic.Actors
                 try
                 {
                     await _repo.SaveAsync().ConfigureAwait(false);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, newTickets.ToImmutableList(), msg.TicketCount * targetEvent.PricePerTicket));
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, newTickets.ToImmutableList()));
                 }
                 catch (Exception ex)
                 {
                     _logger.Error(ex, "Saving tickets failed!");
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, "Creating new ticket(s) failed on database level."));
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, "Creating new ticket(s) failed on database level."));
                 }
             });
         }

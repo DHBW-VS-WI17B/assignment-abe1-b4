@@ -21,11 +21,6 @@ namespace TicketStore.Server.Logic.Messages.Requests
         public Guid UserId { get; }
 
         /// <summary>
-        /// Remaining budget.
-        /// </summary>
-        public double RemainingBudget { get; }
-
-        /// <summary>
         /// Ticket count.
         /// </summary>
         public int TicketCount { get; }
@@ -36,13 +31,11 @@ namespace TicketStore.Server.Logic.Messages.Requests
         /// <param name="requestId">Request id.</param>
         /// <param name="eventId">Event id.</param>
         /// <param name="userId">User id.</param>
-        /// <param name="remainingBudget">Remaining budget.</param>
         /// <param name="ticketCount">Ticket count.</param>
-        public AddTicketsToDbRequest(Guid requestId, Guid eventId, Guid userId, double remainingBudget, int ticketCount) : base(requestId)
+        public AddTicketsToDbRequest(Guid requestId, Guid eventId, Guid userId, int ticketCount) : base(requestId)
         {
             EventId = eventId;
             UserId = userId;
-            RemainingBudget = remainingBudget;
             TicketCount = ticketCount;
         }
     }

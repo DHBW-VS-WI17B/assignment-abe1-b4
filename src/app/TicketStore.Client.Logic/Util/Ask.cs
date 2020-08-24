@@ -49,15 +49,6 @@ namespace TicketStore.Client.Logic.Util
         }
 
         /// <summary>
-        /// Ask for a yearly budget.
-        /// </summary>
-        /// <returns>Yearly budget.</returns>
-        public static double ForYearlyBudget()
-        {
-            return Prompt.Input<double>("What is your yearly budget for tickets (format: '1,23' for 1,23€)?", 0.0, new[] { Validators.Required() });
-        }
-
-        /// <summary>
         /// Ask for a ticket count.
         /// </summary>
         /// <returns>Ticket count greater or equal to 1.</returns>
@@ -84,8 +75,9 @@ namespace TicketStore.Client.Logic.Util
         {
             var userName = Prompt.Input<string>("What is your name?", null, new[] { Validators.Required(), Validators.MaxLength(64), Validators.MinLength(1) });
             var address = ForAddressDto();
+            var yearlyBudget = Prompt.Input<double>("What is your yearly budget for tickets (format: '1,23' for 1,23€)?", 0.0, new[] { Validators.Required(), GreaterThanOrEqualTo(0.0) });
 
-            return new UserDto(Guid.Empty, userName, address);
+            return new UserDto(Guid.Empty, userName, address, yearlyBudget);
         }
 
         private static AddressDto ForAddressDto()

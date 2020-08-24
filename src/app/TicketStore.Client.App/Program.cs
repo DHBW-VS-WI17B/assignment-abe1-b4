@@ -122,8 +122,7 @@ namespace TicketStore.Client.App
             {
                 case Command.Init:
                     var userDto = Ask.ForUserDto();
-                    var yearlyBudget = Ask.ForYearlyBudget();
-                    clientActor.Tell(new InitStateMessage(userDto, yearlyBudget));
+                    clientActor.Tell(new InitStateMessage(userDto));
                     break;
 
                 case Command.CreateEvent:
@@ -151,8 +150,8 @@ namespace TicketStore.Client.App
                     clientActor.Tell(new PurchaseTicketsMessage(eId, ticketCount));
                     break;
 
-                case Command.GetRemainingBudget:
-                    clientActor.Tell(new GetRemainingBudgetMessage());
+                case Command.GetRemainingBudgetForCurrentYear:
+                    clientActor.Tell(new GetRemainingBudgetForCurrentYearMessage());
                     break;
 
                 case Command.GetPurchasedTickets:

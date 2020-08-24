@@ -5,9 +5,9 @@ using System.Text;
 namespace TicketStore.Client.Logic.Messages
 {
     /// <summary>
-    /// Get remaining budget message.
+    /// Get remaining budget for current year message.
     /// </summary>
-    public class GetRemainingBudgetMessage
+    public class GetRemainingBudgetForCurrentYearMessage
     {
     }
 }
