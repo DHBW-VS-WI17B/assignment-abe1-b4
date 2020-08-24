@@ -100,8 +100,8 @@ namespace TicketStore.Server.Logic.Actors
 
                 if (msg.TicketCount * targetEvent.PricePerTicket > msg.RemainingBudget)
                 {
-                    _logger.Warning("Can not sell ticket for event with id {id}. Budget is {missingMoney} money units to small.", msg.EventId, (msg.TicketCount * targetEvent.PricePerTicket) - msg.RemainingBudget);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"Can not sell ticket for event with id {msg.EventId}. Budget is {(msg.TicketCount * targetEvent.PricePerTicket) - msg.RemainingBudget} money units to small."));
+                    _logger.Warning("Can not sell ticket(s) for event with id {id}. Budget is {missingMoney} money units to small.", msg.EventId, (msg.TicketCount * targetEvent.PricePerTicket) - msg.RemainingBudget);
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"Can not sell ticket(s) for event with id {msg.EventId}. Budget is {(msg.TicketCount * targetEvent.PricePerTicket) - msg.RemainingBudget} money units to small."));
                     return;
                 }
 
@@ -109,8 +109,8 @@ namespace TicketStore.Server.Logic.Actors
 
                 if (ticketsSoldToUser.Count + msg.TicketCount > targetEvent.MaxTicketsPerUser)
                 {
-                    _logger.Warning("Can not sell ticket for event with id {id}. Not enough tickets for user with {id} left!", msg.EventId, msg.UserId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"Can not sell ticket for event with id {msg.EventId}. Not enough tickets for user with {msg.UserId} left!"));
+                    _logger.Warning("Can not sell ticket(s) for event with id {id}. Not enough tickets for user with {id} left!", msg.EventId, msg.UserId);
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, $"Can not sell ticket(s) for event with id {msg.EventId}. Not enough tickets for user with {msg.UserId} left!"));
                     return;
                 }
 
@@ -131,7 +131,7 @@ namespace TicketStore.Server.Logic.Actors
                 catch (Exception ex)
                 {
                     _logger.Error(ex, "Saving tickets failed!");
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, "Creating new ticket failed on database level."));
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, 0, "Creating new ticket(s) failed on database level."));
                 }
             });
         }
