@@ -36,6 +36,8 @@ namespace TicketStore.Server.Logic.Actors
 
             ReceiveAsync<AddUserToDbRequest>(async msg =>
             {
+                var sender = Sender;
+
                 var newUser = Mapper.UserDtoToUser(msg.UserDto);
 
                 _repo.Users.Create(newUser);
@@ -43,7 +45,7 @@ namespace TicketStore.Server.Logic.Actors
                 try
                 {
                     await _repo.SaveAsync().ConfigureAwait(false);
-                    Sender.Tell(new AddUserToDbResponse(msg.RequestId, Mapper.UserToUserDto(newUser)));
+                    Sender.Tell(new AddUserToDbResponse(msg.RequestId, Mapper.UserToUserDto(newUser)), sender);
                     _logger.Debug("User with id {id} created successfully.", newUser.Id);
                 }
                 catch (Exception ex)
