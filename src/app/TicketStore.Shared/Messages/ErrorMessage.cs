@@ -12,16 +12,16 @@ namespace TicketStore.Shared.Messages
         /// <summary>
         /// Error message.
         /// </summary>
-        public string ErrMessage { get; }
+        public string Message { get; }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="requestId">Request id.</param>
-        /// <param name="errorMessage">Error message.</param>
-        public ErrorMessage(Guid requestId, string errorMessage) : base(requestId)
+        /// <param name="Message">Error message.</param>
+        public ErrorMessage(Guid requestId, string message) : base(requestId)
         {
-            ErrMessage = errorMessage;
+            Message = message;
         }
     }
 }

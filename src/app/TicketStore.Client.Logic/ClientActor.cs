@@ -43,9 +43,8 @@ namespace TicketStore.Client.Logic
 
             Receive<ErrorMessage>(msg =>
             {
-                // TODO sometimes the error string is dropped???
-                _logger.Error(msg.ErrMessage);
-                Console.WriteLine($"Error: {msg.ErrMessage}");
+                _logger.Error(msg.Message);
+                Console.WriteLine($"Error: {msg.Message}");
                 Helper.GracefulExitError();
             });
 
