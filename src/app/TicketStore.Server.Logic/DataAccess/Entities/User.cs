@@ -27,5 +27,10 @@ namespace TicketStore.Server.Logic.DataAccess.Entities
         /// </summary>
         [Required]
         public Address Address { get; set; }
+
+        /// <summary>
+        /// Yearly budget of money units for ticket purchases (for events in the same year).
+        /// </summary>
+        public double YearlyBudget { get; set; }
     }
 }

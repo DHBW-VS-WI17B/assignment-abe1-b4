@@ -28,7 +28,6 @@ namespace TicketStore.Client.Logic
         private readonly IJsonDataStore _jsonDataStore;
         private readonly ILoggingAdapter _logger = Context.GetLogger();
         private Guid _userId;
-        private double _remainingBudget;
 
         /// <summary>
         /// Constructor.
@@ -71,14 +70,12 @@ namespace TicketStore.Client.Logic
                 else
                 {
                     _userId = config.UserId;
-                    _remainingBudget = config.RemainingBudget;
                     _logger.Info("Client initialized successfully!");
                 }
             });
 
             Receive<InitStateMessage>(msg =>
             {
-                _remainingBudget = msg.Budget;
                 _remoteUserActorRef.Tell(new CreateUserRequest(Guid.NewGuid(), msg.UserDto));
             });
 
@@ -94,7 +91,7 @@ namespace TicketStore.Client.Logic
             {
                 try
                 {
-                    _jsonDataStore.Write(new Config { UserId = _userId, RemainingBudget = _remainingBudget });
+                    _jsonDataStore.Write(new Config { UserId = _userId });
                     _logger.Debug("Persisted config successfully.");
                     Helper.GracefulExitSuccess();
                 }
@@ -164,24 +161,26 @@ namespace TicketStore.Client.Logic
 
             Receive<PurchaseTicketsMessage>(msg => 
             {
-                _remoteEventActorRef.Tell(new PurchaseTicketsRequest(Guid.NewGuid(), msg.EventId, _userId, _remainingBudget, msg.TicketCount));
+                _remoteEventActorRef.Tell(new PurchaseTicketsRequest(Guid.NewGuid(), msg.EventId, _userId, msg.TicketCount));
             });
 
             Receive<PurchaseTicketsSuccess>(msg =>
             {
-                _remainingBudget -= msg.Costs;
                 _logger.Info("Successfully purchased {count} tickets for event with id {eventId}", msg.TicketDtos.Count, msg.TicketDtos[0].EventId);
-                foreach (var ticketDto in msg.TicketDtos)
-                {
-                    PrintPretty(ticketDto);
-                }
-                Self.Tell(new PersistStateMessage());
+                PrintPretty(msg.TicketDtos);
+                Helper.GracefulExitSuccess();
             });
 
-            Receive<GetRemainingBudgetMessage>(msg =>
+            Receive<GetRemainingBudgetForCurrentYearMessage>(msg =>
             {
-                _logger.Info("Remaining budget: {budget} money units.", _remainingBudget);
-                Console.WriteLine($"Remaining budget: {_remainingBudget} money units.");
+                _remoteUserActorRef.Tell(new GetRemainingBudgetForCurrentYearRequest(_userId));
+            });
+
+            Receive<GetRemainingBudgetForCurrentYearSuccess>(msg =>
+            {
+                _logger.Info("Remaining budget for events taking place in the current year: {remainingBudget} out of {budget} money units.", msg.RemainingBuget, msg.YearlyBudget);
+                Console.WriteLine($"Remaining budget for events taking place in the current year: {msg.RemainingBuget} out of {msg.YearlyBudget} money units.");
+                Helper.GracefulExitSuccess();
             });
 
             Receive<GetPurchasedTicketsMessage>(msg =>

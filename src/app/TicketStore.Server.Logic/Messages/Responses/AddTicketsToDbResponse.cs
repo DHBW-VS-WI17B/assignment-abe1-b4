@@ -17,21 +17,14 @@ namespace TicketStore.Server.Logic.Messages.Responses
         public ImmutableList<TicketDto> TicketDtos { get; }
 
         /// <summary>
-        /// Costs of the purchase.
-        /// </summary>
-        public double Costs { get; }
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="requestId">Request id.</param>
         /// <param name="ticketDto">Immutable list of tickets.</param>
-        /// <param name="costs">Costs of the purchase.</param>
         /// <param name="errorMessage">Error message.</param>
-        public AddTicketsToDbResponse(Guid requestId, ImmutableList<TicketDto> ticketDtos, double costs, string errorMessage = null) : base(requestId, errorMessage)
+        public AddTicketsToDbResponse(Guid requestId, ImmutableList<TicketDto> ticketDtos, string errorMessage = null) : base(requestId, errorMessage)
         {
             TicketDtos = ticketDtos;
-            Costs = costs;
         }
     }
 }

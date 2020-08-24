@@ -93,6 +93,28 @@ namespace TicketStore.Server.Logic.Actors
                 _logger.Info("Found and ordered {count} tickets for user with id {userid}.", sortedAndOrderedPurchasedTickets.Count, msg.UserId);
                 Sender.Tell(new GetPurchasedTicketsSuccess(msg.RequestId, sortedAndOrderedPurchasedTickets));
             });
+
+            Receive<GetRemainingBudgetForCurrentYearRequest>(msg =>
+            {
+                if(!_repo.Users.FindByCondition(u => u.Id == msg.UserId).Any())
+                {
+                    _logger.Warning("No user with id {userId} found. Can not retrieve a remaining budget.", msg.UserId);
+                    Sender.Tell(new ErrorMessage(Guid.NewGuid(), $"No user with id {msg.UserId} found. Can not retrieve a remaining budget."));
+                    return;
+                }
+
+                double spentOnEvents = 0;
+                if (_repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).Any())
+                {
+                    var eventIds = _repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).Select(t => t.EventId).ToList();
+                    var events = eventIds.Select(id => _repo.Events.FindByCondition(e => e.Id == id).FirstOrDefault()).ToList();
+                    spentOnEvents = events.Where(e => e.Date.Year == DateTime.Now.Year).Sum(x => x.PricePerTicket);
+                }
+                var budget = _repo.Users.FindByCondition(u => u.Id == msg.UserId).FirstOrDefault().YearlyBudget;
+                var remainingBudget = budget - spentOnEvents;
+
+                Sender.Tell(new GetRemainingBudgetForCurrentYearSuccess(remainingBudget, budget));
+            });
         }
     }
 }

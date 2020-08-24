@@ -25,16 +25,22 @@ namespace TicketStore.Shared.Models
         public AddressDto Address { get; }
 
         /// <summary>
+        /// Yearly budget of money units for ticket purchases (for events in the same year).
+        /// </summary>
+        public double YearlyBudget { get; set; }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="id">User id.</param>
         /// <param name="userName">User name.</param>
         /// <param name="address">Address of the user.</param>
-        public UserDto(Guid id, string userName, AddressDto address)
+        public UserDto(Guid id, string userName, AddressDto address, double yearlyBudget)
         {
             Id = id;
             UserName = userName;
             Address = address;
+            YearlyBudget = yearlyBudget;
         }
     }
 }

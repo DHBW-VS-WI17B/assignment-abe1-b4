@@ -103,12 +103,13 @@ namespace TicketStore.Server.Logic.Actors
             ReceiveAsync<PurchaseTicketsRequest>(async msg =>
             {
                 var sender = Sender;
-                var response = await _writeToDbActorRef.Ask<AddTicketsToDbResponse>(new AddTicketsToDbRequest(msg.RequestId, msg.EventId, msg.UserId, msg.RemainingBudget, msg.TicketCount)).ConfigureAwait(false);
+
+                var response = await _writeToDbActorRef.Ask<AddTicketsToDbResponse>(new AddTicketsToDbRequest(msg.RequestId, msg.EventId, msg.UserId, msg.TicketCount)).ConfigureAwait(false);
 
                 if (response.Successful)
                 {
                     _logger.Info("Purchased ticker for event with id {eventId} successfully.", msg.EventId);
-                    sender.Tell(new PurchaseTicketsSuccess(msg.RequestId, response.TicketDtos, response.Costs));
+                    sender.Tell(new PurchaseTicketsSuccess(msg.RequestId, response.TicketDtos));
                 }
                 else
                 {

@@ -13,10 +13,5 @@ namespace TicketStore.Client.Logic
         /// User id of the client.
         /// </summary>
         public Guid UserId { get; set; }
-
-        /// <summary>
-        /// Remaining budget of the user.
-        /// </summary>
-        public double RemainingBudget { get; set; }
     }
 }

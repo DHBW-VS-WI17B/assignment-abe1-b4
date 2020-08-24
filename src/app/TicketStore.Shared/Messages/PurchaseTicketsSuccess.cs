@@ -17,20 +17,14 @@ namespace TicketStore.Shared.Messages
         public ImmutableList<TicketDto> TicketDtos { get; }
 
         /// <summary>
-        /// Costs to deduct from the local budget.
-        /// </summary>
-        public double Costs { get; }
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="requestId">Request id.</param>
         /// <param name="ticketDto">Immutable list of purchased tickets.</param>
         /// <param name="costs">Costs.</param>
-        public PurchaseTicketsSuccess(Guid requestId, ImmutableList<TicketDto> ticketDtos, double costs) : base(requestId)
+        public PurchaseTicketsSuccess(Guid requestId, ImmutableList<TicketDto> ticketDtos) : base(requestId)
         {
             TicketDtos = ticketDtos;
-            Costs = costs;
         }
     }
 }
