@@ -14,7 +14,7 @@ namespace TicketStore.Shared.Messages
         /// <summary>
         /// Immutable list of purchased tickets.
         /// </summary>
-        public ImmutableList<TicketDto> TicketDtos { get; } // TODO should be a list of tickets.
+        public ImmutableList<TicketDto> TicketDtos { get; }
 
         /// <summary>
         /// Costs to deduct from the local budget.

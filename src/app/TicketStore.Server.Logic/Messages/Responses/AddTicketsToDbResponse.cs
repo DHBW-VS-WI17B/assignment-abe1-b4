@@ -14,7 +14,7 @@ namespace TicketStore.Server.Logic.Messages.Responses
         /// <summary>
         /// Ticket data.
         /// </summary>
-        public ImmutableList<TicketDto> TicketDtos { get; } // TODO: has to be an immutable collection of tickets
+        public ImmutableList<TicketDto> TicketDtos { get; }
 
         /// <summary>
         /// Costs of the purchase.
