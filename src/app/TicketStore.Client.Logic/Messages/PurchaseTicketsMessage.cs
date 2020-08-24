@@ -7,7 +7,7 @@ namespace TicketStore.Client.Logic.Messages
     /// <summary>
     /// Immutable purchase ticket message.
     /// </summary>
-    public class PurchaseTicketMessage
+    public class PurchaseTicketsMessage
     {
         /// <summary>
         /// Event id.
@@ -24,7 +24,7 @@ namespace TicketStore.Client.Logic.Messages
         /// </summary>
         /// <param name="eventId">Event id.</param>
         /// <param name="ticketCount">Ticket count.</param>
-        public PurchaseTicketMessage(Guid eventId, int ticketCount)
+        public PurchaseTicketsMessage(Guid eventId, int ticketCount)
         {
             EventId = eventId;
             TicketCount = ticketCount;

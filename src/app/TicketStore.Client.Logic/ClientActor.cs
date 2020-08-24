@@ -162,7 +162,7 @@ namespace TicketStore.Client.Logic
                 Helper.GracefulExitSuccess();
             });
 
-            Receive<PurchaseTicketMessage>(msg => 
+            Receive<PurchaseTicketsMessage>(msg => 
             {
                 _remoteEventActorRef.Tell(new PurchaseTicketsRequest(Guid.NewGuid(), msg.EventId, _userId, _remainingBudget, msg.TicketCount));
             });
@@ -170,8 +170,11 @@ namespace TicketStore.Client.Logic
             Receive<PurchaseTicketsSuccess>(msg =>
             {
                 _remainingBudget -= msg.Costs;
-                _logger.Info("Successfully purchased ticket for event with id {eventId}", msg.TicketDto.EventId);
-                PrintPretty(msg.TicketDto);
+                _logger.Info("Successfully purchased {count} tickets for event with id {eventId}", msg.TicketDtos.Count, msg.TicketDtos[0].EventId);
+                foreach (var ticketDto in msg.TicketDtos)
+                {
+                    PrintPretty(ticketDto);
+                }
                 Self.Tell(new PersistStateMessage());
             });
 

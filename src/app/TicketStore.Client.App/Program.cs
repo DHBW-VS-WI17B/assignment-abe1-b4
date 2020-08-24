@@ -145,10 +145,10 @@ namespace TicketStore.Client.App
                     clientActor.Tell(new GetEventByIdMessage(id));
                     break;
 
-                case Command.PurchaseTicket:
+                case Command.PurchaseTickets:
                     var eId = Ask.ForEventId();
                     var ticketCount = Ask.ForTicketCount();
-                    clientActor.Tell(new PurchaseTicketMessage(eId, ticketCount));
+                    clientActor.Tell(new PurchaseTicketsMessage(eId, ticketCount));
                     break;
 
                 case Command.GetRemainingBudget:
