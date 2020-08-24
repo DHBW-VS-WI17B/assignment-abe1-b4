@@ -112,8 +112,8 @@ namespace TicketStore.Server.Logic.Actors
 
                 if (msg.TicketCount * targetEvent.PricePerTicket > remainingBudget)
                 {
-                    _logger.Warning("Can not sell ticket(s) for event with id {id}. Budget is {missingMoney} money units to small.", msg.EventId, (msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket(s) for event with id {msg.EventId}. Budget is {(msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget} money units to small."));
+                    _logger.Warning("Can not sell ticket(s) for event with id {id}. Budget is {missingMoney} money units too small.", msg.EventId, (msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget);
+                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket(s) for event with id {msg.EventId}. Budget is {(msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget} money units too small."));
                     return;
                 }
 
