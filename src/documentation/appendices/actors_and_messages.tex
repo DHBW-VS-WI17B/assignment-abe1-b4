@@ -9,8 +9,8 @@
 
 note "CreateEventMessage\nGetAllEventsMessage\nGetEventByIdMessage\nGetPurchasedTicketsMessage\nGetRemainingBudgetForCurrentYearMessage\nGetSoldTicketsMessage\nInitStateMessage\nPersistStateMessage\nPurchaseTicketsMessage\nRestoreStateMessage" as app2client
 
-app --> app2client
-app2client --> client
+app <--> app2client
+app2client <--> client
 
 note "CreateEventRequest\nGetAllEventsRequest\nGetEventByIdRequest\nGetSoldTicketsRequest\nPurchaseTicketsRequest" as client2event
 
