@@ -81,6 +81,7 @@ namespace TicketStore.Client.Logic
             Receive<CreateUserSuccess>(msg =>
             {
                 _logger.Info("Created user with id {id}", msg.UserDto.Id);
+                Console.WriteLine($"Created new user with id {msg.UserDto.Id}:");
                 PrintPretty(msg.UserDto);
                 _userId = msg.UserDto.Id;
                 Self.Tell(new PersistStateMessage());
@@ -110,6 +111,7 @@ namespace TicketStore.Client.Logic
             Receive<CreateEventSuccess>(msg =>
             {
                 _logger.Info("Created event with id {id}", msg.EventDto.Id);
+                Console.WriteLine("Created event with id {msg.EventDto.Id}:");
                 PrintPretty(msg.EventDto);
                 Helper.GracefulExitSuccess();
             });
@@ -134,7 +136,7 @@ namespace TicketStore.Client.Logic
             Receive<GetAllEventsSuccess>(msg =>
             {
                 _logger.Info("Received {count} events.", msg.EventDtos.Count);
-
+                Console.WriteLine($"Received {msg.EventDtos.Count} events:");
                 var table = new Table("ID", "Event name");
                 msg.EventDtos.ForEach(e =>
                 {
@@ -153,7 +155,7 @@ namespace TicketStore.Client.Logic
             Receive<GetEventByIdSuccess>(msg =>
             {
                 _logger.Info("Received details for event with id {id}.", msg.EventDto.Id);
-
+                Console.WriteLine($"Received details for event with id {msg.EventDto.Id}:");
                 PrintPretty(msg.EventDto);
                 Helper.GracefulExitSuccess();
             });
@@ -166,6 +168,7 @@ namespace TicketStore.Client.Logic
             Receive<PurchaseTicketsSuccess>(msg =>
             {
                 _logger.Info("Successfully purchased {count} tickets for event with id {eventId}", msg.TicketDtos.Count, msg.TicketDtos[0].EventId);
+                Console.WriteLine($"Successfully purchased {msg.TicketDtos.Count} tickets for event with id {msg.TicketDtos[0].EventId}:");
                 PrintPretty(msg.TicketDtos);
                 Helper.GracefulExitSuccess();
             });
@@ -189,13 +192,14 @@ namespace TicketStore.Client.Logic
 
             Receive<GetPurchasedTicketsSuccess>(msg =>
             {
-                var table = new Table("TicketId", "PurchaseDate", "Price", "EventName", "EventDate");
+                _logger.Info("Received {count} ticket(s).", msg.Tickets.Count);
+                Console.WriteLine($"Received {msg.Tickets.Count} ticket(s):");
 
+                var table = new Table("TicketId", "PurchaseDate", "Price", "EventName", "EventDate");
                 msg.Tickets.ForEach(t =>
                 {
                     table.AddRow(t.Id, t.PurchaseDate, t.EventDto.PricePerTicket, t.EventDto.Name, t.EventDto.Date);
                 });
-
                 table.Config = TableConfiguration.Markdown();
                 Console.WriteLine(table.ToString());
                 Helper.GracefulExitSuccess();
