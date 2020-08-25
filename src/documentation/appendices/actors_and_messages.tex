@@ -1,3 +1,4 @@
+\begin{plantuml}
 @startuml
 
 [ClientApp] as app
@@ -20,7 +21,7 @@ note "CreateUserRequest\nGetPurchasedTicketsRequest\nGetRemainingBudgetForCurren
 
 client --> client2user
 client2user --> user
- 
+    
 note "ErrorMessage\nCreateUserSuccess\nGetPurchasedTicketsSuccess\nGetRemainingBudgetForCurrentYearSuccess" as user2client
 
 user --> user2client
@@ -52,3 +53,4 @@ db --> db2user
 db2user --> user
 
 @enduml
+\end{plantuml}
