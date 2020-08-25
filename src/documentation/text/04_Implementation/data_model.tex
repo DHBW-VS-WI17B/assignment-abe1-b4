@@ -1,3 +1,7 @@
+\autoref{fig:er_diagram} zeigt das Datenmodell der Implementierung als Entity"=Relationship"=Modell.
+Es wurde bewusst drauf verzichtet aggregierbare Merkmale in das Datenmodell aufzunehmen.
+So wird die Anzahl an verkauften Tickets für ein bestimmtes Event bspw.\ nicht als Merkmal eines Events gespeichert, sondern auf Anfrage anhand gespeicherter Tickets berechnet.
+
 \begin{dhbwfigure}{%
     caption	= Entity-Relationship-Modell,
     label	= fig:er_diagram
@@ -28,7 +32,7 @@ entity "User" as user {
 }
 
 entity "Ticket" as ticket {
-    * Id: Guid <<generated>>
+    * Id: Guid
     --
     * PurchaseDate: DateTime
     --
