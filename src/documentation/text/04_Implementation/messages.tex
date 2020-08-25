@@ -1,54 +1,41 @@
-\begingroup
-\setstretch{1.1}
-\begin{longtable}{lp{0.8\textwidth}}
-\caption{Nachrichten}\label{tab:messages}\\
-\toprule
-\textbf{Typ} & \textbf{Beschreibung}\\
-\midrule
-\endfirsthead
-\multicolumn{2}{l@{}}{\dots}\\
-\midrule
-\textbf{Typ} & \textbf{Beschreibung}\\
-\midrule
-\endhead
-\midrule
-\multicolumn{2}{r@{}}{\dots}\\
-\endfoot
-\endlastfoot
-CreateEventMessage & \\
-GetAllEventsMessage & \\
-GetEventByIdMessage & \\
-GetPurchasedTicketsMessage & \\
-GetRemainingBudgetForCurrentYearMessage & \\
-GetSoldTicketsMessage & \\
-InitStateMessage & \\
-PersistStateMessage & \\
-PurchaseTicketsMessage & \\
-RestoreStateMessage & \\
-AddEventToDbRequest & \\
-AddEventToDbResponse & \\
-AddTicketsToDbRequest & \\
-AddTicketsToDbResponse & \\
-AddUserToDbRequest & \\
-AddUserToDbResponse & \\
-CreateEventRequest & \\
-CreateEventSuccess & \\
-CreateUserRequest & \\
-CreateUserSuccess & \\
-GetAllEventsRequest & \\
-GetAllEventsSuccess & \\
-GetEventByIdRequest & \\
-GetEventByIdSuccess & \\
-GetPurchasedTicketsRequest & \\
-GetPurchasedTicketsSuccess & \\
-GetRemainingBudgetForCurrentYearRequest & \\
-GetRemainingBudgetForCurrentYearSuccess & \\
-GetSoldTicketsRequest & \\
-GetSoldTicketsSuccess & \\
-PurchaseTicketsRequest & \\
-PurchaseTicketsSuccess & \\
-ErrorMessage & \\
-\bottomrule
-\caption*{\footnotesize{Quelle: Eigene Darstellung.}}
-\end{longtable}
-\endgroup
+Zur Realisierung werden von den in \autoref{sec:architecture} beschriebenen Aktoren Nachrichten ausgetauscht.
+Damit der Zustand von Nachrichten nicht unabsichtlich verändert wird bei der Verarbeitung, sind alle Nachrichten als unveränderbare Objekte definiert.
+Nachfolgend werden alle Nachrichten"=Typen kurz beschrieben:
+
+\begin{itemize}[itemsep=-.5em,leftmargin=*]
+    \item \textbf{CreateEventMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um eine Veranstaltung zu erstellen.
+    \item \textbf{GetAllEventsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um alle verfügbaren Veranstaltungen abzurufen.
+    \item \textbf{GetEventByIdMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um eine bestimmte Veranstaltungen abzurufen.
+    \item \textbf{GetPurchasedTicketsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um alle bestellten Tickets abzurufen.
+    \item \textbf{GetRemainingBudgetForCurrentYearMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um das verbleibende Budget für das aktuelle Jahr abzurufen.
+    \item \textbf{GetSoldTicketsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um die Anzahl an verkauften Tickets für eine Veranstaltung abzurufen.
+    \item \textbf{InitStateMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um einen Benutzer zu erstellen.
+    \item \textbf{PersistStateMessage}: Wird innerhalb des Client"=Aktors versandt um den Identifikator des aktuellen Benutzers lokal zu persistieren.
+    \item \textbf{PurchaseTicketsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um Tickets für eine Veranstaltung zu bestellen.
+    \item \textbf{RestoreStateMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet um den lokalen Zustand nach einem Neustart der Applikation wiederherzustellen.
+    \item \textbf{AddEventToDbRequest}: Wird von dem Event"=Aktor an den Datenbank"=
+    \item \textbf{AddEventToDbResponse}:
+    \item \textbf{AddTicketsToDbRequest}:
+    \item \textbf{AddTicketsToDbResponse}:
+    \item \textbf{AddUserToDbRequest}:
+    \item \textbf{AddUserToDbResponse}:
+    \item \textbf{CreateEventRequest}:
+    \item \textbf{CreateEventSuccess}:
+    \item \textbf{CreateUserRequest}:
+    \item \textbf{CreateUserSuccess}:
+    \item \textbf{GetAllEventsRequest}:
+    \item \textbf{GetAllEventsSuccess}:
+    \item \textbf{GetEventByIdRequest}:
+    \item \textbf{GetEventByIdSuccess}:
+    \item \textbf{GetPurchasedTicketsRequest}:
+    \item \textbf{GetPurchasedTicketsSuccess}:
+    \item \textbf{GetRemainingBudgetForCurrentYearRequest}:
+    \item \textbf{GetRemainingBudgetForCurrentYearSuccess}:
+    \item \textbf{GetSoldTicketsRequest}:
+    \item \textbf{GetSoldTicketsSuccess}:
+    \item \textbf{PurchaseTicketsRequest}:
+    \item \textbf{PurchaseTicketsSuccess}:
+    \item \textbf{ErrorMessage}:
+\end{itemize}
+
+In \autoref{app:actors_and_messages} werden die beschriebenen Nachrichten"=Typen mit dem Architekturdiagramm aus \autoref{fig:actor_system} zu einem Gesamtablaufdiagram ergänzt, das dem Verständnis der Implementierung weiter beitragen kann.
