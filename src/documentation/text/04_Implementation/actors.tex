@@ -1,0 +1,27 @@
+\begin{dhbwfigure}{%
+    caption	= Aktorensystem,
+    label	= fig:actor_system,
+}
+\begin{plantuml}
+@startuml
+
+package "Local" {
+    [ClientApp] as app
+    [ClientActor] as client
+}
+
+package "Remote" {
+    [EventActor] as event
+    [UserActor] as user
+    [WriteToDbActor] as db
+}
+
+app <-> client
+client <-> event
+client <-> user
+event <-> db
+user <-> db
+
+@enduml
+\end{plantuml}
+\end{dhbwfigure}
