@@ -1,0 +1,30 @@
+Zur Realisierung werden von den in \autoref{sec:architecture} beschriebenen Aktoren Nachrichten ausgetauscht.
+Damit der Zustand von Nachrichten nicht unabsichtlich bei deren Verarbeitung verändert wird, sind alle Nachrichten als unveränderbare Objekte definiert.
+Nachfolgend werden alle Nachrichten"=Typen beschrieben:
+
+\begin{itemize}[itemsep=-.5em,leftmargin=*]
+    \item \textbf{CreateEventMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um eine Veranstaltung zu erstellen.
+    \item \textbf{GetAllEventsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um alle verfügbaren Veranstaltungen abzurufen.
+    \item \textbf{GetEventByIdMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um eine bestimmte Veranstaltungen abzurufen.
+    \item \textbf{GetPurchasedTicketsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um alle bestellten Tickets abzurufen.
+    \item \textbf{GetRemainingBudgetForCurrentYearMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um das verbleibende Budget für das aktuelle Jahr abzurufen.
+    \item \textbf{GetSoldTicketsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um die Anzahl an verkauften Tickets für eine Veranstaltung abzurufen.
+    \item \textbf{InitStateMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um einen Benutzer zu erstellen.
+    \item \textbf{PersistStateMessage}: Wird innerhalb des Client"=Aktors gesendet, um den Identifikator des aktuellen Benutzers lokal zu persistieren.
+    \item \textbf{PurchaseTicketsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um Tickets für eine Veranstaltung zu bestellen.
+    \item \textbf{RestoreStateMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um den lokalen Zustand nach einem Neustart der Client"=Applikation wiederherzustellen.
+    \item \textbf{AddEventToDbRequest \& AddEventToDbResponse}: Werden zwischen Event"= und WriteToDb"=Aktoren ausgetauscht, um eine Veranstaltung in der Datenbank anzulegen.
+    \item \textbf{AddTicketsToDbRequest \& AddTicketsToDbResponse}: Werden zwischen Event"= und WriteToDb"=Aktoren ausgetauscht, um Tickets für eine Veranstaltung in der Datenbank anzulegen.
+    \item \textbf{AddUserToDbRequest \& AddUserToDbResponse}: Werden zwischen User"= und WriteToDb"=Aktoren ausgetauscht, um einen Nutzer in der Datenbank anzulegen.
+    \item \textbf{CreateEventRequest \& CreateEventSuccess}:  Werden zwischen Client"= und Event"=Aktoren ausgetauscht, um eine neue Veranstaltung anzulegen.
+    \item \textbf{CreateUserRequest \& CreateUserSuccess}: Wird zwischen Client"= und User"=Aktoren ausgetauscht, um einen neuen Nutzer anzulegen.
+    \item \textbf{GetAllEventsRequest \& GetAllEventsSuccess}: Werden zwischen Client"= und Event"=Aktoren ausgetauscht, um alle gespeicherten Veranstaltungen abzurufen.
+    \item \textbf{GetEventByIdRequest \& GetEventByIdSuccess}: Werden zwischen Client"= und Event"=Aktoren ausgetauscht, um eine bestimmte Veranstaltung abzurufen.
+    \item \textbf{GetPurchasedTicketsRequest \& GetPurchasedTicketsSuccess}: Werden zwischen Client"= und User"=Aktoren ausgetauscht, um alle bestellten Tickets abzurufen.
+    \item \textbf{GetRemainingBudgetForCurrentYearRequest \& GetRemainingBudgetForCurrentYearSuccess}: Werden von Client"= und User"=Aktoren ausgetauscht, um das verbleibende Budget für das aktuelle Jahr abzurufen.
+    \item \textbf{GetSoldTicketsRequest \& GetSoldTicketsSuccess}: Werden zwischen Client"= und Event"=Aktoren ausgetauscht, um die verkauften Tickets für die angefragte Veranstaltung abzurufen.
+    \item \textbf{PurchaseTicketsRequest \& PurchaseTicketsSuccess}: Werden zwischen Client"= und Event"=Aktoren ausgetauscht, um Tickets für eine Veranstaltung zu erwerben.
+    \item \textbf{ErrorMessage}: Wird von einem Event"= oder User"=Aktor an einen Client"=Aktor gesendet, um auf einen Fehler bei der Verarbeitung einer Nachricht hinzuweisen.
+\end{itemize}
+
+In \autoref{app:actors_and_messages} werden die beschriebenen Nachrichten"=Typen mit dem Architekturdiagramm aus \autoref{fig:actor_system} zu einem Gesamtablaufdiagram ergänzt, das dem Verständnis der Implementierung weiter beitragen kann.
