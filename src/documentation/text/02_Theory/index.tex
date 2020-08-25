@@ -1,0 +1,22 @@
+\section{Theorie}\label{sec:theory}
+
+In den folgenden Abschnitten wird die Theorie des Aktorenmodells näher ausgeführt.
+
+\subsection{Aktoren}
+
+Aktoren stellen nebenläufige Einheiten dar, welche nicht über einen gemeinsamen Speicherbereich verfügen, sondern über Nachrichten kommunizieren (Message passing). Die Kommunikation basiert auf dem Versenden von Nachrichten zu Empfängern (FIFO-Prinzip). Jeder Aktor verfügt dabei über einen Posteingang, eine Adresse und ein Verhalten. Nach erhalt einer Nachricht können Aktoren mit drei verschiedenen Funktionen reagieren: Nachrichten an sich selbst oder andere Aktoren verschicken, neue Aktoren erzeugen oder das eigene Verhalten ändern. Der Nachrichtenaustausch erfolgt asynchron, was bedeutet, dass der Sender nach versenden einer Nachricht sofort mit einer anderen Aktion fortfahren kann.\footnote{Akka.Net 2019, https://doc.akka.io/docs/akka/current/typed/guide/actors-intro.html}
+
+ABBILDUNG 
+
+Aktoren werden überwiegend bei funktionalen Programmiersprachen eingesetzt. In der Programmiersprache Erlang stellt es die Basis der Nebenläufigkeit dar. Aktoren können aber auch in imperativen Programmiersprachen, wie in C++ durch die Theron-Bibliothek, implementiert werden.
+
+\subsection{Vor- und Nachteile}
+
+\textbf{Pro:}
+\\
+Da Aktoren zu einem Zeitpunkt nur eine Nachricht abarbeiten und kein anderer paralleler Prozess den internen Speicherbereich eines Aktors beeinflusst, wird die Fehleranfälligkeit verringert. Werte behalten über die gesamte Bearbeitung der Nachricht hin ihre Gültigkeit, was das Aktoren-Modell grundlegend von klassischen Shared-Memory-Concurrency-Ansätzen unterscheidet, bei denen alle nebenläufigen Threads auf einen gemeinsamen Speicherbereich zugreifen und durch Locking geschützt wird.
+\\
+\\
+\textbf{Contra:}
+\\
+Da Aktoren nicht über einen gemeinsamen Speicherbereich verfügen, liegen die gleichen Informationen mehrfach im Speicher vor, was einen höheren Speicherverbrauch als Folge hat. Eine Alternative ist die Software Transactional Memory (STM) als Parallelitätskontrollmechanismus analog zu Datenbanktransaktionen zur Steuerung des Zugriffs auf gemeinsam genutzten Speicher. Das Versenden und Verarbeiten von Nachrichten bringt zudem einen hohen Rechenaufwand mit sich.\footnote{https://medium.com/@KtheAgent/actor-model-in-nutshell-d13c0f81c8c7}

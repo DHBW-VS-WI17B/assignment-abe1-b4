@@ -1,1 +1,149 @@
 % Requirements as use cases.
+\section{Anforderungen}\label{sec:requirements} % 2-3 Seiten
+
+Dieses Kapitel zeigt den Funktionsumfang des zu erstellenden Ticketportals auf. Hierfür werden die Erwartungen des Auftraggebers, welche er gegenüber der Webanwendung aufweist, beschrieben.
+
+%************************************************************************************************************************************************************
+
+\subsection{Begriffsdefinition}
+
+Der Begriff "Anforderungen" wird verwendet, um Aussagen über zu erfüllende Qualitäten, Funktionalitäten oder Eigenschaften eines Produktes zu treffen und bildet dabei die Grundlage für die Entwicklung eines Produktes. Sie gewährleisten, dass der Kunde bzw. der Hersteller das Produkt erhält bzw. produziert, wie es gewünscht wird.\footnote{Anforderungsmanagement S. 5 und Anfoderungsanalyse S.25f}
+
+%************************************************************************************************************************************************************
+
+\subsection{Anforderungsklassen}
+
+Anforderungen lassen sich in zwei Klassen unterscheiden:
+
+\begin{enumerate}
+    \item \ac{FA}
+    \item \ac{NFA}
+\end{enumerate}
+
+\ac{FA} beschreiben die funktionellen Bestandteile eines Softwaresystems. Sie zeigen auf, was das System aufgrund der Aufgabenstellung können muss. Beispiele für \ac{FA} sind Eingaben (Ereignisse, Daten) inklusive deren Einschränkungen, Funktionen, die das System beinhalten soll, beschrieben aus Sicht des Benutzers oder der Systemumgebung und Ausgaben (Daten, Fehlermeldungen).\footnote{Anfoderungsanalyse S.27}
+\\
+\\
+\ac{NFA} beschreiben die Qualitätseigenschaften und die Rahmenbedingungen, die an ein Produkt gestellt werden. Dabei werden beispielsweise Kosten- und Zeitrahmen aufgegriffen.\footnote{Anforderungsmanagement S. 37}
+\\
+\\
+Anhand der Elemente ID, Name, Beschreibung, Status und Version des Fünfecks der Anforderungs-Pflicht-Attribute können Anforderungen systematisch beschrieben werden. In dieser Arbeit werden die Anforderungen lediglich mittels der Attribute ID, Name und Beschreibung aufgelistet.\footnote{Anforderungsmanagement S. 39f}
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= Vorlage für die Beschreibung der Anforderungen,
+    label	= tab:Template,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & Eindeutige Identifikationsnummer für jede Anforderung                                 \\ \hline
+    \textbf{Name} & Name jeder Anforderung (im Zusammenhang mit der Funktion)                           \\ \hline
+    \textbf{Beschreibeung} & Kurzer Beschreibungstext zur Anfoderung                                    \\ \hline
+
+\end{dhbwlongtable}
+
+%************************************************************************************************************************************************************
+
+\subsubsection{Funktionale Anforderungen}
+
+In folgendem Abschnitt werden die, aus der Aufgabenstellung entnommenen, \ac{FA} dargestellt.
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= FA01: Tickets kaufen,
+    label	= tab:BuyTickets,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & FA01                                 \\ \hline
+    \textbf{Name} & Tickets kaufen                           \\ \hline
+    \textbf{Beschreibeung} & Dem Kunde soll es möglich sein, Tickets für eine Veranstaltung mit begrenzter Ticketanzahl, zu kaufen. Der Ticketverkauf beginnt zu einem bestimmten Zeitpunkt und endet nach einem gewählten Zeitraum (bspw. 14 Tage).                                    \\ \hline
+
+\end{dhbwlongtable}
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= FA02: Tickets pro Kunde,
+    label	= tab:TicketsPerCustomer,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & FA02                                 \\ \hline
+    \textbf{Name} & Tickets pro Kunde                           \\ \hline
+    \textbf{Beschreibeung} & Die Anzahl an Tickets pro Kunde soll begrenzt sein. Zudem kann jeder Kunde ein Jahresbudget festlegen, welches er Veranstaltungen ausgeben darf. Dieses darf nicht überschritten werden. Das Restbudget des Jahres, für das die Tickets gekauft werden, vor der Bestellung angezeigt werden.                                     \\ \hline
+
+\end{dhbwlongtable}
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= FA03: Informationen für Veranstaltungen,
+    label	= tab:EventInformation,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & FA03                                \\ \hline
+    \textbf{Name} & Informationen für Veranstaltungen                          \\ \hline
+    \textbf{Beschreibeung} & Dem Kunde soll es möglich sein, folgende Informationen der Veranstaltungen einzusehen: ID, Name, Datum, Ort, Preis (pro Ticket in €).                                    \\ \hline
+
+\end{dhbwlongtable}
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= FA04: Informationen über den Kunden,
+    label	= tab:CustomerInformation,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & FA04                                 \\ \hline
+    \textbf{Name} & Informationen über den Kunden                           \\ \hline
+    \textbf{Beschreibeung} & Der Verwaltung soll es möglich sein, folgende Informationen der Kunden einzusehen: Name, Adresse, erworbene Tickets mit Kaufdatum.                                     \\ \hline
+
+\end{dhbwlongtable}
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= FA05: Ticketshop,
+    label	= tab:TicketShop,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & FA05                                 \\ \hline
+    \textbf{Name} & Ticketshop                           \\ \hline
+    \textbf{Beschreibeung} & Der Kunde soll über einen Client auf den Ticketshop zugreifen können, welcher zentral verwaltet ist. Im Shop werden die Veranstaltungen mit Namen und ID aufgelistet. Zudem soll der Kunde weitere Daten zu den Veranstaltungen einsehen können. Des Weiteren sollte der Kunde sein restliches Jahresbudget und seine gekauften Tickets, nach Datum und Veranstaltung filterbar, einsehen können.                                    \\ \hline
+
+\end{dhbwlongtable}
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= FA06: Ticketshop Verwaltung,
+    label	= tab:TicketshopAdministration,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & FA06                                \\ \hline
+    \textbf{Name} & Ticketshop Verwaltung                           \\ \hline
+    \textbf{Beschreibeung} & Die Verwaltung sollte einen eigenen Client haben, der die folgenden Funktionen beinhalten sollte: Veranstaltung anlegen, Liste mit Name und IDs der Veranstaltungen einsehen, Daten zu den Veranstaltungen und Anzahl der verkauften Tickets pro Veranstaltung aufrufen.                                    \\ \hline
+
+\end{dhbwlongtable}
+
+%************************************************************************************************************************************************************
+
+\subsubsection{Nichtfunktionale Anforderungen}
+
+In folgendem Abschnitt werden die, aus der Aufgabenstellung entnommenen, \ac{NFA} dargestellt.
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= NFA01: Gleichzeitige Nutzung des Ticketshops,
+    label	= tab:TicketshopAdministration,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & NFA01                                \\ \hline
+    \textbf{Name} & Gleichzeitige Nutzung des Ticketshops                           \\ \hline
+    \textbf{Beschreibeung} & Den Kunden soll es möglich sein, gleichzeitig Tickets im Ticketshop zu erwerben.                                    \\ \hline
+
+\end{dhbwlongtable}
+
+\begin{dhbwlongtable}{ | p{0.3\linewidth} | p{0.6\linewidth} | }{%
+    caption	= NFA02: Anwendung sollte stabil laffähig sein,
+    label	= tab:TicketshopAdministration,
+    source	= Eigene Darstellung.
+}
+    \hline
+    \textbf{ID} & NFA02                               \\ \hline
+    \textbf{Name} & Den Kunden soll es möglich sein, gleichzeitig Tickets im Ticketshop zu erwerben.                           \\ \hline
+    \textbf{Beschreibeung} & Die Anwendung soll nicht während der Benutzung abstürzen.                                 \\ \hline
+
+\end{dhbwlongtable}
