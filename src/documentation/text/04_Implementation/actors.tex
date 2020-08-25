@@ -13,14 +13,18 @@ package "Local" {
 package "Remote" {
     [EventActor] as event
     [UserActor] as user
-    [WriteToDbActor] as db
+    [WriteToDbActor] as write
+    database "Database" as db
 }
 
 app <-> client
 client <-> event
 client <-> user
-event <-> db
-user <-> db
+event <-> write
+user <-> write
+user <-- db
+event <-- db
+write <--> db
 
 @enduml
 \end{plantuml}
