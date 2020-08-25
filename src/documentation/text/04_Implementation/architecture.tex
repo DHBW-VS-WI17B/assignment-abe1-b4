@@ -1,0 +1,39 @@
+Grundsätzlich besteht die Implementierung des geforderten Systems aus einer Client"= und einer Server"=Konsolenanwendung, die jeweils über Befehlszeilenargumente gesteuert werden können.
+Mit dem Befehlszeilenargument \enquote{-h} können je Anwendung alle verfügbaren Befehle abgerufen werden.
+
+\begin{dhbwfigure}{%
+    caption	= Aktorensystem,
+    label	= fig:actor_system,
+}
+\begin{plantuml}
+@startuml
+
+package "Local" {
+    [App] as app
+    [ClientActor] as client
+}
+
+package "Remote" {
+    [EventActor] as event
+    [UserActor] as user
+    [WriteToDbActor] as write
+    database "Database" as db
+}
+
+app <-> client
+client <-> event
+client <-> user
+event <-> write
+user <-> write
+user <-- db
+event <-- db
+write <--> db
+
+@enduml
+\end{plantuml}
+\end{dhbwfigure}
+
+\autoref{fig:actor_system} zeigt den Aufbau des implementierten Aktorensystems.
+Clientseitig instanziiert jeder Client einen eigenen \enquote{Client"=Aktor}, der die Schnittstelle zwischen der Konsolenanwendung und den restlichen Aktoren darstellt.
+Serverseitig werden mehrere \enquote{User"=} und \enquote{Event"=Aktoren} instanziiert, die sich jeweils Anfragen bzgl.\ ihrer Domäne annehmen.
+Sollte eine Anfrage schreibenden Zugriff auf die Datenbank benötigen, wird die Anfrage an einen nur einmal instanziierten \enquote{WriteToDb"=Aktor} weitergeleitet, der alle Anfragen gem.\ dem Aktorenmodell sequenziell abarbeitet, wodurch Dateninkonsistenzen verhindert werden können.

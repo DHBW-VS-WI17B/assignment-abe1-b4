@@ -1,0 +1,63 @@
+\autoref{fig:er_diagram} zeigt das Datenmodell der Implementierung als Entity"=Relationship"=Modell.
+Es wurde bewusst drauf verzichtet aggregierbare Merkmale in das Datenmodell aufzunehmen.
+So wird die Anzahl an verkauften Tickets für ein bestimmtes Event bspw.\ nicht als Merkmal eines Events gespeichert, sondern auf Anfrage anhand gespeicherter Tickets berechnet.
+
+\begin{dhbwfigure}{%
+    caption	= Entity-Relationship-Modell,
+    label	= fig:er_diagram,
+    float   = H
+}
+\begin{plantuml}
+@startuml
+
+skinparam linetype ortho
+
+entity "Address" as address {
+    * Id: Guid
+    --
+    * ZipCode: string
+    * City: string
+    * Street: string
+    * HouseNumber: string
+    --
+    * UserId: Guid
+}
+
+entity "User" as user {
+    * Id: Guid
+    --
+    * UserName: string
+    * YearlyBudget: double
+    --
+    * AddressId: Guid
+}
+
+entity "Ticket" as ticket {
+    * Id: Guid
+    --
+    * PurchaseDate: DateTime
+    --
+    * EventId: Guid
+    * UserId: Guid
+}
+
+entity "Event" as event {
+    * Id: Guid
+    --
+    * Name: string
+    * Date: DateTime
+    * Location: string
+    * PricePerTicket: double
+    * MaxTicketCount: int
+    * MaxTicketsPerUser: int
+    * SaleStartDate: DateTime
+    * SaleEndDate: DateTime
+}
+
+user ||-|| address
+user }o-|| ticket
+event }o-|| ticket
+
+@enduml
+\end{plantuml}
+\end{dhbwfigure}

@@ -1,0 +1,6 @@
+Die Implementierung der in \autoref{sec:requirements} beschriebenen Anforderungen basiert auf der freien und quelloffenen Software"=Plattform \enquote{.NET Core 3.1}, die sich u.a.\ aufgrund der Unterstützung der Betriebssysteme \enquote{Linux}, \enquote{macOS} und \enquote{Windows}, sowie der Prozessorarchitekturen \enquote{x64}, \enquote{x86} und \enquote{ARM} für den beschriebenen Einsatzzweck eignet.
+Des Weiteren wird das Kompilieren in eine alleine lauffähige Datei unterstützt, was das Verteilen der Applikation erleichtert.\ifootcite{docs.microsoft.com_dotnetcore_overview}
+Als Programmiersprache wird dabei die streng typisierte Sprache \enquote{C\#} eingesetzt.\ifootcite{docs.microsoft.com_csharp}
+Das Aktorenmodell wird mithilfe des Frameworks \enquote{Akka.NET} umgesetzt, das auch über Netzwerke verteilte Aktorensysteme unterstützt.\ifootcite{getakka.net_about}
+Zur Datenhaltung wird clientseitig eine Konfigurationsdatei im \ac{JSON}"=Format angelegt.
+Serverseitig wird nach dem Repository"=Entwurfsmuster\ifootcite[322]{fowler2003}\unskip\ über das Framework \enquote{Entity Framework Core} auf eine lokale \enquote{SQLite} Datenbank zugegriffen um Daten zu persistieren.\ifootcite{docs.microsoft.com_efcore_overview,docs.microsoft.com_efcore_sqlite}
