@@ -13,28 +13,17 @@ Nachfolgend werden alle Nachrichten"=Typen kurz beschrieben:
     \item \textbf{PersistStateMessage}: Wird innerhalb des Client"=Aktors gesendet, um den Identifikator des aktuellen Benutzers lokal zu persistieren.
     \item \textbf{PurchaseTicketsMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um Tickets für eine Veranstaltung zu bestellen.
     \item \textbf{RestoreStateMessage}: Wird von der Client"=Applikation an den Client"=Aktor gesendet, um den lokalen Zustand nach einem Neustart der Client"=Applikation wiederherzustellen.
-    \item \textbf{AddEventToDbRequest}: Wird von einem Event"=Aktor an den WriteToDb"=Aktor gesendet, um eine Veranstaltung in der Datenbank anzulegen.
-    \item \textbf{AddEventToDbResponse}: Wird von WriteToDb"=Aktoren an den entsprechenden Event"=Aktor gesendet, um über das Ergebnis der angeforderten Schreiboperation zu informieren.
-    \item \textbf{AddTicketsToDbRequest}: Wird von einem Event"=Aktor an den WriteToDb"=Aktor gesendet, um beliebig viele Tickets für eine Veranstaltung in der Datenbank anzulegen.
-    \item \textbf{AddTicketsToDbResponse}: Wird von WriteToDb"=Aktoren an den entsprechenden Event"=Aktor gesendet, um über das Ergebnis der angeforderten Schreiboperation zu informieren.
-    \item \textbf{AddUserToDbRequest}: Wird von einem User"=Aktor an den WriteToDb"=Aktor gesendet, um einen Nutzer in der Datenbank anzulegen.
-    \item \textbf{AddUserToDbResponse}: Wird von WriteToDb"=Aktoren an den entsprechenden User"=Aktor gesendet, um über das Ergebnis der angeforderten Schreiboperation zu informieren.
-    \item \textbf{CreateEventRequest}:  Wird von einem Client"=Aktor an einen Event"=Aktor gesendet, um das Anlegen einer neuen Veranstaltung anzufragen.
-    \item \textbf{CreateEventSuccess}: Wird von einem Event"=Aktor an den entsprechenden Client"=Aktor gesendet, falls die angefragte Veranstaltung angelegt werden konnte.
-    \item \textbf{CreateUserRequest}: Wird von einem Client"=Aktor an einen User"=Aktor gesendet, um das Anlegen eines neuen Nutzers anzufragen.
-    \item \textbf{CreateUserSuccess}: Wird von einem User"=Aktor an den entsprechenden Client"=Aktor gesendet, falls der angefragte Nutzer angelegt werden konnte.
-    \item \textbf{GetAllEventsRequest}: Wird von einem Client"=Aktor an einen Event"=Aktor gesendet, um alle gespeicherten Veranstaltungen abzurufen.
-    \item \textbf{GetAllEventsSuccess}: Wird von einem Event"=Aktor an den entsprechenden Client"=Aktor gesendet, um alle gespeicherten Veranstaltungen zu übermitteln. 
-    \item \textbf{GetEventByIdRequest}: Wird von einem Client"=Aktor an einen Event"=Aktor gesendet, um eine bestimmte Veranstaltung abzurufen.
-    \item \textbf{GetEventByIdSuccess}: Wird von einem Event"=Aktor an den entsprechenden Client"=Aktor gesendet, um eine bestimmte Veranstaltung zu übermitteln.
-    \item \textbf{GetPurchasedTicketsRequest}: Wird von einem Client"=Aktor an einen User"=Aktor gesendet, um alle bestellten Tickets anzufragen.
-    \item \textbf{GetPurchasedTicketsSuccess}: Wird von einem User"=Aktor an den entsprechenden Client"=Aktor gesendet, um alle bestellten Tickets zu übermitteln.
-    \item \textbf{GetRemainingBudgetForCurrentYearRequest}: Wird von einem Client"=Aktor an einen User"=Aktor gesendet, um das verbleibende Budget für das aktuelle Jahr anzufragen.
-    \item \textbf{GetRemainingBudgetForCurrentYearSuccess}: Wird von einem User"=Aktor an den entsprechenden Client"=Aktor übermittelt, um das verbleibende Budget für das aktuelle Jahr zu übermitteln.
-    \item \textbf{GetSoldTicketsRequest}: Wird von einem Client"=Aktor an einen Event"=Aktor gesendet, um die verkauften Tickets für die angefragte Veranstaltung anzufragen.
-    \item \textbf{GetSoldTicketsSuccess}: Wird von einem Event"=Aktor an den entsprechenden User"=Aktor gesendet, um die verkauften Tickets für die angefragte Veranstaltung zu übermitteln.
-    \item \textbf{PurchaseTicketsRequest}: Wird von einem Client"=Aktor an einen Event"=Aktor gesendet, um Tickets für eine Veranstaltung zu erwerben.
-    \item \textbf{PurchaseTicketsSuccess}: Wird vin einem Event"=Aktor an den entsprechenden Client"=Aktor gesendet, um die erworbenen Tickets für die angefragte Veranstaltung zu übermitteln.
+    \item \textbf{AddEventToDbRequest \& AddEventToDbResponse}: Werden von Event"=Aktoren und WriteToDb"=Aktoren ausgetauscht, um eine Veranstaltung in der Datenbank anzulegen.
+    \item \textbf{AddTicketsToDbRequest \& AddTicketsToDbResponse}: Werden von Event"=Aktoren und WriteToDb"=Aktoren ausgetauscht, um Tickets für eine Veranstaltung in der Datenbank anzulegen.
+    \item \textbf{AddUserToDbRequest \& AddUserToDbResponse}: Werden von User"=Aktoren WriteToDb"=Aktoren ausgetauscht, um einen Nutzer in der Datenbank anzulegen.
+    \item \textbf{CreateEventRequest \& CreateEventSuccess}:  Werden von Client"=Aktoren und Event"=Aktoren ausgetauscht, um eine neue Veranstaltung anzulegen.
+    \item \textbf{CreateUserRequest \& CreateUserSuccess}: Wird von Client"=Aktoren und User"=Aktoren ausgetauscht, um einen neuen Nutzer anzulegen.
+    \item \textbf{GetAllEventsRequest \& GetAllEventsSuccess}: Werden von Client"=Aktoren und Event"=Aktoren ausgetauscht, um alle gespeicherten Veranstaltungen abzurufen.
+    \item \textbf{GetEventByIdRequest \& GetEventByIdSuccess}: Werden von Client"=Aktoren und Event"=Aktoren ausgetauscht, um eine bestimmte Veranstaltung abzurufen.
+    \item \textbf{GetPurchasedTicketsRequest \& GetPurchasedTicketsSuccess}: Werden von Client"=Aktoren und User"=Aktoren ausgetauscht, um alle bestellten Tickets abzurufen.
+    \item \textbf{GetRemainingBudgetForCurrentYearRequest \& GetRemainingBudgetForCurrentYearSuccess}: Werden von Client"=Aktoren und User"=Aktoren ausgetauscht, um das verbleibende Budget für das aktuelle Jahr abzurufen.
+    \item \textbf{GetSoldTicketsRequest \& GetSoldTicketsSuccess}: Werden von Client"=Aktoren und Event"=Aktoren ausgetauscht, um die verkauften Tickets für die angefragte Veranstaltung abzurufen.
+    \item \textbf{PurchaseTicketsRequest \& PurchaseTicketsSuccess}: Werden von Client"=Aktoren und Event"=Aktoren ausgetauscht, um Tickets für eine Veranstaltung zu erwerben.
     \item \textbf{ErrorMessage}: Wird von einem Event"= oder User"=Aktor an einen Client"=Aktor gesendet, um auf einen Fehler bei der Verarbeitung einer Nachricht hinzuweisen.
 \end{itemize}
 
