@@ -16,7 +16,7 @@ In dieser Arbeit werden die Anforderungen lediglich mittels der Attribute ID, Na
 \begingroup
 \setstretch{1.1}
 \begin{longtable}{lp{0.8\textwidth}}
-\caption{Anforderungskatalog}\label{tab:requirements}\\
+\caption{Use-Cases}\label{tab:requirements}\\
 \toprule
 \textbf{Identifikator} & \textbf{Beschreibung}\\
 \midrule
@@ -30,25 +30,25 @@ In dieser Arbeit werden die Anforderungen lediglich mittels der Attribute ID, Na
 \multicolumn{2}{r@{}}{\dots}\\
 \endfoot
 \endlastfoot
-\defFA{01} & Die Anzahl an verfügbaren Tickets ist je Veranstaltung beschränkt.\\
-\defFA{02} & Die Anzahl an verfügbaren Tickets je Kunde ist je Veranstaltung begrenzt.\\
-\defFA{03} & Jeder Kunde definiert ein Jahresbudget für den Erwerb von Tickets für Veranstaltungen, wobei der Veranstaltungstermin entscheidend für Zuordnung der Kosten zum entsprechenden Jahr ist. Eine Überschreitung des Budgets ist nicht zulässig.\\
-\defFA{04} & Je Veranstaltung kann ein Zeitraum (z.B.\ 12.12.2020 12 Uhr bis 1.1.2021 12 Uhr) festgelegt werden, innerhalb dessen es Kunden möglich ist Tickets zu erwerben.\\
-\defFA{05} & Der Ticketverkauf wird zentral verwaltet.\\
-\defFA{06} & Mehrere Kunden können simultan auf den Ticketverkauf zugreifen.\\
-\defFA{07} & Zu einer Veranstaltung werden mindestens folgende Daten verwaltet: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
-\defFA{08} & Zu einem Kunden werden mindestens folgende Daten verwaltet: Name des Kunden, Adresse des Kunden, Erworbene Tickets mit Kaufdatum.\\
-\defFA{09} & Kunden greifen über einen dedizierten Client auf den Ticketverkauf zu.\\
-\defFA{10} & Kunden können eine Liste mit dem Namen und den Identifikatoren der angebotenen Veranstaltungen abrufen.\\
-\defFA{11} & Kunden können zu einer bestimmten Veranstaltung mindestens folgende Daten abrufen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
-\defFA{12} & Kunden können beliebig viele Tickets (begrenzt durch die maximale Anzahl an Tickets je Veranstaltung, bzw.\ Kunde) für eine Veranstaltung in einer Anfrage erwerben.\\
-\defFA{13} & Kunden können bestellte Tickets abrufen und dabei entweder nach Bestelldatum oder Veranstaltungstermin filtern.\\
-\defFA{14} & Kunden können das verbleibende Budget für Tickets für das aktuelle Jahr abfragen.\\
-\defFA{15} & Die Verwaltung greift über einen dedizierten Client auf das System zu.\\
-\defFA{16} & Die Verwaltung kann eine Veranstaltung mit mindestens den folgenden Daten anlegen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
-\defFA{17} & Die Verwaltung kann eine Liste mit dem Namen und den Identifikatoren der angebotenen Veranstaltungen abrufen.\\
-\defFA{18} & Die Verwaltung kann zu einer bestimmten Veranstaltung mindestens folgende Daten abrufen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
-\defFA{19} & Die Verwaltung kann die Anzahl an verkauften Tickets für eine bestimmte Veranstaltung abrufen.\\
+UC-01 & Die Anzahl an verfügbaren Tickets ist je Veranstaltung beschränkt.\\
+UC-02 & Die Anzahl an verfügbaren Tickets je Kunde ist je Veranstaltung begrenzt.\\
+UC-03 & Jeder Kunde definiert ein Jahresbudget für den Erwerb von Tickets für Veranstaltungen, wobei der Veranstaltungstermin entscheidend für Zuordnung der Kosten zum entsprechenden Jahr ist. Eine Überschreitung des Budgets ist nicht zulässig.\\
+UC-04 & Je Veranstaltung kann ein Zeitraum (z.B.\ 12.12.2020 12 Uhr bis 1.1.2021 12 Uhr) festgelegt werden, innerhalb dessen es Kunden möglich ist Tickets zu erwerben.\\
+UC-05 & Der Ticketverkauf wird zentral verwaltet.\\
+UC-06 & Mehrere Kunden können simultan auf den Ticketverkauf zugreifen.\\
+UC-07 & Zu einer Veranstaltung werden mindestens folgende Daten verwaltet: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
+UC-08 & Zu einem Kunden werden mindestens folgende Daten verwaltet: Name des Kunden, Adresse des Kunden, Erworbene Tickets mit Kaufdatum.\\
+UC-09 & Kunden greifen über einen dedizierten Client auf den Ticketverkauf zu.\\
+UC-10 & Kunden können eine Liste mit dem Namen und den Identifikatoren der angebotenen Veranstaltungen abrufen.\\
+UC-11 & Kunden können zu einer bestimmten Veranstaltung mindestens folgende Daten abrufen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
+UC-12 & Kunden können beliebig viele Tickets (begrenzt durch die maximale Anzahl an Tickets je Veranstaltung, bzw.\ Kunde) für eine Veranstaltung in einer Anfrage erwerben.\\
+UC-13 & Kunden können bestellte Tickets abrufen und dabei entweder nach Bestelldatum oder Veranstaltungstermin filtern.\\
+UC-14 & Kunden können das verbleibende Budget für Tickets für das aktuelle Jahr abfragen.\\
+UC-15 & Die Verwaltung greift über einen dedizierten Client auf das System zu.\\
+UC-16 & Die Verwaltung kann eine Veranstaltung mit mindestens den folgenden Daten anlegen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
+UC-17 & Die Verwaltung kann eine Liste mit dem Namen und den Identifikatoren der angebotenen Veranstaltungen abrufen.\\
+UC-18 & Die Verwaltung kann zu einer bestimmten Veranstaltung mindestens folgende Daten abrufen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
+UC-19 & Die Verwaltung kann die Anzahl an verkauften Tickets für eine bestimmte Veranstaltung abrufen.\\
 \bottomrule
 \caption*{\footnotesize{Quelle: Eigene Darstellung.}}
 \end{longtable}
