@@ -155,9 +155,20 @@ namespace TicketStore.Client.App
                     break;
 
                 case Command.GetPurchasedTickets:
-                    var sortBy = Ask.ForSortBy();
-                    var orderBy = Ask.ForOrder();
-                    clientActor.Tell(new GetPurchasedTicketsMessage(sortBy, orderBy));
+                    string filterBy = null;
+                    DateTime? filterDate = null;
+                    if (Ask.IfTicketsShouldBeFiltered())
+                    {
+                        filterBy = Ask.ForFilterBy();
+                        filterDate = Ask.ForFilterDateTime();
+                    }
+                    string sortBy = null, orderBy = null;
+                    if (Ask.IfTicketsShouldBeSorted())
+                    {
+                        sortBy = Ask.ForSortBy();
+                        orderBy = Ask.ForOrder();
+                    }
+                    clientActor.Tell(new GetPurchasedTicketsMessage(sortBy, orderBy, filterBy, filterDate));
                     break;
 
                 default:

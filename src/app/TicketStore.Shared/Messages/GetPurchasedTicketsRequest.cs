@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TicketStore.Shared.Enums;
+using TicketStore.Shared.Models;
 
 namespace TicketStore.Shared.Messages
 {
@@ -16,27 +17,27 @@ namespace TicketStore.Shared.Messages
         public Guid UserId { get; }
 
         /// <summary>
-        /// Sort order.
+        /// Ticket sorting information.
         /// </summary>
-        public Order Order { get; }
+        public TicketSorting TicketSorting { get; }
 
         /// <summary>
-        /// Sort criterion.
+        /// Ticket filter information.
         /// </summary>
-        public Sort SortBy { get; }
+        public TicketFilter TicketFilter { get; }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="requestId">Request id.</param>
         /// <param name="userId">User id.</param>
-        /// <param name="order">Order direction.</param>
-        /// <param name="sortBy">Sort criterion.</param>
-        public GetPurchasedTicketsRequest(Guid requestId, Guid userId, Order order, Sort sortBy) : base(requestId)
+        /// <param name="ticketSorting">Ticket sorting information.</param>
+        /// <param name="ticketFilter">Ticket filter information.</param>
+        public GetPurchasedTicketsRequest(Guid requestId, Guid userId, TicketSorting ticketSorting, TicketFilter ticketFilter) : base(requestId)
         {
             UserId = userId;
-            Order = order;
-            SortBy = sortBy;
+            TicketSorting = ticketSorting;
+            TicketFilter = ticketFilter;
         }
     }
 }

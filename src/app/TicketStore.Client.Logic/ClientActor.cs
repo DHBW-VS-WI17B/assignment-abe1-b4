@@ -136,14 +136,18 @@ namespace TicketStore.Client.Logic
             Receive<GetAllEventsSuccess>(msg =>
             {
                 _logger.Info("Received {count} events.", msg.EventDtos.Count);
-                Console.WriteLine($"Received {msg.EventDtos.Count} events:");
-                var table = new Table("ID", "Event name");
-                msg.EventDtos.ForEach(e =>
+                Console.WriteLine($"Received {msg.EventDtos.Count} events");
+
+                if (msg.EventDtos.Count > 0)
                 {
-                    table.AddRow(e.Id, e.Name);
-                });
-                table.Config = TableConfiguration.Markdown();
-                Console.WriteLine(table.ToString());
+                    var table = new Table("ID", "Event name");
+                    msg.EventDtos.ForEach(e =>
+                    {
+                        table.AddRow(e.Id, e.Name);
+                    });
+                    table.Config = TableConfiguration.Markdown();
+                    Console.WriteLine(table.ToString());
+                }
                 Helper.GracefulExitSuccess();
             });
 
@@ -187,21 +191,36 @@ namespace TicketStore.Client.Logic
 
             Receive<GetPurchasedTicketsMessage>(msg =>
             {
-                _remoteUserActorRef.Tell(new GetPurchasedTicketsRequest(Guid.NewGuid(), _userId, Enum.Parse<Order>(msg.Order), Enum.Parse<Sort>(msg.SortBy)));
+                TicketFilter ticketFilter = null;
+                if (msg.FilterBy != null && msg.FilterDateTime != null)
+                {
+                    ticketFilter = new TicketFilter(Enum.Parse<QueryCriterion>(msg.FilterBy), (DateTime)msg.FilterDateTime);
+                }
+
+                TicketSorting ticketSorting = null;
+                if(msg.SortBy != null && msg.OrderDirection != null)
+                {
+                    ticketSorting = new TicketSorting(Enum.Parse<QueryCriterion>(msg.SortBy), Enum.Parse<OrderDirection>(msg.OrderDirection));
+                }
+
+                _remoteUserActorRef.Tell(new GetPurchasedTicketsRequest(Guid.NewGuid(),_userId, ticketSorting, ticketFilter));
             });
 
             Receive<GetPurchasedTicketsSuccess>(msg =>
             {
                 _logger.Info("Received {count} ticket(s).", msg.Tickets.Count);
-                Console.WriteLine($"Received {msg.Tickets.Count} ticket(s):");
+                Console.WriteLine($"Received {msg.Tickets.Count} ticket(s)");
 
-                var table = new Table("TicketId", "PurchaseDate", "Price", "EventName", "EventDate");
-                msg.Tickets.ForEach(t =>
+                if(msg.Tickets.Count > 0)
                 {
-                    table.AddRow(t.Id, t.PurchaseDate, t.EventDto.PricePerTicket, t.EventDto.Name, t.EventDto.Date);
-                });
-                table.Config = TableConfiguration.Markdown();
-                Console.WriteLine(table.ToString());
+                    var table = new Table("TicketId", "PurchaseDate", "Price", "EventName", "EventDate");
+                    msg.Tickets.ForEach(t =>
+                    {
+                        table.AddRow(t.Id, t.PurchaseDate, t.EventDto.PricePerTicket, t.EventDto.Name, t.EventDto.Date);
+                    });
+                    table.Config = TableConfiguration.Markdown();
+                    Console.WriteLine(table.ToString());
+                }
                 Helper.GracefulExitSuccess();
             });
         }

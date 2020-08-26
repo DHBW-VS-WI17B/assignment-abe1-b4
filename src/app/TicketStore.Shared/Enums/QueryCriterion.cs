@@ -5,9 +5,9 @@ using System.Text;
 namespace TicketStore.Shared.Enums
 {
     /// <summary>
-    /// Sort by.
+    /// Query criterion.
     /// </summary>
-    public enum Sort
+    public enum QueryCriterion
     {
         /// <summary>
         /// Event date.

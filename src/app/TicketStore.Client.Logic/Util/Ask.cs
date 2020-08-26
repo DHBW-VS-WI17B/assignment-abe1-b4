@@ -30,6 +30,43 @@ namespace TicketStore.Client.Logic.Util
             return new EventDto(Guid.Empty, name, date.ToUniversalTime(), location, pricePerTicket, maxTicketCount, maxTicketsPerUser, saleStartDate.ToUniversalTime(), saleEndDate.ToUniversalTime());
         }
 
+
+        /// <summary>
+        /// Ask if the tickets should be filtered.
+        /// </summary>
+        /// <returns>Boolean.</returns>
+        public static bool IfTicketsShouldBeFiltered()
+        {
+            return Prompt.Confirm("Do you want to filter the tickets? (y/N)", false);
+        }
+
+        /// <summary>
+        /// Ask for a filter subject.
+        /// </summary>
+        /// <returns>Filter subject.</returns>
+        public static string ForFilterBy()
+        {
+            return Prompt.Select("Filter by?", new[] { "EventDate", "PurchaseDate" });
+        }
+
+        /// <summary>
+        /// Ask for a day to filter with while retrieving tickets.
+        /// </summary>
+        /// <returns>Date.</returns>
+        public static DateTime ForFilterDateTime()
+        {
+            return Prompt.Input<DateTime>("For which day do you want to retrieve purchased tickets?", null);
+        }
+
+        /// <summary>
+        /// Ask if the tickets should be sorted.
+        /// </summary>
+        /// <returns>Boolean.</returns>
+        public static bool IfTicketsShouldBeSorted()
+        {
+            return Prompt.Confirm("Do you want to sort the tickets? (y/N)", false);
+        }
+
         /// <summary>
         /// Ask for a sort by statement.
         /// </summary>
