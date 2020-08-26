@@ -10,24 +10,38 @@ namespace TicketStore.Client.Logic.Messages
     public class GetPurchasedTicketsMessage
     {
         /// <summary>
-        /// Sort by cirteria.
+        /// Sort by criterion.
         /// </summary>
         public string SortBy { get; }
 
         /// <summary>
-        /// Order ascending or descending.
+        /// Order direction. Either ascending or descending.
         /// </summary>
-        public string Order { get; }
+        public string OrderDirection { get; }
+
+        /// <summary>
+        /// Filter by criterion.
+        /// </summary>
+        public string FilterBy { get; }
+
+        /// <summary>
+        /// Filter date time. Only the day is considered.
+        /// </summary>
+        public DateTime? FilterDateTime { get; }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="sortBy">Sort by cirteria.</param>
-        /// <param name="order">Order ascending or descending.</param>
-        public GetPurchasedTicketsMessage(string sortBy, string order)
+        /// <param name="sortBy">Sort by criterion.</param>
+        /// <param name="order">Order direction. Either ascending or descending.</param>
+        /// <param name="filterBy">Filter by criterion.</param>
+        /// <param name="filterDateTime">Filter date time. Only the day is considered.</param>
+        public GetPurchasedTicketsMessage(string sortBy, string order, string filterBy, DateTime? filterDateTime)
         {
             SortBy = sortBy;
-            Order = order;
+            OrderDirection = order;
+            FilterBy = filterBy;
+            FilterDateTime = filterDateTime;
         }
     }
 }

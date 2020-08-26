@@ -64,34 +64,12 @@ namespace TicketStore.Server.Logic.Actors
                     return;
                 }
 
-                var enrichedPurchasedTickets = purchasedTickets.Select(t => new RichTicketDto(t.Id, t.PurchaseDate, t.UserId, Mapper.EventToEventDto(_repo.Events.FindByCondition(e => e.Id == t.EventId).FirstOrDefault()))).ToImmutableList();
+                var enrichedTickets = purchasedTickets.Select(t => new RichTicketDto(t.Id, t.PurchaseDate, t.UserId, Mapper.EventToEventDto(_repo.Events.FindByCondition(e => e.Id == t.EventId).FirstOrDefault()))).ToImmutableList();
+                var filteredTickets = FilterRichTicketDtos(enrichedTickets, msg.TicketFilter);
+                var sortedTickets = SortRichTicketDtos(filteredTickets, msg.TicketSorting);
 
-                IImmutableList<RichTicketDto> sortedAndOrderedPurchasedTickets;
-                if (msg.Order == Order.Ascending)
-                {
-                    if (msg.SortBy == Sort.PurchaseDate)
-                    {
-                        sortedAndOrderedPurchasedTickets = enrichedPurchasedTickets.OrderBy(t => t.PurchaseDate).ToImmutableList();
-                    }
-                    else
-                    {
-                        sortedAndOrderedPurchasedTickets = enrichedPurchasedTickets.OrderBy(t => t.EventDto.Date).ToImmutableList();
-                    }
-                }
-                else
-                {
-                    if (msg.SortBy == Sort.PurchaseDate)
-                    {
-                        sortedAndOrderedPurchasedTickets = enrichedPurchasedTickets.OrderByDescending(t => t.PurchaseDate).ToImmutableList();
-                    }
-                    else
-                    {
-                        sortedAndOrderedPurchasedTickets = enrichedPurchasedTickets.OrderByDescending(t => t.EventDto.Date).ToImmutableList();
-                    }
-                }
-
-                _logger.Info("Found and ordered {count} tickets for user with id {userid}.", sortedAndOrderedPurchasedTickets.Count, msg.UserId);
-                Sender.Tell(new GetPurchasedTicketsSuccess(msg.RequestId, sortedAndOrderedPurchasedTickets));
+                _logger.Info("Found and ordered {count} tickets for user with id {userid}.", sortedTickets.Count, msg.UserId);
+                Sender.Tell(new GetPurchasedTicketsSuccess(msg.RequestId, sortedTickets));
             });
 
             Receive<GetRemainingBudgetForCurrentYearRequest>(msg =>
@@ -115,6 +93,60 @@ namespace TicketStore.Server.Logic.Actors
 
                 Sender.Tell(new GetRemainingBudgetForCurrentYearSuccess(remainingBudget, budget));
             });
+        }
+
+        /// <summary>
+        /// Filters a list of tickets.
+        /// </summary>
+        /// <param name="richTicketDtos">Tickets.</param>
+        /// <param name="ticketFilter">Filtering information.</param>
+        /// <returns></returns>
+        private static ImmutableList<RichTicketDto> FilterRichTicketDtos(ImmutableList<RichTicketDto> richTicketDtos, TicketFilter ticketFilter)
+        {
+            if (ticketFilter == null) return richTicketDtos;
+
+            if(ticketFilter.Criterion == QueryCriterion.EventDate)
+            {
+                return richTicketDtos.Where(t => t.EventDto.Date.Day == ticketFilter.Date.Day).ToImmutableList();
+            }
+            else
+            {
+                return richTicketDtos.Where(t => t.PurchaseDate.Day == ticketFilter.Date.Day).ToImmutableList();
+            }
+        }
+
+        /// <summary>
+        /// Sorts a list of tickets.
+        /// </summary>
+        /// <param name="richTicketDtos">Tickets.</param>
+        /// <param name="ticketSorting">Sorting information.</param>
+        /// <returns></returns>
+        private static ImmutableList<RichTicketDto> SortRichTicketDtos(ImmutableList<RichTicketDto> richTicketDtos, TicketSorting ticketSorting)
+        {
+            if (ticketSorting == null) return richTicketDtos;
+
+            if (ticketSorting.OrderDirection == OrderDirection.Ascending)
+            {
+                if (ticketSorting.Criterion == QueryCriterion.PurchaseDate)
+                {
+                    return richTicketDtos.OrderBy(t => t.PurchaseDate).ToImmutableList();
+                }
+                else
+                {
+                    return richTicketDtos.OrderBy(t => t.EventDto.Date).ToImmutableList();
+                }
+            }
+            else
+            {
+                if (ticketSorting.Criterion == QueryCriterion.PurchaseDate)
+                {
+                    return richTicketDtos.OrderByDescending(t => t.PurchaseDate).ToImmutableList();
+                }
+                else
+                {
+                    return richTicketDtos.OrderByDescending(t => t.EventDto.Date).ToImmutableList();
+                }
+            }
         }
     }
 }
