@@ -20,7 +20,13 @@
 \usepackage{enumitem}
 \usepackage{float}
 
-\input{acronyms.tex}
+\DeclareFieldFormat[inproceedings]{title}{#1}
+\DeclareFieldFormat[inproceedings]{booktitle}{#1}
+\DeclareFieldFormat[inproceedings]{citetitle}{#1}
+
+\DeclareFieldFormat[inbook]{title}{#1}
+\DeclareFieldFormat[inbook]{booktitle}{#1}
+\DeclareFieldFormat[inbook]{citetitle}{#1}
 
 \begin{document}
 
@@ -33,7 +39,6 @@
 
 \dhbwSetListMatter
 
-\dhbwPrintListOfAcronyms
 \dhbwPrintListOfFigures
 \dhbwPrintListOfTables
 
