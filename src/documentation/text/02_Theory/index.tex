@@ -1,19 +1,34 @@
-Aktoren stellen nebenläufige Einheiten dar, welche nicht über einen gemeinsamen Speicherbereich verfügen, sondern über Nachrichten kommunizieren (Message passing).
-Die Kommunikation basiert auf dem Versenden von Nachrichten zu Empfängern (FIFO-Prinzip).
-Jeder Aktor verfügt dabei über einen Posteingang, eine Adresse und ein Verhalten.
-Nach erhalt einer Nachricht können Aktoren mit drei verschiedenen Funktionen reagieren:
-Nachrichten an sich selbst oder andere Aktoren verschicken, neue Aktoren erzeugen oder das eigene Verhalten ändern.
-Der Nachrichtenaustausch erfolgt asynchron, was bedeutet, dass der Sender nach versenden einer Nachricht sofort mit einer anderen Aktion fortfahren kann.\ifootcite{doc.akka.io_actorsintro}
+Aktoren stellen ein Modell für die gleichzeitige Berechnung paralleler, verteilter und mobiler Systeme dar.
+Ein Aktor ist ein autonomes Objekt, das asynchron arbeitet und asynchrones Empfangen und Senden von Nachrichten an andere Aktoren ermöglicht.
+Zudem können Aktoren weitere Aktoren erzeugen und einen eigenen Zustand verwalten.\ifootcite[1]{karmani2011}
+Jeder Aktor verfügt dabei über einen Posteingang, eine Adresse und ein Verhaltensmuster, das vom aktuellen Zustand des Aktors abhängt.
+Beim Empfang einer Nachricht können Aktoren auf drei Arten reagieren:
+Nachrichten an sich selbst oder andere Aktoren verschicken, neue Aktoren erzeugen oder den eigenen Zustand ändern.
+Der Nachrichtenaustausch erfolgt asynchron, was bedeutet, dass der Sender nach dem Versenden einer Nachricht sofort mit einer anderen Aktion fortfahren kann, also nicht blockiert.\ifootcite{doc.akka.io_actorsintro}
+Da ein Aktor eingehende Nachrichten sequentiell abarbeitet, entstehen keine Inkonsistenzen, wie es z.B.\ beim parallelen Zugriff durch mehrere Prozesse möglich ist.
 
-% TODO: add figure 
+\begin{dhbwfigure}{%
+    caption	= Aktorenmodell Funktionsprinzip,
+    label	= fig:actor_model_functionality,
+    float   = H
+}
+\begin{plantuml}
+@startuml
 
-Aktoren werden überwiegend bei funktionalen Programmiersprachen eingesetzt.
-In der Programmiersprache Erlang stellt es die Basis der Nebenläufigkeit dar.
-Aktoren können aber auch in imperativen Programmiersprachen, wie in C++ durch die Theron"=Bibliothek, implementiert werden.
+scale 0.75
 
-Da Aktoren zu einem Zeitpunkt nur eine Nachricht abarbeiten und kein anderer paralleler Prozess den internen Speicherbereich eines Aktors beeinflusst, wird die Fehleranfälligkeit verringert.
-Werte behalten über die gesamte Bearbeitung der Nachricht hin ihre Gültigkeit, was das Aktorenmodell grundlegend von klassischen Shared"=Memory"=Concurrency"=Ansätzen unterscheidet, bei denen alle nebenläufigen Threads auf einen gemeinsamen Speicherbereich zugreifen und durch Locking geschützt wird.
+actor "Aktor 1" as a1
+actor "Aktor 2" as a2
+actor "Aktor 3" as a3
 
-Da Aktoren nicht über einen gemeinsamen Speicherbereich verfügen, liegen die gleichen Informationen mehrfach im Speicher vor, was einen höheren Speicherverbrauch als Folge hat. 
-Eine Alternative ist die \ac{STM} als Parallelitätskontrollmechanismus analog zu Datenbanktransaktionen zur Steuerung des Zugriffs auf gemeinsam genutzten Speicher.
-Das Versenden und Verarbeiten von Nachrichten bringt zudem einen hohen Rechenaufwand mit sich.\ifootcite{medium.com_actormodel_nutshell}
+a1 -> a2: Nachricht A
+a3 -> a2: Nachricht B kommt in die Warteschlange
+a2 -> a2: Nachricht A wird verarbeitet
+a2 -> a2: Nachricht B wird der Warteschlange entnommen
+a2 -> a2: Nachricht B wird verarbeitet
+
+@enduml
+\end{plantuml}
+\end{dhbwfigure}
+
+\autoref{fig:actor_model_functionality} zeigt, wie Nachrichten zweier Aktoren nach dem \enquote{First-In-First-Out}"=Prinzip sequentiell verarbeitet werden.
