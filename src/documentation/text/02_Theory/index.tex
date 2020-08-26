@@ -5,7 +5,7 @@ Jeder Aktor verfügt dabei über einen Posteingang, eine Adresse und ein Verhalt
 Beim Empfang einer Nachricht können Aktoren auf drei Arten reagieren:
 Nachrichten an sich selbst oder andere Aktoren verschicken, neue Aktoren erzeugen oder den eigenen Zustand ändern.
 Der Nachrichtenaustausch erfolgt asynchron, was bedeutet, dass der Sender nach dem Versenden einer Nachricht sofort mit einer anderen Aktion fortfahren kann, also nicht blockiert.\ifootcite{doc.akka.io_actorsintro}
-Da ein Aktor eingehende Nachrichten sequentiell abarbeitet, entstehen keine Inkonsistenzen, wie es z.B.\ beim parallelen Zugriff durch mehrere Prozesse möglich ist.
+Da ein Aktor eingehende Nachrichten sequentiell abarbeitet, entstehen keine Inkonsistenzen, wie es z.B.\ beim parallelen Zugriff durch mehrere Prozesse theoretisch möglich ist.
 
 \begin{dhbwfigure}{%
     caption	= Aktorenmodell Funktionsprinzip,
@@ -31,4 +31,4 @@ a2 -> a2: Nachricht B wird verarbeitet
 \end{plantuml}
 \end{dhbwfigure}
 
-\autoref{fig:actor_model_functionality} zeigt, wie Nachrichten zweier Aktoren nach dem \enquote{First-In-First-Out}"=Prinzip sequentiell verarbeitet werden.
+\autoref{fig:actor_model_functionality} zeigt, wie Nachrichten zweier Aktoren nach dem \enquote{First-In-First-Out}"=Prinzip sequentiell verarbeitet werden und so der Zustand von Aktor 2 konsistent bleibt.
