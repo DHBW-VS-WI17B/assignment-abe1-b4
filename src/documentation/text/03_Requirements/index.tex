@@ -1,16 +1,12 @@
 Der Begriff \enquote{Anforderungen} wird verwendet, um Aussagen über zu erfüllende Qualitäten, Funktionalitäten oder Eigenschaften eines Produktes zu treffen und bildet dabei die Grundlage für die Entwicklung eines Produktes.
 Sie gewährleisten, dass der Kunde bzw. der Hersteller das Produkt erhält bzw. produziert, wie es gewünscht wird.\ifootcite[5]{grande2014}\unskip\ifootcite[25--26]{partsch2010}
 
-Anforderungen lassen sich in zwei Klassen unterscheiden:
-\ac{FA} beschreiben die funktionellen Bestandteile eines Softwaresystems.
-Sie zeigen auf, was das System aufgrund der Aufgabenstellung können muss.
-Beispiele für \ac{FA} sind Eingaben (Ereignisse, Daten) inklusive deren Einschränkungen, Funktionen, die das System beinhalten soll, beschrieben aus Sicht des Benutzers oder der Systemumgebung und Ausgaben (Daten, Fehlermeldungen).\ifootcite[27]{partsch2010}
-\ac{NFA} beschreiben die Qualitätseigenschaften und die Rahmenbedingungen, die an ein Produkt gestellt werden.
-Dabei werden beispielsweise Kosten"= und Zeitrahmen aufgegriffen.\ifootcite[37]{grande2014}
+Anforderungen können als Anwendungsfälle formuliert werden.
+Ein Anwendungsfall ist \dfootcite[259]{partsch2010}{[\dots] eine Beschreibung einer typischen Benutzung [eines] Systems. Er wird verwendet, um das Verhalten [eines] Gesamtsystems (oder essentieller Teile davon) zu modellieren.}
 
-% TODO: definieren, was ein use case ist
-% TODO: definieren was Kunde, Verwaltung und Ticketstore sind.
-% TODO: auf die tabelle verweisen: \autoref{tab:requirements}
+Gegendstand dieser Arbeit ist die Implementierung eines Ticketshops für Veranstaltungen nach dem Aktorenmodell.
+Nutzer der Anwendung werden in die Kategorien \enquote{Kunde} und \enquote{Verwaltung} unterteilt.
+\autoref{tab:requirements} listet alle identifizierten Anwendungsfälle:
 
 \begingroup
 \setstretch{1.1}
@@ -25,28 +21,45 @@ Dabei werden beispielsweise Kosten"= und Zeitrahmen aufgegriffen.\ifootcite[37]{
 \textbf{Identifikator} & \textbf{Beschreibung}\\
 \midrule
 \endhead
-\midrule
 \multicolumn{2}{r@{}}{\dots}\\
 \endfoot
 \endlastfoot
 UC-01 & Die Anzahl an verfügbaren Tickets ist je Veranstaltung beschränkt.\\
+\midrule
 UC-02 & Die Anzahl an verfügbaren Tickets je Kunde ist je Veranstaltung begrenzt.\\
+\midrule
 UC-03 & Jeder Kunde definiert ein Jahresbudget für den Erwerb von Tickets für Veranstaltungen, wobei der Veranstaltungstermin entscheidend für Zuordnung der Kosten zum entsprechenden Jahr ist. Eine Überschreitung des Budgets ist nicht zulässig.\\
+\midrule
 UC-04 & Je Veranstaltung kann ein Zeitraum (z.B.\ 12.12.2020 12 Uhr bis 1.1.2021 12 Uhr) festgelegt werden, innerhalb dessen es Kunden möglich ist Tickets zu erwerben.\\
+\midrule
 UC-05 & Der Ticketverkauf wird zentral verwaltet.\\
+\midrule
 UC-06 & Mehrere Kunden können simultan auf den Ticketverkauf zugreifen.\\
+\midrule
 UC-07 & Zu einer Veranstaltung werden mindestens folgende Daten verwaltet: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
+\midrule
 UC-08 & Zu einem Kunden werden mindestens folgende Daten verwaltet: Name des Kunden, Adresse des Kunden, Erworbene Tickets mit Kaufdatum.\\
+\midrule
 UC-09 & Kunden greifen über einen dedizierten Client auf den Ticketverkauf zu.\\
+\midrule
 UC-10 & Kunden können eine Liste mit dem Namen und den Identifikatoren der angebotenen Veranstaltungen abrufen.\\
+\midrule
 UC-11 & Kunden können zu einer bestimmten Veranstaltung mindestens folgende Daten abrufen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
+\midrule
 UC-12 & Kunden können beliebig viele Tickets (begrenzt durch die maximale Anzahl an Tickets je Veranstaltung, bzw.\ Kunde) für eine Veranstaltung in einer Anfrage erwerben.\\
+\midrule
 UC-13 & Kunden können bestellte Tickets abrufen und dabei entweder nach Bestelldatum oder Veranstaltungstermin filtern.\\
+\midrule
 UC-14 & Kunden können das verbleibende Budget für Tickets für das aktuelle Jahr abfragen.\\
+\midrule
 UC-15 & Die Verwaltung greift über einen dedizierten Client auf das System zu.\\
+\midrule
 UC-16 & Die Verwaltung kann eine Veranstaltung mit mindestens den folgenden Daten anlegen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
+\midrule
 UC-17 & Die Verwaltung kann eine Liste mit dem Namen und den Identifikatoren der angebotenen Veranstaltungen abrufen.\\
+\midrule
 UC-18 & Die Verwaltung kann zu einer bestimmten Veranstaltung mindestens folgende Daten abrufen: Eindeutige Identifikationsnummer, Name der Veranstaltung, Ort der Veranstaltung, Preis eines Tickets (in Euro).\\
+\midrule
 UC-19 & Die Verwaltung kann die Anzahl an verkauften Tickets für eine bestimmte Veranstaltung abrufen.\\
 \bottomrule
 \caption*{\footnotesize{Quelle: Eigene Darstellung.}}
