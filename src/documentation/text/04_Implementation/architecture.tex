@@ -36,4 +36,4 @@ write <--> db
 \autoref{fig:actor_system} zeigt den Aufbau des implementierten Aktorensystems.
 Clientseitig instanziiert jeder Client einen eigenen \enquote{Client"=Aktor}, der die Schnittstelle zwischen der Konsolenanwendung und den restlichen Aktoren darstellt.
 Serverseitig werden mehrere \enquote{User"=} und \enquote{Event"=Aktoren} instanziiert, die sich jeweils Anfragen bzgl.\ ihrer Domäne annehmen.
-Sollte eine Anfrage schreibenden Zugriff auf die Datenbank benötigen, wird die Anfrage an einen nur einmal instanziierten \enquote{WriteToDb"=Aktor} weitergeleitet, der alle Anfragen gem.\ dem Aktorenmodell sequenziell abarbeitet, wodurch Dateninkonsistenzen verhindert werden können.
+Sollte eine Anfrage schreibenden Zugriff auf die Datenbank benötigen, wird die Anfrage an einen nur einmal instanziierten \enquote{WriteToDb"=Aktor} weitergeleitet, der alle Anfragen gem.\ dem Aktorenmodell sequentiell abarbeitet, wodurch Dateninkonsistenzen verhindert werden können.
