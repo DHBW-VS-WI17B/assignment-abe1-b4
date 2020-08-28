@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TicketStore.Server.Logic.DataAccess;
 using TicketStore.Server.Logic.DataAccess.Contracts;
 using TicketStore.Server.Logic.DataAccess.Entities;
@@ -34,117 +35,137 @@ namespace TicketStore.Server.Logic.Actors
         {
             _repo = repoWrapper;
 
-            ReceiveAsync<AddUserToDbRequest>(async msg =>
+            // register message handlers
+            ReceiveAsync<AddUserToDbRequest>(ProcessMessageAsync);
+            ReceiveAsync<AddEventToDbRequest>(ProcessMessageAsync);
+            ReceiveAsync<AddTicketsToDbRequest>(ProcessMessageAsync);
+        }
+
+        /// <summary>
+        /// Processes a add user to db request message.
+        /// </summary>
+        /// <param name="msg">Immutable add user to db request message.</param>
+        /// <returns>Task.</returns>
+        private async Task ProcessMessageAsync(AddUserToDbRequest msg)
+        {
+            var newUser = Mapper.UserDtoToUser(msg.UserDto);
+
+            _repo.Users.Create(newUser);
+
+            try
             {
-                var newUser = Mapper.UserDtoToUser(msg.UserDto);
-
-                _repo.Users.Create(newUser);
-
-                try
-                {
-                    await _repo.SaveAsync().ConfigureAwait(false);
-                    Sender.Tell(new AddUserToDbResponse(msg.RequestId, Mapper.UserToUserDto(newUser)));
-                    _logger.Debug("User with id {id} created successfully.", newUser.Id);
-                }
-                catch (Exception ex)
-                {
-                    Sender.Tell(new AddUserToDbResponse(msg.RequestId, null, ex.Message));
-                    _logger.Debug(ex, "Creating new user failed.");
-                }
-            });
-
-            ReceiveAsync<AddEventToDbRequest>(async msg =>
+                await _repo.SaveAsync().ConfigureAwait(false);
+                Sender.Tell(new AddUserToDbResponse(msg.RequestId, Mapper.UserToUserDto(newUser)));
+                _logger.Debug("User with id {id} created successfully.", newUser.Id);
+            }
+            catch (Exception ex)
             {
-                var newEvent = Mapper.EventDtoToEvent(msg.EventDto);
+                Sender.Tell(new AddUserToDbResponse(msg.RequestId, null, ex.Message));
+                _logger.Debug(ex, "Creating new user failed.");
+            }
+        }
 
-                _repo.Events.Create(newEvent);
+        /// <summary>
+        /// Processes a add event to db request message.
+        /// </summary>
+        /// <param name="msg">Immutable add event to db request message.</param>
+        /// <returns>Task.</returns>
+        private async Task ProcessMessageAsync(AddEventToDbRequest msg)
+        {
+            var newEvent = Mapper.EventDtoToEvent(msg.EventDto);
 
-                try
-                {
-                    await _repo.SaveAsync().ConfigureAwait(false);
-                    Sender.Tell(new AddEventToDbResponse(msg.RequestId, Mapper.EventToEventDto(newEvent)));
-                    _logger.Debug("Event with id {id} created successfully.", newEvent.Id);
-                }
-                catch (Exception ex)
-                {
-                    Sender.Tell(new AddEventToDbResponse(msg.RequestId, null, "Creating new event failed."));
-                    _logger.Debug(ex, "Creating new event failed.");
-                }
-            });
+            _repo.Events.Create(newEvent);
 
-            ReceiveAsync<AddTicketsToDbRequest>(async msg =>
+            try
             {
-                var targetEvent = _repo.Events.FindByCondition(e => e.Id == msg.EventId).FirstOrDefault();
+                await _repo.SaveAsync().ConfigureAwait(false);
+                Sender.Tell(new AddEventToDbResponse(msg.RequestId, Mapper.EventToEventDto(newEvent)));
+                _logger.Debug("Event with id {id} created successfully.", newEvent.Id);
+            }
+            catch (Exception ex)
+            {
+                Sender.Tell(new AddEventToDbResponse(msg.RequestId, null, "Creating new event failed."));
+                _logger.Debug(ex, "Creating new event failed.");
+            }
+        }
 
-                if (targetEvent == null)
-                {
-                    _logger.Warning("Event with id {eventId} does not exist!", msg.EventId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Event with id {msg.EventId} does not exist!"));
-                    return;
-                }
+        /// <summary>
+        /// Process a add tickets to db request message. Validates the purchase request and creates the tickets in the database.
+        /// </summary>
+        /// <param name="msg">Immutable add tickets to db request message.</param>
+        /// <returns></returns>
+        private async Task ProcessMessageAsync(AddTicketsToDbRequest msg)
+        {
+            var targetEvent = _repo.Events.FindByCondition(e => e.Id == msg.EventId).FirstOrDefault();
 
-                if (DateTime.UtcNow > targetEvent.SaleEndDate || DateTime.UtcNow < targetEvent.SaleStartDate)
-                {
-                    _logger.Warning("There is no active sale for event with id {id}!", msg.EventId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"There is no active sale for event with id {msg.EventId}!"));
-                    return;
-                }
+            if (targetEvent == null)
+            {
+                _logger.Warning("Event with id {eventId} does not exist!", msg.EventId);
+                Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Event with id {msg.EventId} does not exist!"));
+                return;
+            }
 
-                var soldTickets = _repo.Tickets.FindByCondition(t => t.EventId == msg.EventId).ToImmutableList();
+            if (DateTime.UtcNow > targetEvent.SaleEndDate || DateTime.UtcNow < targetEvent.SaleStartDate)
+            {
+                _logger.Warning("There is no active sale for event with id {id}!", msg.EventId);
+                Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"There is no active sale for event with id {msg.EventId}!"));
+                return;
+            }
 
-                if (soldTickets.Count + msg.TicketCount > targetEvent.MaxTicketCount)
-                {
-                    _logger.Warning("Can not sell ticket for event with id {id}. Not enough tickets left!", msg.EventId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket for event with id {msg.EventId}. Not enough tickets left!"));
-                    return;
-                }
+            var soldTickets = _repo.Tickets.FindByCondition(t => t.EventId == msg.EventId).ToImmutableList();
 
-                double spentOnEvents = 0;
+            if (soldTickets.Count + msg.TicketCount > targetEvent.MaxTicketCount)
+            {
+                _logger.Warning("Can not sell ticket for event with id {id}. Not enough tickets left!", msg.EventId);
+                Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket for event with id {msg.EventId}. Not enough tickets left!"));
+                return;
+            }
 
-                if (_repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).Any())
-                {
-                    var eventIds = _repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).Select(ticket => ticket.EventId).ToList();
-                    var events = eventIds.Select(eventId => _repo.Events.FindByCondition(e => e.Id == eventId).FirstOrDefault()).ToList();
-                    spentOnEvents = events.Where(e => e.Date.Year == targetEvent.Date.Year).Sum(x => x.PricePerTicket);
-                }
-                var budget = _repo.Users.FindByCondition(u => u.Id == msg.UserId).FirstOrDefault().YearlyBudget;
-                var remainingBudget = budget - spentOnEvents;
+            double spentOnEvents = 0;
 
-                if (msg.TicketCount * targetEvent.PricePerTicket > remainingBudget)
-                {
-                    _logger.Warning("Can not sell ticket(s) for event with id {id}. Budget is {missingMoney} money units too small.", msg.EventId, (msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket(s) for event with id {msg.EventId}. Budget is {(msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget} money units too small."));
-                    return;
-                }
+            if (_repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).Any())
+            {
+                var eventIds = _repo.Tickets.FindByCondition(t => t.UserId == msg.UserId).Select(ticket => ticket.EventId).ToList();
+                var events = eventIds.Select(eventId => _repo.Events.FindByCondition(e => e.Id == eventId).FirstOrDefault()).ToList();
+                spentOnEvents = events.Where(e => e.Date.Year == targetEvent.Date.Year).Sum(x => x.PricePerTicket);
+            }
+            var budget = _repo.Users.FindByCondition(u => u.Id == msg.UserId).FirstOrDefault().YearlyBudget;
+            var remainingBudget = budget - spentOnEvents;
 
-                var ticketsSoldToUser = soldTickets.Where(t => t.UserId == msg.UserId).ToImmutableList();
+            if (msg.TicketCount * targetEvent.PricePerTicket > remainingBudget)
+            {
+                _logger.Warning("Can not sell ticket(s) for event with id {id}. Budget is {missingMoney} money units too small.", msg.EventId, (msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget);
+                Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket(s) for event with id {msg.EventId}. Budget is {(msg.TicketCount * targetEvent.PricePerTicket) - remainingBudget} money units too small."));
+                return;
+            }
 
-                if (ticketsSoldToUser.Count + msg.TicketCount > targetEvent.MaxTicketsPerUser)
-                {
-                    _logger.Warning("Can not sell ticket(s) for event with id {id}. Not enough tickets for user with {id} left!", msg.EventId, msg.UserId);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket(s) for event with id {msg.EventId}. Not enough tickets for user with {msg.UserId} left!"));
-                    return;
-                }
+            var ticketsSoldToUser = soldTickets.Where(t => t.UserId == msg.UserId).ToImmutableList();
 
-                List<TicketDto> newTickets = new List<TicketDto>();
-                for (int i = 0; i < msg.TicketCount; i++)
-                {
-                    var ticket = new Ticket { EventId = msg.EventId, PurchaseDate = DateTime.UtcNow, UserId = msg.UserId };
-                    _repo.Tickets.Create(ticket);
-                    newTickets.Add(Mapper.TicketToTicketDto(ticket));
-                }
+            if (ticketsSoldToUser.Count + msg.TicketCount > targetEvent.MaxTicketsPerUser)
+            {
+                _logger.Warning("Can not sell ticket(s) for event with id {id}. Not enough tickets for user with {id} left!", msg.EventId, msg.UserId);
+                Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"Can not sell ticket(s) for event with id {msg.EventId}. Not enough tickets for user with {msg.UserId} left!"));
+                return;
+            }
 
-                try
-                {
-                    await _repo.SaveAsync().ConfigureAwait(false);
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, newTickets.ToImmutableList()));
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, "Saving tickets failed!");
-                    Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, "Creating new ticket(s) failed on database level."));
-                }
-            });
+            List<TicketDto> newTickets = new List<TicketDto>();
+            for (int i = 0; i < msg.TicketCount; i++)
+            {
+                var ticket = new Ticket { EventId = msg.EventId, PurchaseDate = DateTime.UtcNow, UserId = msg.UserId };
+                _repo.Tickets.Create(ticket);
+                newTickets.Add(Mapper.TicketToTicketDto(ticket));
+            }
+
+            try
+            {
+                await _repo.SaveAsync().ConfigureAwait(false);
+                Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, newTickets.ToImmutableList()));
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Saving tickets failed!");
+                Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, "Creating new ticket(s) failed on database level."));
+            }
         }
     }
 }
