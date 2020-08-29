@@ -1,13 +1,9 @@
 ﻿using Akka.Actor;
 using Akka.Event;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TicketStore.Server.Logic.DataAccess.Contracts;
-using TicketStore.Server.Logic.Messages;
 using TicketStore.Server.Logic.Messages.Requests;
 using TicketStore.Server.Logic.Messages.Responses;
 using TicketStore.Server.Logic.Util;

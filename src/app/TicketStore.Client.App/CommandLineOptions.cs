@@ -1,7 +1,4 @@
 ﻿using CommandLine;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TicketStore.Client.App
 {
@@ -22,7 +19,7 @@ namespace TicketStore.Client.App
         [Option('c', "command", Required = true, HelpText = "Command to be executed. Run command 'List' for a list of all available commands.")]
         public Command Command { get; }
 
-        [Option('s',"show-logs", Default = false, Required = false, HelpText = "Shows log messages directly in the console.")]
+        [Option('s', "show-logs", Default = false, Required = false, HelpText = "Shows log messages directly in the console.")]
         public bool ShowLogs { get; }
 
         public CommandLineOptions(bool verbose, string host, bool admin, Command command, bool showLogs)

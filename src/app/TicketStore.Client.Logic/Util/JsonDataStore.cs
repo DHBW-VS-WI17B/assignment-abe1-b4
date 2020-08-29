@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Text.Json;
 
 namespace TicketStore.Client.Logic.Util
@@ -22,7 +19,7 @@ namespace TicketStore.Client.Logic.Util
             _pathToJson = pathToJson;
         }
 
-        
+
         /// <inheritdoc/>
         public T Read<T>()
         {

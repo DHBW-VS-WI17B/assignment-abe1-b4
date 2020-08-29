@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TicketStore.Shared.Models;
+﻿using TicketStore.Shared.Models;
 
 namespace TicketStore.Client.Logic.Messages
 {

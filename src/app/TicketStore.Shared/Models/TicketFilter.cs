@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TicketStore.Shared.Enums;
 
 namespace TicketStore.Shared.Models

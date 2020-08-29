@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TicketStore.Shared.Messages
 {
@@ -22,7 +20,7 @@ namespace TicketStore.Shared.Messages
         /// <summary>
         /// Count of tickets to be purchased.
         /// </summary>
-        public int TicketCount { get;  }
+        public int TicketCount { get; }
 
         /// <summary>
         /// Constructor.

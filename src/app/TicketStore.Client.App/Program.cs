@@ -2,8 +2,6 @@
 using Akka.Configuration;
 using CommandLine;
 using Serilog;
-using Sharprompt;
-using Sharprompt.Validations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,7 +34,7 @@ namespace TicketStore.Client.App
 
         static void RunWithOptions(CommandLineOptions opts)
         {
-            if(opts.Command == Command.List)
+            if (opts.Command == Command.List)
             {
                 Console.WriteLine("Available commands:");
                 var commandTypes = Enum.GetValues(typeof(Command)).Cast<Command>();
@@ -89,7 +87,8 @@ namespace TicketStore.Client.App
             {
                 loggerBuilder = loggerBuilder.MinimumLevel.Verbose();
                 akkaConfig = akkaConfig.Replace("loglevel=INFO", "loglevel=DEBUG", StringComparison.Ordinal);
-            } else
+            }
+            else
             {
                 loggerBuilder = loggerBuilder.MinimumLevel.Information();
             }

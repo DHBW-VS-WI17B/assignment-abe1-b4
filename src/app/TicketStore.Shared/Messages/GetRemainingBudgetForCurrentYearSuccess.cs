@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TicketStore.Shared.Messages
+﻿namespace TicketStore.Shared.Messages
 {
     /// <summary>
     /// Immutable get remaining budget for current year success message.

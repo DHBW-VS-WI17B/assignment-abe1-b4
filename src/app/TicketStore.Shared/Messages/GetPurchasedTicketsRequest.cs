@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TicketStore.Shared.Enums;
 using TicketStore.Shared.Models;
 
 namespace TicketStore.Shared.Messages

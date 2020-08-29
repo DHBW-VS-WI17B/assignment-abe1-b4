@@ -1,20 +1,15 @@
 ﻿using Akka.Actor;
 using Akka.Event;
-using Akka.Util.Internal;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TicketStore.Server.Logic.DataAccess;
 using TicketStore.Server.Logic.DataAccess.Contracts;
 using TicketStore.Server.Logic.DataAccess.Entities;
-using TicketStore.Server.Logic.Messages;
 using TicketStore.Server.Logic.Messages.Requests;
 using TicketStore.Server.Logic.Messages.Responses;
 using TicketStore.Server.Logic.Util;
-using TicketStore.Shared.Messages;
 using TicketStore.Shared.Models;
 
 namespace TicketStore.Server.Logic.Actors
@@ -105,7 +100,7 @@ namespace TicketStore.Server.Logic.Actors
                 return;
             }
 
-            if(!_repo.Users.FindByCondition(u => u.Id == msg.UserId).Any())
+            if (!_repo.Users.FindByCondition(u => u.Id == msg.UserId).Any())
             {
                 _logger.Warning("User with id {eventId} does not exist!", msg.UserId);
                 Sender.Tell(new AddTicketsToDbResponse(msg.RequestId, null, $"User with id {msg.UserId} does not exist!"));

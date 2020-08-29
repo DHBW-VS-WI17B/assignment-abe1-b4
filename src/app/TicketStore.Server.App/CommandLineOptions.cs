@@ -1,7 +1,4 @@
 ﻿using CommandLine;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TicketStore.Server.App
 {
@@ -19,8 +16,8 @@ namespace TicketStore.Server.App
         [Option('a', "actor-instance-count", Default = 5, Required = false, HelpText = "The number of instances for each stateless actor.")]
         public int ActorInstanceCount { get; }
 
-        [Option('r',"reset", Default = false, Required = false, HelpText = "Wipes the database.")]
-        public bool Reset { get;  }
+        [Option('r', "reset", Default = false, Required = false, HelpText = "Wipes the database.")]
+        public bool Reset { get; }
 
         public CommandLineOptions(bool verbose, string port, int actorInstanceCount, bool reset)
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TicketStore.Server.Logic.DataAccess.Contracts
+﻿namespace TicketStore.Server.Logic.DataAccess.Contracts
 {
     /// <summary>
     /// Readonly wrapper around all repositories for easier access.

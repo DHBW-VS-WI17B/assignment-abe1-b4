@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TicketStore.Shared.Models;
 
 namespace TicketStore.Server.Logic.Messages.Responses

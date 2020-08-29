@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TicketStore.Shared.Models;
 
 namespace TicketStore.Shared.Messages
@@ -20,7 +18,7 @@ namespace TicketStore.Shared.Messages
         /// </summary>
         /// <param name="requestId">Request id.</param>
         /// <param name="eventDto">Event data transfer object.</param>
-        public CreateEventRequest(Guid requestId, EventDto eventDto) : base (requestId)
+        public CreateEventRequest(Guid requestId, EventDto eventDto) : base(requestId)
         {
             EventDto = eventDto;
         }

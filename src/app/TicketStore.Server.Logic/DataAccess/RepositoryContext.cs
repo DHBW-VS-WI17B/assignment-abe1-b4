@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TicketStore.Server.Logic.DataAccess.Entities;
 
 namespace TicketStore.Server.Logic.DataAccess
@@ -35,6 +32,6 @@ namespace TicketStore.Server.Logic.DataAccess
         /// Constructor.
         /// </summary>
         /// <param name="options">Options to be passed to the base constructor.</param>
-        public RepositoryContext(DbContextOptions options) : base (options) { }
+        public RepositoryContext(DbContextOptions options) : base(options) { }
     }
 }
