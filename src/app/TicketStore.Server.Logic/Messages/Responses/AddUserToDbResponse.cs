@@ -4,7 +4,7 @@ using TicketStore.Shared.Models;
 namespace TicketStore.Server.Logic.Messages.Responses
 {
     /// <summary>
-    /// Immutable add user to databse response message.
+    /// Immutable add user to database response message.
     /// </summary>
     public class AddUserToDbResponse : ResponseBase
     {
