@@ -7,17 +7,17 @@
 [UserActor] as user
 [WriteToDbActor] as db
 
-note "CreateEventMessage\nGetAllEventsMessage\nGetEventByIdMessage\nGetPurchasedTicketsMessage\nGetRemainingBudgetForCurrentYearMessage\nGetSoldTicketsMessage\nInitStateMessage\nPersistStateMessage\nPurchaseTicketsMessage\nRestoreStateMessage" as app2client
+note "CreateEventMessage\nGetAllEventsMessage\nGetEventByIdMessage\nGetPurchasedTicketsMessage\nGetRemainingBudgetForCurrentYearMessage\nGetSoldTicketsMessage\nInitStateMessage\nPersistStateMessage\nPurchaseTicketsMessage\nRestoreStateMessage\nTestConnectionMessage" as app2client
 
 app --> app2client
 app2client --> client
 
-note "CreateEventRequest\nGetAllEventsRequest\nGetEventByIdRequest\nGetSoldTicketsRequest\nPurchaseTicketsRequest" as client2event
+note "CreateEventRequest\nGetAllEventsRequest\nGetEventByIdRequest\nGetSoldTicketsRequest\nPurchaseTicketsRequest\nHandshakeRequest" as client2event
 
 client --> client2event
 client2event --> event
 
-note "CreateUserRequest\nGetPurchasedTicketsRequest\nGetRemainingBudgetForCurrentYearRequest" as client2user
+note "CreateUserRequest\nGetPurchasedTicketsRequest\nGetRemainingBudgetForCurrentYearRequest\nHandshakeRequest" as client2user
 
 client --> client2user
 client2user --> user
@@ -32,7 +32,7 @@ note "AddUserToDbRequest" as user2db
 user --> user2db
 user2db -->  db
 
-note "GetAllEventsSuccess\nErrorMessage\nGetEventByIdSuccess\nGetSoldTicketsSuccess\nPurchaseTicketsSuccess\nCreateEventSuccess" as event2client
+note "GetAllEventsSuccess\nErrorMessage\nGetEventByIdSuccess\nGetSoldTicketsSuccess\nPurchaseTicketsSuccess\nCreateEventSuccess\nHandshakeResponse" as event2client
 
 event --> event2client
 event2client --> client

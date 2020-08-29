@@ -37,6 +37,7 @@ namespace TicketStore.Server.Logic.Actors
             ReceiveAsync<CreateUserRequest>(ProcessMessageAsync);
             Receive<GetPurchasedTicketsRequest>(ProcessMessage);
             Receive<GetRemainingBudgetForCurrentYearRequest>(ProcessMessage);
+            Receive<HandshakeRequest>(ProcessMessage);
         }
 
         /// <summary>
@@ -110,6 +111,15 @@ namespace TicketStore.Server.Logic.Actors
             var remainingBudget = budget - spentOnEvents;
 
             Sender.Tell(new GetRemainingBudgetForCurrentYearSuccess(remainingBudget, budget));
+        }
+
+        /// <summary>
+        /// Processes a handshake request. Sends a response.
+        /// </summary>
+        /// <param name="msg">Immutable handshake request.</param>
+        private void ProcessMessage(HandshakeRequest msg)
+        {
+            Sender.Tell(new HandshakeResponse(msg.RequestId, msg.DispatchDate));
         }
 
         /// <summary>
