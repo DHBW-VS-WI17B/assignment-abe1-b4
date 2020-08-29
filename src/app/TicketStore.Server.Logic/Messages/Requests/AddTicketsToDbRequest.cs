@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TicketStore.Shared.Messages;
 
 namespace TicketStore.Server.Logic.Messages.Requests

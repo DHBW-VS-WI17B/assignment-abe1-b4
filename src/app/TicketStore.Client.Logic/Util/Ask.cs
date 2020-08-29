@@ -1,8 +1,6 @@
 ﻿using Sharprompt;
 using Sharprompt.Validations;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using TicketStore.Shared.Models;
 
 namespace TicketStore.Client.Logic.Util
@@ -100,7 +98,7 @@ namespace TicketStore.Client.Logic.Util
         /// <returns>Event id.</returns>
         public static Guid ForEventId()
         {
-            var guidStr =  Prompt.Input<string>("EventId?", null, new[] { Validators.Required(), Validators.RegularExpression(@"(?im)^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$") });
+            var guidStr = Prompt.Input<string>("EventId?", null, new[] { Validators.Required(), Validators.RegularExpression(@"(?im)^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$") });
             return Guid.Parse(guidStr);
         }
 

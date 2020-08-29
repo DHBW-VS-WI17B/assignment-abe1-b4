@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TicketStore.Client.Logic.Util
+﻿namespace TicketStore.Client.Logic.Util
 {
     /// <summary>
     /// Read or write an object to a file.

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TicketStore.Shared.Models;
+﻿using TicketStore.Shared.Models;
 
 namespace TicketStore.Client.Logic.Messages
 {
@@ -13,7 +10,7 @@ namespace TicketStore.Client.Logic.Messages
         /// <summary>
         /// User to be created.
         /// </summary>
-        public UserDto UserDto{ get; }
+        public UserDto UserDto { get; }
 
         /// <summary>
         /// Constructor.

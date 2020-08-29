@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using TicketStore.Server.Logic.DataAccess.Contracts;
 
 namespace TicketStore.Server.Logic.DataAccess

@@ -1,10 +1,8 @@
 ﻿using Akka.Actor;
 using Akka.Event;
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TicketStore.Server.Logic.DataAccess.Contracts;
 using TicketStore.Server.Logic.Messages.Requests;
@@ -124,7 +122,7 @@ namespace TicketStore.Server.Logic.Actors
         {
             if (ticketFilter == null) return richTicketDtos;
 
-            if(ticketFilter.Criterion == QueryCriterion.EventDate)
+            if (ticketFilter.Criterion == QueryCriterion.EventDate)
             {
                 return richTicketDtos.Where(t => t.EventDto.Date.Day == ticketFilter.Date.Day).ToImmutableList();
             }

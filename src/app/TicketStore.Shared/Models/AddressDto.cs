@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TicketStore.Shared.Models
+﻿namespace TicketStore.Shared.Models
 {
     /// <summary>
     /// Address data transfer object.

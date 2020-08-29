@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TicketStore.Client.App
+﻿namespace TicketStore.Client.App
 {
     /// <summary>
     /// Available commands.

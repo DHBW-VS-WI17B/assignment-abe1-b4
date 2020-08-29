@@ -2,12 +2,7 @@
 using Akka.Event;
 using Akka.Util.Internal;
 using BetterConsoleTables;
-using Sharprompt;
-using Sharprompt.Validations;
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using System.Text.Json;
 using TicketStore.Client.Logic.Messages;
 using TicketStore.Client.Logic.Util;

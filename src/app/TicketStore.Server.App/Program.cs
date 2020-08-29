@@ -7,11 +7,8 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using TicketStore.Server.Logic;
 using TicketStore.Server.Logic.Actors;
 using TicketStore.Server.Logic.DataAccess;
-using TicketStore.Server.Logic.DataAccess.Contracts;
 using TicketStore.Shared;
 
 namespace TicketStore.Server.App
@@ -31,7 +28,7 @@ namespace TicketStore.Server.App
                 .WithParsed<CommandLineOptions>(RunWithOptions)
                 .WithNotParsed(HandleParseErrors);
         }
-        
+
         static void RunWithOptions(CommandLineOptions opts)
         {
             var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.DoNotVerify), "TicketStore", "Server");
