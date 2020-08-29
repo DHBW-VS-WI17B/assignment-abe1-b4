@@ -103,6 +103,8 @@ namespace TicketStore.Client.App
             var clientActorProps = Props.Create<ClientActor>(() => new ClientActor(remoteEventActorRef, remoteUserActorRef, jsonDataStore));
             var clientActor = system.ActorOf(clientActorProps, nameof(ClientActor));
 
+            clientActor.Tell(new TestConnectionMessage());
+
             Log.Logger.Information("Selected command: {command}", opts.Command);
 
             if (opts.Command != Command.Init)

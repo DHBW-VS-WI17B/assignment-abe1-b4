@@ -4,6 +4,7 @@ using Akka.Util.Internal;
 using BetterConsoleTables;
 using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 using TicketStore.Client.Logic.Messages;
 using TicketStore.Client.Logic.Util;
 using TicketStore.Shared;
@@ -56,6 +57,7 @@ namespace TicketStore.Client.Logic
             Receive<GetRemainingBudgetForCurrentYearSuccess>(ProcessMessage);
             Receive<GetPurchasedTicketsMessage>(ProcessMessage);
             Receive<GetPurchasedTicketsSuccess>(ProcessMessage);
+            ReceiveAsync<TestConnectionMessage>(ProcessMessageAsync);
         }
 
         /// <summary>
@@ -315,6 +317,41 @@ namespace TicketStore.Client.Logic
                 Console.WriteLine(table.ToString());
             }
             Helper.GracefulExitSuccess();
+        }
+
+        /// <summary>
+        /// Processes a test connection message. Test the connection to each remote actor.
+        /// </summary>
+        /// <param name="msg">Immutable test connection message.</param>
+        /// <returns>Task.</returns>
+        private async Task ProcessMessageAsync(TestConnectionMessage msg)
+        {
+            var timeout = TimeSpan.FromSeconds(3);
+
+            _logger.Info("Sending handshake message to remote event actor.");
+            try
+            {
+                var response = await _remoteEventActorRef.Ask<HandshakeResponse>(new HandshakeRequest(Guid.NewGuid()), timeout).ConfigureAwait(false);
+                var duration = DateTime.UtcNow - response.RequestDispatchDate;
+                _logger.Info("Received handshake response for request with id {requestId}. The handshake took {miliseconds} ms.", response.RequestId, duration.TotalMilliseconds);
+            }
+            catch (AskTimeoutException ex)
+            {
+                _logger.Error(ex, "Wasn't able to connect to the remote event actor!");
+                Console.WriteLine("Error: Wasn't able to connect to the remote event actor. Did you start the server and did you configure the correct connection details?");
+            }
+            _logger.Info("Sending handshake message to remote user actor.");
+            try
+            {
+                var response = await _remoteUserActorRef.Ask<HandshakeResponse>(new HandshakeRequest(Guid.NewGuid()), timeout).ConfigureAwait(false);
+                var duration = DateTime.UtcNow - response.RequestDispatchDate;
+                _logger.Info("Received handshake response for request with id {requestId}. The handshake took {miliseconds} ms.", response.RequestId, duration.TotalMilliseconds);
+            }
+            catch (AskTimeoutException ex)
+            {
+                _logger.Error(ex, "Wasn't able to connect to the remote user actor!");
+                Console.WriteLine("Error: Wasn't able to connect to the remote user actor. Did you start the server and did you configure the correct connection details?");
+            }
         }
 
         /// <summary>

@@ -36,6 +36,7 @@ namespace TicketStore.Server.Logic.Actors
             Receive<GetAllEventsRequest>(ProcessMessage);
             Receive<GetEventByIdRequest>(ProcessMessage);
             ReceiveAsync<PurchaseTicketsRequest>(ProcessMessageAsync);
+            Receive<HandshakeRequest>(ProcessMessage);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace TicketStore.Server.Logic.Actors
             }
             else
             {
-                _logger.Info("Found {count} events in the databse.", eventDtos.Count);
+                _logger.Info("Found {count} events in the database.", eventDtos.Count);
                 Sender.Tell(new GetAllEventsSuccess(msg.RequestId, eventDtos));
             }
         }
@@ -144,6 +145,15 @@ namespace TicketStore.Server.Logic.Actors
                 _logger.Info("Purchase ticket request was not successfull. Reason: {reason}", response.ErrorMessage);
                 sender.Tell(new ErrorMessage(msg.RequestId, response.ErrorMessage));
             }
+        }
+
+        /// <summary>
+        /// Processes a handshake request. Sends a response.
+        /// </summary>
+        /// <param name="msg">Immutable handshake request.</param>
+        private void ProcessMessage(HandshakeRequest msg)
+        {
+            Sender.Tell(new HandshakeResponse(msg.RequestId, msg.DispatchDate));
         }
     }
 }
