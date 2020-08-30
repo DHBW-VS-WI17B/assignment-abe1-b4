@@ -21,8 +21,8 @@ package "Remote" {
 }
 
 app <-> client
-client <-> event
-client <-> user
+client <-> event : DotNetty TCP
+client <-> user : DotNetty TCP
 event <-> write
 user <-> write
 user <-- db
@@ -34,6 +34,6 @@ write <--> db
 \end{dhbwfigure}
 
 \autoref{fig:actor_system} zeigt den Aufbau des implementierten Aktorensystems.
-Clientseitig instanziiert jeder Client einen eigenen \enquote{Client"=Aktor}, der die Schnittstelle zwischen der Konsolenanwendung und den restlichen Aktoren darstellt.
+Clientseitig instanziiert jeder Client einen eigenen \enquote{Client"=Aktor}, der die Schnittstelle zwischen der Konsolenanwendung und den restlichen Aktoren darstellt, wobei Akka.NET die Bibliothek \enquote{DotNetty} nutzt, um über TCP"=Verbindungen mit den entfernten Aktoren zu kommunizieren.
 Serverseitig werden mehrere \enquote{User"=} und \enquote{Event"=Aktoren} instanziiert, die sich jeweils Anfragen bzgl.\ ihrer Domäne annehmen.
 Sollte eine Anfrage schreibenden Zugriff auf die Datenbank benötigen, wird die Anfrage an einen nur einmal instanziierten \enquote{WriteToDb"=Aktor} weitergeleitet, der alle Anfragen gem.\ dem Aktorenmodell sequentiell abarbeitet, wodurch Dateninkonsistenzen verhindert werden können.
